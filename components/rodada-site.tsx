@@ -197,6 +197,64 @@ export default function RodadaSite(){
     </div>
    </section>
 
+   <section className="eventSolutions section" id="chopp-eventos">
+    <Reveal className="eventSolutionsHead">
+      <div>
+        <p className="eyebrow">04 / CHOPP PARA EVENTOS</p>
+        <h2>ESTRUTURA PARA<br/><em>SERVIR EM GRANDE.</em></h2>
+      </div>
+      <p>Para festas, confraternizações e eventos, a Rodada também entra com a estrutura certa: barris, chopeiras e soluções completas para servir chopp gelado do começo ao fim.</p>
+    </Reveal>
+
+    <div className="eventSolutionsGrid">
+      <Reveal className="eventSolutionCard eventSolutionHero">
+        <div className="eventSolutionMeta"><span>01</span><span>CHOPEIRA RODADA</span></div>
+        <div className="eventSolutionVisual">
+          <span className="eventSolutionWord">CHOPEIRA</span>
+          <img src={img.chopeira} alt="Chopeira Rodada para eventos"/>
+        </div>
+        <div className="eventSolutionCopy"><h3>Chopeira Rodada</h3><p>Serviço na temperatura certa, com presença visual da marca e experiência de chopp tirado na hora.</p></div>
+      </Reveal>
+
+      <Reveal className="eventSolutionCard">
+        <div className="eventSolutionMeta"><span>02</span><span>BARRIL / KEG</span></div>
+        <div className="eventSolutionVisual">
+          <span className="eventSolutionWord">BARRIL</span>
+          <img src={img.barril} alt="Barril de chopp Rodada"/>
+        </div>
+        <div className="eventSolutionCopy"><h3>Barris Rodada</h3><p>Volume para encontros maiores, festas e operações que precisam manter a Rodada fluindo por mais tempo.</p></div>
+      </Reveal>
+
+      <Reveal className="eventSolutionCard eventSolutionCombo">
+        <div className="eventSolutionMeta"><span>03</span><span>KIT COMPLETO</span></div>
+        <div className="eventSolutionVisual">
+          <span className="eventSolutionWord">KIT</span>
+          <img className="comboMachine" src={img.chopeira} alt="Chopeira Rodada"/>
+          <img className="comboKeg" src={img.barril} alt="Barril Rodada"/>
+        </div>
+        <div className="eventSolutionCopy"><h3>Chopeira + Barril</h3><p>Conjunto completo para levar a experiência Rodada pronta para servir em festas e confraternizações.</p></div>
+      </Reveal>
+
+      <Reveal className="eventSolutionCard eventSolutionService">
+        <div className="eventSolutionMeta"><span>04</span><span>GRANDES EVENTOS</span></div>
+        <div className="eventSolutionVisual serviceVisual">
+          <span className="eventSolutionWord">EVENTO</span>
+          <div className="serviceStack" aria-hidden="true">
+            <img src={img.barril} alt=""/>
+            <img src={img.barril} alt=""/>
+            <img src={img.chopeira} alt=""/>
+          </div>
+        </div>
+        <div className="eventSolutionCopy"><h3>Estrutura para eventos</h3><p>Uma solução visual e operacional pensada para eventos maiores, com múltiplos pontos de serviço e mais capacidade.</p></div>
+      </Reveal>
+    </div>
+
+    <Reveal className="eventSolutionsCta">
+      <div><small>VAI FAZER UM EVENTO?</small><strong>Monte a estrutura ideal para a sua Rodada.</strong></div>
+      <a href="#contato" className="primary">CONSULTAR DISPONIBILIDADE <Arrow/></a>
+    </Reveal>
+   </section>
+
    <CameraJourney/>
 
    <section className="catalog section" id="linha">
