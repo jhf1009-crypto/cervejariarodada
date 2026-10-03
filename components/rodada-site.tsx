@@ -1,7 +1,7 @@
 'use client';
 
-import {useEffect,useState} from 'react';
-import {motion,useReducedMotion,useScroll,useSpring} from 'framer-motion';
+import {useEffect,useRef,useState} from 'react';
+import {motion,useReducedMotion,useScroll,useSpring,useTransform} from 'framer-motion';
 
 const img={
  barril:'https://static.wixstatic.com/media/e65861_9902f8972f124cc99b1297a5fc9f6834~mv2.png',
@@ -25,6 +25,86 @@ const products=[
 
 function Arrow(){return <span aria-hidden>↗</span>}
 function Reveal({children,className=''}:{children:React.ReactNode,className?:string}){return <div data-reveal className={className}>{children}</div>}
+
+function CameraJourney(){
+ const ref=useRef<HTMLElement>(null);
+ const reduced=useReducedMotion();
+ const {scrollYProgress}=useScroll({target:ref,offset:['start start','end end']});
+ const pilsenX=useTransform(scrollYProgress,[0,.22,.38],[0,-70,-250]);
+ const pilsenY=useTransform(scrollYProgress,[0,.22,.38],[0,-18,40]);
+ const pilsenScale=useTransform(scrollYProgress,[0,.22,.38],[1.02,1.34,.78]);
+ const pilsenRotate=useTransform(scrollYProgress,[0,.38],[-5,-13]);
+ const pilsenOpacity=useTransform(scrollYProgress,[0,.28,.42],[1,1,.18]);
+
+ const ipaX=useTransform(scrollYProgress,[.22,.46,.64],[250,35,-215]);
+ const ipaY=useTransform(scrollYProgress,[.22,.46,.64],[60,-18,30]);
+ const ipaScale=useTransform(scrollYProgress,[.22,.46,.64],[.72,1.34,.76]);
+ const ipaRotate=useTransform(scrollYProgress,[.22,.64],[12,3]);
+ const ipaOpacity=useTransform(scrollYProgress,[.2,.34,.56,.68],[.12,1,1,.15]);
+
+ const lagerX=useTransform(scrollYProgress,[.52,.74,1],[245,20,0]);
+ const lagerY=useTransform(scrollYProgress,[.52,.74,1],[80,-10,0]);
+ const lagerScale=useTransform(scrollYProgress,[.52,.74,1],[.7,1.38,.9]);
+ const lagerRotate=useTransform(scrollYProgress,[.52,1],[-9,2]);
+ const lagerOpacity=useTransform(scrollYProgress,[.5,.64,.88,1],[.12,1,1,.78]);
+
+ const bgX=useTransform(scrollYProgress,[0,1],[-60,60]);
+ const ringScale=useTransform(scrollYProgress,[0,1],[.88,1.18]);
+ const copy1=useTransform(scrollYProgress,[0,.19,.31],[1,1,0]);
+ const copy2=useTransform(scrollYProgress,[.24,.38,.55,.66],[0,1,1,0]);
+ const copy3=useTransform(scrollYProgress,[.57,.71,1],[0,1,1]);
+
+ const safe=(v:any,fallback:any)=>reduced?fallback:v;
+
+ return <section className="cameraJourney" ref={ref} aria-label="Experiência em scroll dos sabores Rodada">
+   <div className="cameraSticky">
+    <motion.div className="cameraGrid" style={{x:safe(bgX,0)}}/>
+    <motion.div className="cameraRing cameraRingA" style={{scale:safe(ringScale,1)}}/>
+    <div className="cameraTopline"><span>SCROLL EXPERIENCE</span><span>PURO MALTE · OESTE DA BAHIA</span></div>
+
+    <div className="cameraRig" aria-hidden="true">
+      <motion.div className="cameraProduct cameraPilsen" style={{x:safe(pilsenX,0),y:safe(pilsenY,0),scale:safe(pilsenScale,1),rotate:safe(pilsenRotate,-5),opacity:safe(pilsenOpacity,1)}}>
+        <img src={img.pilsen} alt=""/>
+        <span>PILSEN</span>
+      </motion.div>
+      <motion.div className="cameraProduct cameraIpa" style={{x:safe(ipaX,70),y:safe(ipaY,0),scale:safe(ipaScale,.82),rotate:safe(ipaRotate,8),opacity:safe(ipaOpacity,.45)}}>
+        <img src={img.gold} alt=""/>
+        <span>SESSION IPA</span>
+      </motion.div>
+      <motion.div className="cameraProduct cameraLager" style={{x:safe(lagerX,-70),y:safe(lagerY,0),scale:safe(lagerScale,.82),rotate:safe(lagerRotate,-4),opacity:safe(lagerOpacity,.45)}}>
+        <img src={img.pilsen} alt=""/>
+        <img className="cameraGlass" src={img.copo} alt=""/>
+        <span>LAGER</span>
+      </motion.div>
+    </div>
+
+    <div className="cameraCopy">
+      <motion.div className="cameraChapter" style={{opacity:safe(copy1,1)}}>
+        <small>01 / PILSEN</small><h2>LEVEZA QUE<br/><em>PEDE MAIS UMA.</em></h2><p>O clássico da Rodada entra em cena primeiro: fresco, direto e feito para compartilhar.</p>
+      </motion.div>
+      <motion.div className="cameraChapter" style={{opacity:safe(copy2,0)}}>
+        <small>02 / SESSION IPA</small><h2>MAIS AROMA.<br/><em>MAIS PRESENÇA.</em></h2><p>A câmera aproxima a Gold para revelar uma Rodada com personalidade e um perfil mais intenso.</p>
+      </motion.div>
+      <motion.div className="cameraChapter" style={{opacity:safe(copy3,0)}}>
+        <small>03 / LAGER</small><h2>GELADA.<br/><em>SEM PRESSA.</em></h2><p>O passeio termina na Lager: uma escolha versátil para acompanhar a mesa do começo ao último brinde.</p>
+      </motion.div>
+    </div>
+
+    <div className="cameraProgress" aria-hidden="true"><motion.i style={{scaleX:scrollYProgress}}/></div>
+    <span className="cameraHint">ROLE PARA DIRIGIR A CÂMERA ↓</span>
+   </div>
+  </section>
+}
+
+function ScrollPhoto({children,className=''}:{children:React.ReactNode,className?:string}){
+ const ref=useRef<HTMLDivElement>(null);
+ const reduced=useReducedMotion();
+ const {scrollYProgress}=useScroll({target:ref,offset:['start end','end start']});
+ const y=useTransform(scrollYProgress,[0,1],[38,-38]);
+ const scale=useTransform(scrollYProgress,[0,.5,1],[.96,1.035,.98]);
+ const rotate=useTransform(scrollYProgress,[0,1],[-.8,.8]);
+ return <motion.div ref={ref} className={className} style={reduced?undefined:{y,scale,rotate}}>{children}</motion.div>
+}
 
 export default function RodadaSite(){
  const [active,setActive]=useState(0);
@@ -103,6 +183,8 @@ export default function RodadaSite(){
     </div>
    </section>
 
+   <CameraJourney/>
+
    <section className="catalog section" id="linha">
     <Reveal className="catalogHead"><div><p className="eyebrow">04 / LINHA COMPLETA</p><h2>TODAS AS<br/>VERSÕES DA <em>RODADA.</em></h2></div><p>Do barril à lata, uma Rodada para cada encontro. Escolha uma versão e descubra o que combina com o seu momento.</p></Reveal>
     <Reveal className="catalogStage">
@@ -134,9 +216,9 @@ export default function RodadaSite(){
    <section className="lifestyle section">
     <Reveal className="sectionTitle"><div><p className="eyebrow dark">06 / FEITA PARA COMPARTILHAR</p><h2>TODA HISTÓRIA BOA<br/>COMEÇA COM <em>UMA RODADA.</em></h2></div></Reveal>
     <div className="lifeGrid">
-      <Reveal className="lifeMain"><strong>BORA<br/>BRINDAR?</strong><img src={img.people} alt="Pessoa brindando com Rodada"/></Reveal>
-      <Reveal className="lifeQuote"><span>MAIS<br/>MUITO</span><p>Mais encontro. Mais conversa. Mais motivo para reunir.</p></Reveal>
-      <Reveal className="lifeProduct"><img src={img.copo} alt="Copo Rodada"/><span>PURO MALTE · PURA RODADA</span></Reveal>
+      <ScrollPhoto className="lifeMain scrollPhoto"><strong>BORA<br/>BRINDAR?</strong><img src={img.people} alt="Pessoa brindando com Rodada"/></ScrollPhoto>
+      <ScrollPhoto className="lifeQuote scrollPhoto"><span>MAIS<br/>MUITO</span><p>Mais encontro. Mais conversa. Mais motivo para reunir.</p></ScrollPhoto>
+      <ScrollPhoto className="lifeProduct scrollPhoto"><img src={img.copo} alt="Copo Rodada"/><span>PURO MALTE · PURA RODADA</span></ScrollPhoto>
     </div>
    </section>
 
