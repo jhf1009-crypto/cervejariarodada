@@ -76,3 +76,38 @@
  .cameraChapter:not(:first-child){display:none}
  .scrollPhoto{transform:none!important}
 }
+
+
+/* Conheça a Rodada — expanded variation showcase */
+.variationGrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
+.variationCard{min-height:470px;padding:20px;display:flex;flex-direction:column;position:relative;overflow:hidden;background:#d9e8f2;color:var(--ink);border:1px solid #08284210;transition:transform .45s var(--ease),box-shadow .45s var(--ease),background .45s}
+.variationCard:nth-child(3n+2){background:#c8dfed}.variationCard.ipa{background:#252820;color:#f2e2c3}.variationCard.beer-pilsen{background:#e7ecef}.variationCard.beer-lager{background:#dfe8df}
+.variationCard:hover{transform:translateY(-8px);box-shadow:0 28px 65px #07294424}
+.variationTop,.variationBottom{display:flex;align-items:center;justify-content:space-between;gap:18px;position:relative;z-index:3}
+.variationTop{font-size:7px;letter-spacing:1.2px;font-weight:800;text-transform:uppercase;color:#4d6c82}.variationCard.ipa .variationTop{color:#ccb98e}
+.variationVisual{position:relative;flex:1;min-height:330px;display:grid;place-items:center;overflow:hidden}
+.variationFlavor{position:absolute;left:50%;top:50%;translate:-50% -50%;font-family:var(--display);font-size:clamp(62px,7vw,110px);font-weight:900;letter-spacing:-.045em;color:#ffffff60;white-space:nowrap;pointer-events:none}
+.variationCard.ipa .variationFlavor{color:#d8b97c18}
+.mockBottle{position:relative;width:76%;height:320px;display:grid;place-items:center;transition:transform .55s var(--ease);filter:drop-shadow(16px 24px 18px #08284232)}
+.mockBottle>img{width:100%;height:100%;object-fit:contain;position:relative;z-index:1}
+.variationCard:nth-child(2n) .mockBottle{transform:rotate(3deg)}.variationCard:nth-child(2n+1) .mockBottle{transform:rotate(-3deg)}
+.variationCard:hover .mockBottle{transform:translateY(-9px) rotate(0deg) scale(1.035)}
+.mockLabel{position:absolute;left:50%;top:54%;translate:-50% -50%;z-index:2;width:42%;min-width:95px;padding:10px 8px 9px;background:#f3efe6e8;border-top:3px solid #0a6db6;border-bottom:3px solid #0a6db6;text-align:center;box-shadow:0 6px 18px #00152b24;backdrop-filter:blur(2px)}
+.mockLabel b{display:block;font-family:var(--display);font-size:21px;line-height:.9;color:#0869ad}.mockLabel small{display:block;font-size:6px;font-weight:900;letter-spacing:1.2px;color:#384f5f;margin-top:4px}.mockLabel em{display:block;font-style:normal;font-size:6px;font-weight:800;color:#7b8b94;margin-top:4px}
+.variationCard.ipa .mockLabel{background:#171b18e8;border-color:#d3b06b}.variationCard.ipa .mockLabel b{color:#d8bc7a}.variationCard.ipa .mockLabel small,.variationCard.ipa .mockLabel em{color:#e1d1aa}
+.variationBottom{border-top:1px solid #08284224;padding-top:17px}.variationCard.ipa .variationBottom{border-color:#fff2}.variationBottom h3{font-size:25px;line-height:.95}.variationBottom p{font-size:8px;line-height:1.6;margin-top:6px;color:#60798b}.variationCard.ipa .variationBottom p{color:#c8b894}
+.variationBottom>span{font-size:18px;transition:transform .3s}.variationCard:hover .variationBottom>span{transform:translate(4px,-4px)}
+.variationCard[data-reveal].visible .mockBottle{animation:variationIn .9s .08s var(--ease) both}
+@keyframes variationIn{from{opacity:0;translate:0 26px;scale:.92}to{opacity:1;translate:0 0;scale:1}}
+
+@media(max-width:1100px){
+ .variationGrid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .variationCard{min-height:450px}
+}
+@media(max-width:760px){
+ .variationGrid{display:grid;grid-template-columns:repeat(8,82vw);overflow-x:auto;gap:14px;margin-left:-7vw;margin-right:-7vw;padding:0 7vw 14px;scroll-snap-type:x mandatory;scrollbar-width:none}
+ .variationGrid::-webkit-scrollbar{display:none}
+ .variationCard{scroll-snap-align:start;min-height:455px}
+ .variationVisual{min-height:310px}.mockBottle{height:300px}
+ .variationBottom h3{font-size:27px}
+}
