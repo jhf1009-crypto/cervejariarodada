@@ -14,6 +14,17 @@ const img={
 
 const canData='data:image/webp;base64,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';
 
+const showcaseProducts=[
+ {name:'Chopp 1,5L Lager',meta:'PET 1,5 L · LAGER',flavor:'LAGER',image:img.pilsen,tone:'lager'},
+ {name:'Chopp 1,5L Pilsen',meta:'PET 1,5 L · PILSEN',flavor:'PILSEN',image:img.pilsen,tone:'pilsen'},
+ {name:'Chopp 1,5L Session IPA',meta:'PET 1,5 L · SESSION IPA',flavor:'SESSION IPA',image:img.gold,tone:'ipa'},
+ {name:'Chopp 700ml Lager',meta:'PET 700 ML · LAGER',flavor:'LAGER',image:img.pilsen,tone:'lager'},
+ {name:'Chopp 700ml Pilsen',meta:'PET 700 ML · PILSEN',flavor:'PILSEN',image:img.pilsen,tone:'pilsen'},
+ {name:'Chopp 700ml Session IPA',meta:'PET 700 ML · SESSION IPA',flavor:'SESSION IPA',image:img.gold,tone:'ipa'},
+ {name:'Cerveja Rodada Pilsen 330ml',meta:'GARRAFA 330 ML · PILSEN',flavor:'PILSEN',image:canData,tone:'beer-pilsen'},
+ {name:'Cerveja Rodada Lager 330ml',meta:'GARRAFA 330 ML · LAGER',flavor:'LAGER',image:canData,tone:'beer-lager'}
+];
+
 const products=[
  {name:'Barril Rodada',cat:'Chopp para eventos',desc:'A Rodada em escala de festa, pronta para grandes encontros.',image:img.barril,tone:'blue'},
  {name:'Chopeira Rodada',cat:'Experiência completa',desc:'O ritual do chopp tirado na hora com presença de marca.',image:img.chopeira,tone:'steel'},
@@ -169,9 +180,20 @@ export default function RodadaSite(){
 
    <section className="products section" id="produtos">
     <Reveal className="sectionTitle"><div><p className="eyebrow dark">03 / ENCONTRE SEU SABOR</p><h2>CONHEÇA<br/>A <em>RODADA.</em></h2></div><p>Duas personalidades.<br/>O mesmo convite para brindar.</p></Reveal>
-    <div className="cards">
-      <Reveal className="card pilsenCard"><div className="cardTop"><span>01 / PURO MALTE</span><span>PET 1,5 L</span></div><div className="cardVisual"><b>PILSEN</b><img src={img.pilsen} alt="Rodada Pilsen"/></div><div className="cardBottom"><div><h3>RODADA PILSEN</h3><p>O clássico que reúne a turma.</p></div><Arrow/></div></Reveal>
-      <Reveal className="card goldCard"><div className="cardTop"><span>02 / SESSION IPA</span><span>LINHA GOLD</span></div><div className="cardVisual"><b>GOLD</b><img src={img.gold} alt="Rodada Gold"/></div><div className="cardBottom"><div><h3>RODADA GOLD</h3><p>Uma outra forma de fazer a Rodada.</p></div><Arrow/></div></Reveal>
+    <div className="variationGrid" aria-label="Variações Rodada">
+      {showcaseProducts.map((item,index)=>(
+        <Reveal key={item.name} className={'variationCard '+item.tone}>
+          <div className="variationTop"><span>{String(index+1).padStart(2,'0')} / 08</span><span>{item.meta}</span></div>
+          <div className="variationVisual">
+            <span className="variationFlavor" aria-hidden="true">{item.flavor}</span>
+            <div className="mockBottle">
+              <img src={item.image} alt={'Mockup fictício de '+item.name}/>
+              <div className="mockLabel"><b>RODADA</b><small>{item.flavor}</small><em>{item.meta.includes('700')?'700 ML':item.meta.includes('330')?'330 ML':'1,5 L'}</em></div>
+            </div>
+          </div>
+          <div className="variationBottom"><div><h3>{item.name}</h3><p>Mockup conceitual para apresentação da linha.</p></div><Arrow/></div>
+        </Reveal>
+      ))}
     </div>
    </section>
 
