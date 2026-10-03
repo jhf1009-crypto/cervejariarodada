@@ -162,14 +162,6 @@ export default function RodadaSite(){
     <div className="heroFoot"><span>↓ A próxima Rodada começa aqui</span><span>BEBA COM MODERAÇÃO.</span></div>
    </section>
 
-   <section className="manifesto section" id="rodada">
-    <Reveal className="manifestHead"><p className="eyebrow dark">01 / A ESSÊNCIA DA RODADA</p><span>DE LUÍS EDUARDO MAGALHÃES.<br/>COM ALMA BRASILEIRA.</span></Reveal>
-    <div className="manifestGrid">
-      <Reveal><h2>O SABOR QUE<br/>FAZ A RODADA<br/><em>COMEÇAR.</em></h2></Reveal>
-      <Reveal className="manifestText"><p>Tem encontro que pede mais do que um brinde. Pede conversa boa, mesa cheia e aquele chopp gelado.</p><p>A Rodada nasceu no Oeste da Bahia para fazer parte desses momentos — com personalidade, refrescância e identidade própria.</p><a href="#produtos">Descubra os sabores <Arrow/></a></Reveal>
-    </div>
-   </section>
-
    <section className="event section">
      <Reveal className="eventVisual"><div className="disc"/><img src={img.chopeira} alt="Chopeira Rodada"/><img src={img.barril} alt="Barril Rodada"/></Reveal>
      <Reveal className="eventCopy"><p className="eyebrow">02 / CHOPP PARA CELEBRAR</p><h2>A FESTA COMEÇA<br/>NO PRIMEIRO<br/><em>COPO.</em></h2><p>Você reúne a turma. A gente entra com a Rodada.</p><div className="chips"><span>Churrascos</span><span>Aniversários</span><span>Confraternizações</span><span>Eventos</span></div><a className="primary" href="#contato">GARANTA SEU BARRIL <Arrow/></a></Reveal>
