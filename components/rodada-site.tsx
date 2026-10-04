@@ -34,7 +34,8 @@ const beerProducts=[
 const orderProducts=[
  ...choppProducts.map(item=>({id:item.name+' '+item.size,name:item.name+' '+item.size,meta:item.flavor+' · '+item.size,image:item.image,group:'Chopes'})),
  ...beerProducts.map(item=>({id:item.name,name:item.name,meta:item.meta,image:item.image,group:'Cervejas'})),
- {id:'Barril de Chopp Rodada',name:'Barril de Chopp Rodada',meta:'BARRIL / KEG',image:img.barril,group:'Barril + Chopeira'},
+ {id:'Barril de Chopp Rodada 30 L',name:'Barril de Chopp Rodada',meta:'BARRIL 30 L',image:img.barril,group:'Barril + Chopeira'},
+ {id:'Barril de Chopp Rodada 50 L',name:'Barril de Chopp Rodada',meta:'BARRIL 50 L',image:img.barril,group:'Barril + Chopeira'},
  {id:'Chopeira Rodada',name:'Chopeira Rodada',meta:'CHOPEIRA PARA EVENTOS',image:img.chopeira,group:'Barril + Chopeira'}
 ];
 
