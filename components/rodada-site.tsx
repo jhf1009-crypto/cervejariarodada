@@ -7,7 +7,6 @@ const img={
  barril:'https://static.wixstatic.com/media/e65861_9902f8972f124cc99b1297a5fc9f6834~mv2.png',
  chopeira:'https://static.wixstatic.com/media/e65861_59be33e4eb2d4667934007c12dac8bb8~mv2.png',
  copo:'https://static.wixstatic.com/media/e65861_0a067da5ca374260bd7d3f63c42d6169~mv2.png',
- gold:'https://static.wixstatic.com/media/e65861_1fc2670a30b842c88522c016dff4ce1d~mv2.png',
  people:'https://static.wixstatic.com/media/e65861_8a0413f6b6da41e9893375e88c4b05d8~mv2.png',
  lager15:'/products/temp/chopp-15l-user.webp',
  pilsen15:'/products/temp/chopp-15l-user.webp',
@@ -98,7 +97,6 @@ function DesktopCameraJourney(){
         <span>PILSEN</span>
       </motion.div>
       <motion.div className="cameraProduct cameraIpa" style={{x:safe(ipaX,70),y:safe(ipaY,0),scale:safe(ipaScale,.82),rotate:safe(ipaRotate,8),opacity:safe(ipaOpacity,.45)}}>
-        <img src={img.gold} alt="" loading="lazy" decoding="async"/>
         <span>SESSION IPA</span>
       </motion.div>
       <motion.div className="cameraProduct cameraLager" style={{x:safe(lagerX,-70),y:safe(lagerY,0),scale:safe(lagerScale,.82),rotate:safe(lagerRotate,-4),opacity:safe(lagerOpacity,.45)}}>
@@ -143,7 +141,6 @@ function MobileCameraJourney(){
         <span>PILSEN</span>
       </motion.div>
       <motion.div className="cameraProduct cameraIpa" style={{opacity:ipaOpacity,scale:ipaScale}}>
-        <img src={img.gold} alt="" loading="lazy" decoding="async"/>
         <span>SESSION IPA</span>
       </motion.div>
       <motion.div className="cameraProduct cameraLager" style={{opacity:lagerOpacity,scale:lagerScale}}>
