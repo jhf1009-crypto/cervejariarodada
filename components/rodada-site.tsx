@@ -28,7 +28,7 @@ const choppProducts=[
 ];
 
 const beerProducts=[
- {name:'Cerveja Rodada Long Neck',meta:'LONG NECK',image:'/events/image.png',tone:'beer-pilsen'},
+ {name:'Cerveja Rodada Long Neck',meta:'LONG NECK',image:'/events/Garrafa%20de%20Cerveja%20Dourada%20com%20Condensa%C3%A7%C3%A3o.png',tone:'beer-pilsen'},
  {name:'Cerveja Rodada Lata',meta:'LATA',image:canData,tone:'beer-lager'}
 ];
 
