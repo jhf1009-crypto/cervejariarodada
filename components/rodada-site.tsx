@@ -302,7 +302,7 @@ export default function RodadaSite(){
         <div className="eventSolutionMeta"><span>01</span><span>CHOPEIRA RODADA</span></div>
         <div className="eventSolutionVisual">
           <span className="eventSolutionWord">CHOPEIRA</span>
-          <img src={img.chopeira} alt="Chopeira Rodada para eventos" loading="lazy" decoding="async"/>
+          <img src="/events/Chopeira%20RODADA%20em%20Bar%20Aconchegante.png" alt="Chopeira Rodada em ambiente de evento" loading="lazy" decoding="async"/>
         </div>
         <div className="eventSolutionCopy"><h3>Chopeira Rodada</h3><p>Serviço na temperatura certa, com presença visual da marca e experiência de chopp tirado na hora.</p></div>
       </Reveal>
@@ -311,7 +311,7 @@ export default function RodadaSite(){
         <div className="eventSolutionMeta"><span>02</span><span>BARRIL / KEG</span></div>
         <div className="eventSolutionVisual">
           <span className="eventSolutionWord">BARRIL</span>
-          <img src={img.barril} alt="Barril de chopp Rodada" loading="lazy" decoding="async"/>
+          <img src="/events/Pir%C3%A2mide%20de%20Kegs%20RODADA%20na%20Cervejaria.png" alt="Barris Rodada empilhados no estoque" loading="lazy" decoding="async"/>
         </div>
         <div className="eventSolutionCopy"><h3>Barris Rodada</h3><p>Volume para encontros maiores, festas e operações que precisam manter a Rodada fluindo por mais tempo.</p></div>
       </Reveal>
@@ -330,11 +330,7 @@ export default function RodadaSite(){
           <div className="eventSolutionMeta"><span>04</span><span>ATENDIMENTO</span></div>
           <div className="eventSolutionVisual serviceVisual">
             <span className="eventSolutionWord">EVENTO</span>
-            <div className="serviceStack" aria-hidden="true">
-              <img src={img.barril} alt="" loading="lazy" decoding="async"/>
-              <img src={img.barril} alt="" loading="lazy" decoding="async"/>
-              <img src={img.chopeira} alt="" loading="lazy" decoding="async"/>
-            </div>
+            <img src="/events/Planejamento%20de%20Eventos%20da%20Rodada%20Cervejaria.png" alt="Planejamento de orçamento personalizado da Rodada Cervejaria" loading="lazy" decoding="async"/>
           </div>
           <div className="eventSolutionCopy"><h3>Orçamento personalizado</h3><p>Conte o tipo de evento e a necessidade. A Rodada orienta a estrutura adequada e segue o atendimento pelo WhatsApp.</p><span className="eventSolutionAction">SOLICITAR ORÇAMENTO <Arrow/></span></div>
         </a>
