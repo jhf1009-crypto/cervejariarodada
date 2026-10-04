@@ -34,6 +34,11 @@ const beerProducts=[
  {name:'Cerveja Rodada Lata',meta:'LATA',image:canData,tone:'beer-lager'}
 ];
 
+const orderProducts=[
+ ...choppProducts.map(item=>({id:item.name+' '+item.size,name:item.name+' '+item.size,meta:item.flavor+' · '+item.size,image:item.image,group:'Chopes'})),
+ ...beerProducts.map(item=>({id:item.name,name:item.name,meta:item.meta,image:item.image,group:'Cervejas'}))
+];
+
 const WHATSAPP='557798140440';
 const wa=(message:string)=>'https://wa.me/'+WHATSAPP+'?text='+encodeURIComponent(message);
 
@@ -174,6 +179,8 @@ function ScrollPhoto({children,className=''}:{children:React.ReactNode,className
 
 export default function RodadaSite(){
  const [menu,setMenu]=useState(false);
+ const [orderOpen,setOrderOpen]=useState(false);
+ const [selectedOrder,setSelectedOrder]=useState('');
  const reduced=useReducedMotion();
  const mobile=useIsMobile();
  const {scrollYProgress}=useScroll();
@@ -188,6 +195,22 @@ export default function RodadaSite(){
   return()=>io.disconnect();
  },[reduced]);
 
+ useEffect(()=>{
+  if(!orderOpen)return;
+  const previous=document.body.style.overflow;
+  document.body.style.overflow='hidden';
+  const onKey=(event:KeyboardEvent)=>{if(event.key==='Escape')setOrderOpen(false)};
+  window.addEventListener('keydown',onKey);
+  return()=>{document.body.style.overflow=previous;window.removeEventListener('keydown',onKey)};
+ },[orderOpen]);
+
+ const openOrder=(product='')=>{setSelectedOrder(product);setOrderOpen(true);setMenu(false)};
+ const continueOrder=()=>{
+  if(!selectedOrder)return;
+  window.open(wa('Olá! Quero pedir '+selectedOrder+'. Gostaria de confirmar disponibilidade e valores.'),'_blank','noopener,noreferrer');
+  setOrderOpen(false);
+ };
+
 
  return <div className="site">
   <a className="skipLink" href="#conteudo">Pular para o conteúdo</a>
@@ -197,7 +220,7 @@ export default function RodadaSite(){
    <nav id="menu-principal" className={menu?'open':''} aria-label="Navegação principal">
     <a href="#chopes" onClick={()=>setMenu(false)}>Chopes</a><a href="#cervejas" onClick={()=>setMenu(false)}>Cervejas</a><a href="#eventos" onClick={()=>setMenu(false)}>Eventos</a><a href="#equipe" onClick={()=>setMenu(false)}>A Rodada</a><a href="#contato" onClick={()=>setMenu(false)}>Contato</a>
    </nav>
-   <a href={wa('Olá! Gostaria de fazer um pedido na Cervejaria Rodada.')} target="_blank" rel="noreferrer" className="navCta">PEDIR PELO WHATSAPP <Arrow/></a>
+   <button type="button" className="navCta" onClick={()=>openOrder()}>PEDIR PELO WHATSAPP <Arrow/></button>
    <button type="button" className="menu" onClick={()=>setMenu(!menu)} aria-label={menu?'Fechar menu':'Abrir menu'} aria-expanded={menu} aria-controls="menu-principal"><i/><i/></button>
   </header>
 
@@ -237,7 +260,7 @@ export default function RodadaSite(){
               {item.photo?null:<div className="mockLabel"><b>RODADA</b><small>{item.flavor}</small><em>{item.size}</em></div>}
             </div>
           </div>
-          <div className="variationBottom"><div><h3>{item.name}</h3><p>{item.size} · consulte disponibilidade</p></div><a className="cardAction" href={wa('Olá! Gostaria de saber mais sobre o '+item.name+' '+item.size+'.')} target="_blank" rel="noreferrer" aria-label={'Pedir '+item.name+' '+item.size+' pelo WhatsApp'}>PEDIR <Arrow/></a></div>
+          <div className="variationBottom"><div><h3>{item.name}</h3><p>{item.size} · consulte disponibilidade</p></div><button type="button" className="cardAction" onClick={()=>openOrder(item.name+' '+item.size)} aria-label={'Pedir '+item.name+' '+item.size}>PEDIR <Arrow/></button></div>
         </Reveal>
       ))}
     </div>
@@ -251,7 +274,7 @@ export default function RodadaSite(){
     <div className="beerGrid">
       {beerProducts.map((item,index)=>(
         <Reveal key={item.name} className={'beerCard '+item.tone}>
-          <div className="beerCopy"><span>0{index+1} / 02 · {item.meta}</span><h3>{item.name}</h3><p>Uma nova forma de levar a identidade Rodada para diferentes momentos.</p><a href={wa('Olá! Gostaria de saber mais sobre a '+item.name+'.')} target="_blank" rel="noreferrer">PEDIR PELO WHATSAPP <Arrow/></a></div>
+          <div className="beerCopy"><span>0{index+1} / 02 · {item.meta}</span><h3>{item.name}</h3><p>Uma nova forma de levar a identidade Rodada para diferentes momentos.</p><button type="button" className="beerOrderButton" onClick={()=>openOrder(item.name)}>PEDIR PELO WHATSAPP <Arrow/></button></div>
           <div className="beerVisual"><span aria-hidden="true">{item.meta}</span><img src={item.image} alt={item.name} loading="lazy" decoding="async"/></div>
         </Reveal>
       ))}
@@ -344,9 +367,29 @@ export default function RodadaSite(){
 
    <section className="contact section" id="contato">
     <Reveal><p className="eyebrow dark">07 / FALE COM A RODADA</p><h2>BORA TOMAR<br/>UMA <em>RODADA?</em></h2><p>Fale com a Cervejaria Rodada para consultar produtos, barris, eventos e disponibilidade na sua região.</p></Reveal>
-    <Reveal className="contactBox"><div><small>COMERCIAL</small><strong>(77) 9814-0440</strong></div><a href={wa('Olá! Gostaria de falar com a Cervejaria Rodada.')} target="_blank" rel="noreferrer">PEDIR PELO WHATSAPP <Arrow/></a><a href="mailto:contato@cervejariarodada.com.br">contato@cervejariarodada.com.br <Arrow/></a></Reveal>
+    <Reveal className="contactBox"><div><small>COMERCIAL</small><strong>(77) 9814-0440</strong></div><button type="button" className="contactOrderButton" onClick={()=>openOrder()}>PEDIR PELO WHATSAPP <Arrow/></button><a href="mailto:contato@cervejariarodada.com.br">contato@cervejariarodada.com.br <Arrow/></a></Reveal>
    </section>
   </main>
+
+  {orderOpen&&<div className="orderOverlay" role="presentation" onMouseDown={e=>{if(e.target===e.currentTarget)setOrderOpen(false)}}>
+    <motion.aside className="orderPanel" role="dialog" aria-modal="true" aria-labelledby="order-title" initial={reduced?false:{opacity:0,x:48}} animate={{opacity:1,x:0}} transition={{duration:.28,ease:[.16,1,.3,1]}}>
+      <div className="orderPanelTop"><div><small>FAÇA SUA ESCOLHA</small><h2 id="order-title">QUAL DAS NOSSAS<br/><em>MARAVILHAS</em> VOCÊ VAI<br/>LEVAR HOJE?</h2></div><button type="button" className="orderClose" onClick={()=>setOrderOpen(false)} aria-label="Fechar painel">×</button></div>
+      <p className="orderIntro">Escolha o produto e, em seguida, continuamos o atendimento pelo WhatsApp com sua seleção já preenchida.</p>
+      <div className="orderOptions">
+        {['Chopes','Cervejas'].map(group=><div className="orderGroup" key={group}>
+          <span>{group}</span>
+          <div className="orderGrid">
+            {orderProducts.filter(product=>product.group===group).map(product=><button type="button" key={product.id} className={'orderOption '+(selectedOrder===product.id?'selected':'')} onClick={()=>setSelectedOrder(product.id)} aria-pressed={selectedOrder===product.id}>
+              <span className="orderThumb"><img src={product.image} alt="" loading="lazy" decoding="async"/></span>
+              <span className="orderOptionCopy"><b>{product.name}</b><small>{product.meta}</small></span>
+              <i aria-hidden>{selectedOrder===product.id?'✓':'+'}</i>
+            </button>)}
+          </div>
+        </div>)}
+      </div>
+      <div className="orderFooter"><div>{selectedOrder?<><small>VOCÊ ESCOLHEU</small><strong>{selectedOrder}</strong></>:<><small>ESCOLHA UM PRODUTO</small><strong>Seu pedido começa aqui.</strong></>}</div><button type="button" className="primary orderContinue" disabled={!selectedOrder} onClick={continueOrder}>CONTINUAR NO WHATSAPP <Arrow/></button></div>
+    </motion.aside>
+  </div>}
 
   <a className="whatsappFloat" href={wa('Olá! Gostaria de fazer um pedido ou tirar uma dúvida sobre a Cervejaria Rodada.')} target="_blank" rel="noreferrer" aria-label="Falar com a Cervejaria Rodada pelo WhatsApp"><span>WhatsApp</span><b>↗</b></a>
 
