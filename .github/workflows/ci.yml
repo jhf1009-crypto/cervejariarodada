@@ -7,7 +7,8 @@ on:
     branches: [main]
 
 jobs:
-  build:
+  public-site:
+    name: Public site
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -17,9 +18,27 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: Install dependencies
+      - name: Install site dependencies
         run: npm install --no-audit --no-fund
-      - name: Typecheck
-        run: npm run typecheck
-      - name: Build
-        run: npm run build
+      - name: Typecheck public site
+        run: npm run typecheck:site
+      - name: Build public site
+        run: npm run build:site
+
+  admin:
+    name: Admin
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install admin dependencies
+        run: npm install --prefix apps/admin --no-audit --no-fund
+      - name: Typecheck admin
+        run: npm --prefix apps/admin run typecheck
+      - name: Build admin
+        run: npm --prefix apps/admin run build
