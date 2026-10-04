@@ -21,8 +21,8 @@ const canData='data:image/webp;base64,UklGRrwLAABXRUJQVlA4ILALAADwMQCdASqXAG4APk
 
 // Imagens demonstrativas temporárias: substituir pelos arquivos oficiais quando forem disponibilizados.
 const choppProducts=[
- {name:'Chopp Lager',size:'1,5 L',meta:'PET 1,5 L',flavor:'LAGER',image:img.lager15,tone:'lager'},
- {name:'Chopp Pilsen',size:'1,5 L',meta:'PET 1,5 L',flavor:'PILSEN',image:img.pilsen15,tone:'pilsen'},
+ {name:'Chopp Lager',size:'1,5 L',meta:'PET 1,5 L',flavor:'LAGER',image:img.lager15,tone:'lager',photo:true},
+ {name:'Chopp Pilsen',size:'1,5 L',meta:'PET 1,5 L',flavor:'PILSEN',image:img.pilsen15,tone:'pilsen',photo:true},
  {name:'Chopp Session IPA',size:'1,5 L',meta:'PET 1,5 L',flavor:'SESSION IPA',image:img.gold,tone:'ipa'},
  {name:'Chopp Lager',size:'700 ml',meta:'PET 700 ML',flavor:'LAGER',image:img.lager700,tone:'lager'},
  {name:'Chopp Pilsen',size:'700 ml',meta:'PET 700 ML',flavor:'PILSEN',image:img.pilsen700,tone:'pilsen'},
@@ -232,9 +232,9 @@ export default function RodadaSite(){
           <div className="variationTop"><span>{String(index+1).padStart(2,'0')} / 06</span><span>{item.meta}</span></div>
           <div className="variationVisual">
             <span className="variationFlavor" aria-hidden="true">{item.flavor}</span>
-            <div className="mockBottle">
+            <div className={item.photo?'mockBottle photoAsset':'mockBottle'}>
               <img src={item.image} alt={item.name+' '+item.size} loading="lazy" decoding="async"/>
-              <div className="mockLabel"><b>RODADA</b><small>{item.flavor}</small><em>{item.size}</em></div>
+              {item.photo?null:<div className="mockLabel"><b>RODADA</b><small>{item.flavor}</small><em>{item.size}</em></div>}
             </div>
           </div>
           <div className="variationBottom"><div><h3>{item.name}</h3><p>{item.size} · consulte disponibilidade</p></div><a className="cardAction" href={wa('Olá! Gostaria de saber mais sobre o '+item.name+' '+item.size+'.')} target="_blank" rel="noreferrer" aria-label={'Pedir '+item.name+' '+item.size+' pelo WhatsApp'}>PEDIR <Arrow/></a></div>
