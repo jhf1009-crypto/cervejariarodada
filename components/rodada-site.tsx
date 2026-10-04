@@ -26,7 +26,7 @@ const choppProducts=[
  {name:'Chopp Session IPA',size:'1,5 L',meta:'PET 1,5 L',flavor:'SESSION IPA',image:img.gold,tone:'ipa'},
  {name:'Chopp Lager',size:'700 ml',meta:'PET 700 ML',flavor:'LAGER',image:img.lager700,tone:'lager'},
  {name:'Chopp Pilsen',size:'700 ml',meta:'PET 700 ML',flavor:'PILSEN',image:img.pilsen700,tone:'pilsen'},
- {name:'Chopp Session IPA',size:'700 ml',meta:'PET 700 ML',flavor:'SESSION IPA',image:img.gold,tone:'ipa'}
+ {name:'Chopp Session IPA',size:'700 ml',meta:'PET 700 ML',flavor:'SESSION IPA',image:img.lager700,tone:'ipa',photo:true}
 ];
 
 const beerProducts=[
