@@ -183,6 +183,10 @@ export default function RodadaSite(){
  const [menu,setMenu]=useState(false);
  const [orderOpen,setOrderOpen]=useState(false);
  const [selectedOrders,setSelectedOrders]=useState<string[]>([]);
+ const [orderCity,setOrderCity]=useState('');
+ const [orderCep,setOrderCep]=useState('');
+ const [cepCity,setCepCity]=useState('');
+ const [cepStatus,setCepStatus]=useState<'idle'|'loading'|'success'|'error'>('idle');
  const reduced=useReducedMotion();
  const mobile=useIsMobile();
  const {scrollYProgress}=useScroll();
@@ -208,13 +212,35 @@ export default function RodadaSite(){
 
  const openOrder=(product='')=>{setSelectedOrders(product?[product]:[]);setOrderOpen(true);setMenu(false)};
  const toggleOrder=(product:string)=>setSelectedOrders(current=>current.includes(product)?current.filter(item=>item!==product):[...current,product]);
+ const selectCity=(city:string)=>{
+  setOrderCity(city);
+  if(city!=='Outra cidade'){setOrderCep('');setCepCity('');setCepStatus('idle')}
+ };
+ const lookupCep=async()=>{
+  const cep=orderCep.replace(/\D/g,'');
+  if(cep.length!==8){setCepCity('');setCepStatus('error');return}
+  setCepStatus('loading');
+  try{
+   const response=await fetch('https://viacep.com.br/ws/'+cep+'/json/');
+   const data=await response.json();
+   if(!response.ok||data.erro||!data.localidade||!data.uf)throw new Error('CEP inválido');
+   setCepCity(data.localidade+' - '+data.uf);
+   setCepStatus('success');
+  }catch{
+   setCepCity('');
+   setCepStatus('error');
+  }
+ };
+ const chosenCity=orderCity==='Outra cidade'?cepCity:orderCity;
+ const canContinueOrder=selectedOrders.length>0&&Boolean(chosenCity);
  const continueOrder=()=>{
-  if(!selectedOrders.length)return;
+  if(!canContinueOrder)return;
   const custom=selectedOrders.includes('Pedido personalizado');
   const products=selectedOrders.filter(item=>item!=='Pedido personalizado');
   const lines=products.length?'\n\nProdutos selecionados:\n- '+products.join('\n- '):'';
   const customLine=custom?'\n\nTambém quero fazer um pedido personalizado e explicar os detalhes.':'';
-  window.open(wa('Olá! Gostaria de fazer um pedido.'+lines+customLine+'\n\nPode me informar disponibilidade e valores?'),'_blank','noopener,noreferrer');
+  const cityLine='\n\nCidade: '+chosenCity+(orderCity==='Outra cidade'&&orderCep?'\nCEP: '+orderCep:'');
+  window.open(wa('Olá! Gostaria de fazer um pedido.'+lines+customLine+cityLine+'\n\nPode me informar disponibilidade e valores?'),'_blank','noopener,noreferrer');
   setOrderOpen(false);
  };
 
@@ -398,7 +424,27 @@ export default function RodadaSite(){
           <i aria-hidden>{selectedOrders.includes('Pedido personalizado')?'✓':'+'}</i>
         </button>
       </div>
-      <div className="orderFooter"><div>{selectedOrders.length?<><small>VOCÊ ESCOLHEU</small><strong>{selectedOrders.length} {selectedOrders.length===1?'item':'itens'}</strong></>:<><small>ESCOLHA SEUS PRODUTOS</small><strong>Você pode selecionar mais de um.</strong></>}</div><button type="button" className="primary orderContinue" disabled={!selectedOrders.length} onClick={continueOrder}>CONTINUAR NO WHATSAPP <Arrow/></button></div>
+      <div className="orderGroup orderCityGroup">
+        <span>Onde você está?</span>
+        <div className="orderCityGrid" role="group" aria-label="Escolha a cidade de entrega">
+          {['Brasília - DF','Taguatinga - TO','Bom Jesus - PI','Dianópolis - TO','Outra cidade'].map(city=><button type="button" key={city} className={'orderCityOption '+(orderCity===city?'selected':'')} onClick={()=>selectCity(city)} aria-pressed={orderCity===city}>{city}</button>)}
+        </div>
+        {orderCity==='Outra cidade'&&<div className="orderCepBox">
+          <label htmlFor="order-cep">Informe seu CEP</label>
+          <div className="orderCepRow">
+            <input id="order-cep" inputMode="numeric" autoComplete="postal-code" placeholder="00000-000" maxLength={9} value={orderCep} onChange={e=>{
+              const digits=e.target.value.replace(/\D/g,'').slice(0,8);
+              setOrderCep(digits.length>5?digits.slice(0,5)+'-'+digits.slice(5):digits);
+              setCepCity('');
+              setCepStatus('idle');
+            }} onBlur={()=>{if(orderCep.replace(/\D/g,'').length===8)lookupCep()}}/>
+            <button type="button" onClick={lookupCep} disabled={cepStatus==='loading'}>{cepStatus==='loading'?'BUSCANDO...':'BUSCAR CIDADE'}</button>
+          </div>
+          {cepStatus==='success'&&<p className="cepFeedback success">Cidade encontrada: <strong>{cepCity}</strong></p>}
+          {cepStatus==='error'&&<p className="cepFeedback error">Não encontramos esse CEP. Confira os números e tente novamente.</p>}
+        </div>}
+      </div>
+      <div className="orderFooter"><div>{selectedOrders.length?<><small>VOCÊ ESCOLHEU</small><strong>{selectedOrders.length} {selectedOrders.length===1?'item':'itens'}{chosenCity?' · '+chosenCity:''}</strong></>:<><small>ESCOLHA SEUS PRODUTOS</small><strong>Você pode selecionar mais de um.</strong></>}</div><button type="button" className="primary orderContinue" disabled={!canContinueOrder} onClick={continueOrder}>{!orderCity?'ESCOLHA SUA CIDADE':orderCity==='Outra cidade'&&!cepCity?'INFORME SEU CEP':'CONTINUAR NO WHATSAPP'} <Arrow/></button></div>
     </motion.aside>
   </div>}
 
