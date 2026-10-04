@@ -36,7 +36,8 @@ const beerProducts=[
 
 const orderProducts=[
  ...choppProducts.map(item=>({id:item.name+' '+item.size,name:item.name+' '+item.size,meta:item.flavor+' · '+item.size,image:item.image,group:'Chopes'})),
- ...beerProducts.map(item=>({id:item.name,name:item.name,meta:item.meta,image:item.image,group:'Cervejas'}))
+ ...beerProducts.map(item=>({id:item.name,name:item.name,meta:item.meta,image:item.image,group:'Cervejas'})),
+ {id:'Barril de Chopp Rodada',name:'Barril de Chopp Rodada',meta:'BARRIL / KEG',image:img.barril,group:'Barris'}
 ];
 
 const WHATSAPP='557798140440';
@@ -180,7 +181,7 @@ function ScrollPhoto({children,className=''}:{children:React.ReactNode,className
 export default function RodadaSite(){
  const [menu,setMenu]=useState(false);
  const [orderOpen,setOrderOpen]=useState(false);
- const [selectedOrder,setSelectedOrder]=useState('');
+ const [selectedOrders,setSelectedOrders]=useState<string[]>([]);
  const reduced=useReducedMotion();
  const mobile=useIsMobile();
  const {scrollYProgress}=useScroll();
@@ -204,10 +205,15 @@ export default function RodadaSite(){
   return()=>{document.body.style.overflow=previous;window.removeEventListener('keydown',onKey)};
  },[orderOpen]);
 
- const openOrder=(product='')=>{setSelectedOrder(product);setOrderOpen(true);setMenu(false)};
+ const openOrder=(product='')=>{setSelectedOrders(product?[product]:[]);setOrderOpen(true);setMenu(false)};
+ const toggleOrder=(product:string)=>setSelectedOrders(current=>current.includes(product)?current.filter(item=>item!==product):[...current,product]);
  const continueOrder=()=>{
-  if(!selectedOrder)return;
-  window.open(wa('Olá! Quero pedir '+selectedOrder+'. Gostaria de confirmar disponibilidade e valores.'),'_blank','noopener,noreferrer');
+  if(!selectedOrders.length)return;
+  const custom=selectedOrders.includes('Pedido personalizado');
+  const products=selectedOrders.filter(item=>item!=='Pedido personalizado');
+  const lines=products.length?'\n\nProdutos selecionados:\n- '+products.join('\n- '):'';
+  const customLine=custom?'\n\nTambém quero fazer um pedido personalizado e explicar os detalhes.':'';
+  window.open(wa('Olá! Gostaria de fazer um pedido.'+lines+customLine+'\n\nPode me informar disponibilidade e valores?'),'_blank','noopener,noreferrer');
   setOrderOpen(false);
  };
 
@@ -378,18 +384,25 @@ export default function RodadaSite(){
       <div className="orderPanelTop"><div><small>FAÇA SUA ESCOLHA</small><h2 id="order-title">QUAL DAS NOSSAS<br/><em>RODADAS</em> VOCÊ VAI<br/>LEVAR HOJE?</h2></div><button type="button" className="orderClose" onClick={()=>setOrderOpen(false)} aria-label="Fechar painel">×</button></div>
       <p className="orderIntro">Escolha o produto e, em seguida, continuamos o atendimento pelo WhatsApp com sua seleção já preenchida.</p>
       <div className="orderOptions">
-        {['Chopes','Cervejas'].map(group=><div className="orderGroup" key={group}>
+        {['Chopes','Cervejas','Barris'].map(group=><div className="orderGroup" key={group}>
           <span>{group}</span>
           <div className="orderGrid">
-            {orderProducts.filter(product=>product.group===group).map(product=><button type="button" key={product.id} className={'orderOption '+(selectedOrder===product.id?'selected':'')} onClick={()=>setSelectedOrder(product.id)} aria-pressed={selectedOrder===product.id}>
+            {orderProducts.filter(product=>product.group===group).map(product=><button type="button" key={product.id} className={'orderOption '+(selectedOrders.includes(product.id)?'selected':'')} onClick={()=>toggleOrder(product.id)} aria-pressed={selectedOrders.includes(product.id)}>
               <span className="orderThumb"><img src={product.image} alt="" loading="lazy" decoding="async"/></span>
               <span className="orderOptionCopy"><b>{product.name}</b><small>{product.meta}</small></span>
-              <i aria-hidden>{selectedOrder===product.id?'✓':'+'}</i>
+              <i aria-hidden>{selectedOrders.includes(product.id)?'✓':'+'}</i>
             </button>)}
           </div>
         </div>)}
       </div>
-      <div className="orderFooter"><div>{selectedOrder?<><small>VOCÊ ESCOLHEU</small><strong>{selectedOrder}</strong></>:<><small>ESCOLHA UM PRODUTO</small><strong>Seu pedido começa aqui.</strong></>}</div><button type="button" className="primary orderContinue" disabled={!selectedOrder} onClick={continueOrder}>CONTINUAR NO WHATSAPP <Arrow/></button></div>
+      <div className="orderGroup orderCustom">
+        <span>Personalizado</span>
+        <button type="button" className={'orderOption '+(selectedOrders.includes('Pedido personalizado')?'selected':'')} onClick={()=>toggleOrder('Pedido personalizado')} aria-pressed={selectedOrders.includes('Pedido personalizado')}>
+          <span className="orderOptionCopy"><b>Pedido personalizado</b><small>Conte para a Rodada exatamente o que você precisa.</small></span>
+          <i aria-hidden>{selectedOrders.includes('Pedido personalizado')?'✓':'+'}</i>
+        </button>
+      </div>
+      <div className="orderFooter"><div>{selectedOrders.length?<><small>VOCÊ ESCOLHEU</small><strong>{selectedOrders.length} {selectedOrders.length===1?'item':'itens'}</strong></>:<><small>ESCOLHA SEUS PRODUTOS</small><strong>Você pode selecionar mais de um.</strong></>}</div><button type="button" className="primary orderContinue" disabled={!selectedOrders.length} onClick={continueOrder}>CONTINUAR NO WHATSAPP <Arrow/></button></div>
     </motion.aside>
   </div>}
 
