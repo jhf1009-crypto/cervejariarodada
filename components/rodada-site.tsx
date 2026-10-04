@@ -320,7 +320,7 @@ export default function RodadaSite(){
         <div className="eventSolutionMeta"><span>03</span><span>SUPORTE NO EVENTO</span></div>
         <div className="eventSolutionVisual">
           <span className="eventSolutionWord">KIT</span>
-          <img src="/events/support-team.webp" alt="Equipe de suporte para servir chopp em eventos" loading="lazy" decoding="async"/>
+          <img src="/events/Promotores%20e%20Cerveja%20Artesanal%20ao%20Ar%20Livre.png" alt="Equipe de suporte para servir chopp em eventos" loading="lazy" decoding="async"/>
         </div>
         <div className="eventSolutionCopy"><h3>Suporte para servir</h3><p>Equipe Rodada para auxiliar na operação, manutenção e troca de barris quando necessário.</p></div>
       </Reveal>
