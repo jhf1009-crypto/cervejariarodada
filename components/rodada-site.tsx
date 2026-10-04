@@ -146,7 +146,7 @@ function MobileCameraJourney(){
     </div>
     <div className="cameraCopy">
       <motion.div className="cameraChapter" style={{opacity:pilsenOpacity}}><small>01 / PILSEN</small><h2>LEVEZA QUE<br/><em>PEDE MAIS UMA.</em></h2><p>O clássico da Rodada entra em cena primeiro: fresco, direto e feito para compartilhar.</p></motion.div>
-      <motion.div className="cameraChapter" style={{opacity:ipaOpacity}}><small>02 / SESSION IPA</small><h2>MAIS AROMA.<br/><em>MAIS PRESENÇA.</em></h2><p>A câmera aproxima a Gold para revelar uma Rodada com personalidade e um perfil mais intenso.</p></motion.div>
+      <motion.div className="cameraChapter" style={{opacity:ipaOpacity}}><small>02 / SESSION IPA</small><h2>MAIS AROMA.<br/><em>MAIS PRESENÇA.</em></h2><p>A câmera aproxima a Session IPA para revelar uma Rodada com personalidade e um perfil mais intenso.</p></motion.div>
       <motion.div className="cameraChapter" style={{opacity:lagerOpacity}}><small>03 / LAGER</small><h2>GELADA.<br/><em>SEM PRESSA.</em></h2><p>O passeio termina na Lager: uma escolha versátil para acompanhar a mesa do começo ao último brinde.</p></motion.div>
     </div>
     <div className="cameraProgress" aria-hidden="true"><motion.i style={{scaleX:scrollYProgress}}/></div>
@@ -295,9 +295,9 @@ export default function RodadaSite(){
         <div className="eventSolutionVisual serviceVisual">
           <span className="eventSolutionWord">EVENTO</span>
           <div className="serviceStack" aria-hidden="true">
-            <img src={img.barril} alt=""/>
-            <img src={img.barril} alt=""/>
-            <img src={img.chopeira} alt=""/>
+            <img src={img.barril} alt="" loading="lazy" decoding="async"/>
+            <img src={img.barril} alt="" loading="lazy" decoding="async"/>
+            <img src={img.chopeira} alt="" loading="lazy" decoding="async"/>
           </div>
         </div>
         <div className="eventSolutionCopy"><h3>Orçamento personalizado</h3><p>Conte o tipo de evento e a necessidade. A Rodada orienta a estrutura adequada e segue o atendimento pelo WhatsApp.</p></div>
