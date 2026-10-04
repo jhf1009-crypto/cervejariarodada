@@ -37,7 +37,19 @@ const products=[
 function Arrow(){return <span aria-hidden>↗</span>}
 function Reveal({children,className=''}:{children:React.ReactNode,className?:string}){return <div data-reveal className={className}>{children}</div>}
 
-function CameraJourney(){
+function useIsMobile(){
+ const [mobile,setMobile]=useState(false);
+ useEffect(()=>{
+  const mq=window.matchMedia('(max-width: 760px)');
+  const update=()=>setMobile(mq.matches);
+  update();
+  mq.addEventListener('change',update);
+  return()=>mq.removeEventListener('change',update);
+ },[]);
+ return mobile;
+}
+
+function DesktopCameraJourney(){
  const ref=useRef<HTMLElement>(null);
  const reduced=useReducedMotion();
  const {scrollYProgress}=useScroll({target:ref,offset:['start start','end end']});
@@ -107,6 +119,46 @@ function CameraJourney(){
   </section>
 }
 
+function MobileCameraJourney(){
+ const ref=useRef<HTMLElement>(null);
+ const {scrollYProgress}=useScroll({target:ref,offset:['start start','end end']});
+ const pilsenOpacity=useTransform(scrollYProgress,[0,.24,.37],[1,1,0]);
+ const ipaOpacity=useTransform(scrollYProgress,[.28,.42,.6,.7],[0,1,1,0]);
+ const lagerOpacity=useTransform(scrollYProgress,[.62,.76,1],[0,1,1]);
+ const pilsenScale=useTransform(scrollYProgress,[0,.28,.37],[1.02,1.1,.96]);
+ const ipaScale=useTransform(scrollYProgress,[.3,.5,.7],[.97,1.1,.97]);
+ const lagerScale=useTransform(scrollYProgress,[.64,.82,1],[.97,1.1,1.02]);
+
+ return <section className="cameraJourney mobileCameraJourney" ref={ref} aria-label="Experiência em scroll dos sabores Rodada">
+   <div className="cameraSticky">
+    <div className="cameraTopline"><span>SCROLL EXPERIENCE</span><span>PURO MALTE · OESTE DA BAHIA</span></div>
+    <div className="cameraRig" aria-hidden="true">
+      <motion.div className="cameraProduct cameraPilsen" style={{opacity:pilsenOpacity,scale:pilsenScale}}>
+        <img src={img.pilsen} alt=""/>
+        <span>PILSEN</span>
+      </motion.div>
+      <motion.div className="cameraProduct cameraIpa" style={{opacity:ipaOpacity,scale:ipaScale}}>
+        <img src={img.gold} alt=""/>
+        <span>SESSION IPA</span>
+      </motion.div>
+      <motion.div className="cameraProduct cameraLager" style={{opacity:lagerOpacity,scale:lagerScale}}>
+        <img src={img.pilsen} alt=""/>
+        <img className="cameraGlass" src={img.copo} alt=""/>
+        <span>LAGER</span>
+      </motion.div>
+    </div>
+    <div className="cameraCopy">
+      <motion.div className="cameraChapter" style={{opacity:pilsenOpacity}}><small>01 / PILSEN</small><h2>LEVEZA QUE<br/><em>PEDE MAIS UMA.</em></h2><p>O clássico da Rodada entra em cena primeiro: fresco, direto e feito para compartilhar.</p></motion.div>
+      <motion.div className="cameraChapter" style={{opacity:ipaOpacity}}><small>02 / SESSION IPA</small><h2>MAIS AROMA.<br/><em>MAIS PRESENÇA.</em></h2><p>A câmera aproxima a Gold para revelar uma Rodada com personalidade e um perfil mais intenso.</p></motion.div>
+      <motion.div className="cameraChapter" style={{opacity:lagerOpacity}}><small>03 / LAGER</small><h2>GELADA.<br/><em>SEM PRESSA.</em></h2><p>O passeio termina na Lager: uma escolha versátil para acompanhar a mesa do começo ao último brinde.</p></motion.div>
+    </div>
+    <div className="cameraProgress" aria-hidden="true"><motion.i style={{scaleX:scrollYProgress}}/></div>
+   </div>
+  </section>
+}
+
+function CameraJourney({mobile}:{mobile:boolean}){return mobile?<MobileCameraJourney/>:<DesktopCameraJourney/>}
+
 function ScrollPhoto({children,className=''}:{children:React.ReactNode,className?:string}){
  const ref=useRef<HTMLDivElement>(null);
  const reduced=useReducedMotion();
@@ -121,8 +173,10 @@ export default function RodadaSite(){
  const [active,setActive]=useState(0);
  const [menu,setMenu]=useState(false);
  const reduced=useReducedMotion();
+ const mobile=useIsMobile();
  const {scrollYProgress}=useScroll();
  const progress=useSpring(scrollYProgress,{stiffness:140,damping:30});
+ const heroY=useTransform(scrollYProgress,[0,.22],[0,80]);
 
  useEffect(()=>{
   if(reduced)return;
@@ -130,12 +184,6 @@ export default function RodadaSite(){
   const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target)}}),{threshold:.1,rootMargin:'0px 0px -8% 0px'});
   els.forEach(el=>io.observe(el));
   return()=>io.disconnect();
- },[reduced]);
-
- useEffect(()=>{
-  if(reduced)return;
-  const onScroll=()=>document.documentElement.style.setProperty('--scroll',String(window.scrollY));
-  onScroll();window.addEventListener('scroll',onScroll,{passive:true});return()=>window.removeEventListener('scroll',onScroll);
  },[reduced]);
 
  const p=products[active];
@@ -162,14 +210,14 @@ export default function RodadaSite(){
      <p className="lead">Chopp puro malte do Oeste da Bahia, feito para transformar bons encontros em grandes momentos.</p>
      <div className="actions"><a href="#contato" className="primary">GARANTA A SUA RODADA <Arrow/></a><a href="#linha" className="secondary">Conheça a linha completa ↓</a></div>
     </div>
-    <div className="heroStage">
+    <motion.div className="heroStage" style={!reduced&&!mobile?{y:heroY}:undefined}>
       <div className="orbit"/>
       <span className="ghost">PURO<br/>MALTE</span>
       <img src={img.barril} alt="Barril de Chopp Rodada" className="heroKeg"/>
       <img src={img.pilsen} alt="PET Chopp Rodada Pilsen" className="heroPet"/>
       <img src={img.copo} alt="Copo Rodada" className="heroCup"/>
       <div className="seal">DO OESTE<br/><b>DA BAHIA</b></div>
-    </div>
+    </motion.div>
     <div className="heroFoot"><span>↓ A próxima Rodada começa aqui</span><span>BEBA COM MODERAÇÃO.</span></div>
    </section>
 
@@ -255,7 +303,7 @@ export default function RodadaSite(){
     </Reveal>
    </section>
 
-   <CameraJourney/>
+   <CameraJourney mobile={mobile}/>
 
    <section className="catalog section" id="linha">
     <Reveal className="catalogHead"><div><p className="eyebrow">04 / LINHA COMPLETA</p><h2>TODAS AS<br/>VERSÕES DA <em>RODADA.</em></h2></div><p>Do barril à lata, uma Rodada para cada encontro. Escolha uma versão e descubra o que combina com o seu momento.</p></Reveal>
@@ -288,9 +336,9 @@ export default function RodadaSite(){
    <section className="lifestyle section">
     <Reveal className="sectionTitle"><div><p className="eyebrow dark">06 / FEITA PARA COMPARTILHAR</p><h2>TODA HISTÓRIA BOA<br/>COMEÇA COM <em>UMA RODADA.</em></h2></div></Reveal>
     <div className="lifeGrid">
-      <ScrollPhoto className="lifeMain scrollPhoto"><strong>BORA<br/>BRINDAR?</strong><img src={img.people} alt="Pessoa brindando com Rodada"/></ScrollPhoto>
-      <ScrollPhoto className="lifeQuote scrollPhoto"><span>MAIS<br/>MUITO</span><p>Mais encontro. Mais conversa. Mais motivo para reunir.</p></ScrollPhoto>
-      <ScrollPhoto className="lifeProduct scrollPhoto"><img src={img.copo} alt="Copo Rodada"/><span>PURO MALTE · PURA RODADA</span></ScrollPhoto>
+      {mobile?<div className="lifeMain scrollPhoto"><strong>BORA<br/>BRINDAR?</strong><img src={img.people} alt="Pessoa brindando com Rodada"/></div>:<ScrollPhoto className="lifeMain scrollPhoto"><strong>BORA<br/>BRINDAR?</strong><img src={img.people} alt="Pessoa brindando com Rodada"/></ScrollPhoto>}
+      {mobile?<div className="lifeQuote scrollPhoto"><span>MAIS<br/>MUITO</span><p>Mais encontro. Mais conversa. Mais motivo para reunir.</p></div>:<ScrollPhoto className="lifeQuote scrollPhoto"><span>MAIS<br/>MUITO</span><p>Mais encontro. Mais conversa. Mais motivo para reunir.</p></ScrollPhoto>}
+      {mobile?<div className="lifeProduct scrollPhoto"><img src={img.copo} alt="Copo Rodada"/><span>PURO MALTE · PURA RODADA</span></div>:<ScrollPhoto className="lifeProduct scrollPhoto"><img src={img.copo} alt="Copo Rodada"/><span>PURO MALTE · PURA RODADA</span></ScrollPhoto>}
     </div>
    </section>
 
