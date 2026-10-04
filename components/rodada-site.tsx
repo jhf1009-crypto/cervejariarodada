@@ -37,7 +37,8 @@ const beerProducts=[
 const orderProducts=[
  ...choppProducts.map(item=>({id:item.name+' '+item.size,name:item.name+' '+item.size,meta:item.flavor+' · '+item.size,image:item.image,group:'Chopes'})),
  ...beerProducts.map(item=>({id:item.name,name:item.name,meta:item.meta,image:item.image,group:'Cervejas'})),
- {id:'Barril de Chopp Rodada',name:'Barril de Chopp Rodada',meta:'BARRIL / KEG',image:img.barril,group:'Barris'}
+ {id:'Barril de Chopp Rodada',name:'Barril de Chopp Rodada',meta:'BARRIL / KEG',image:img.barril,group:'Barril + Chopeira'},
+ {id:'Chopeira Rodada',name:'Chopeira Rodada',meta:'CHOPEIRA PARA EVENTOS',image:img.chopeira,group:'Barril + Chopeira'}
 ];
 
 const WHATSAPP='557798140440';
@@ -384,7 +385,7 @@ export default function RodadaSite(){
       <div className="orderPanelTop"><div><small>FAÇA SUA ESCOLHA</small><h2 id="order-title">QUAL DAS NOSSAS<br/><em>RODADAS</em> VOCÊ VAI<br/>LEVAR HOJE?</h2></div><button type="button" className="orderClose" onClick={()=>setOrderOpen(false)} aria-label="Fechar painel">×</button></div>
       <p className="orderIntro">Escolha o produto e, em seguida, continuamos o atendimento pelo WhatsApp com sua seleção já preenchida.</p>
       <div className="orderOptions">
-        {['Chopes','Cervejas','Barris'].map(group=><div className="orderGroup" key={group}>
+        {['Chopes','Cervejas','Barril + Chopeira'].map(group=><div className="orderGroup" key={group}>
           <span>{group}</span>
           <div className="orderGrid">
             {orderProducts.filter(product=>product.group===group).map(product=><button type="button" key={product.id} className={'orderOption '+(selectedOrders.includes(product.id)?'selected':'')} onClick={()=>toggleOrder(product.id)} aria-pressed={selectedOrders.includes(product.id)}>
