@@ -21,9 +21,9 @@ const canData='data:image/webp;base64,UklGRrwLAABXRUJQVlA4ILALAADwMQCdASqXAG4APk
 
 // Imagens demonstrativas temporárias: substituir pelos arquivos oficiais quando forem disponibilizados.
 const choppProducts=[
- {name:'Chopp Lager',size:'1,5 L',meta:'PET 1,5 L',flavor:'LAGER',image:img.lager15,tone:'lager',photo:true},
- {name:'Chopp Pilsen',size:'1,5 L',meta:'PET 1,5 L',flavor:'PILSEN',image:img.pilsen15,tone:'pilsen',photo:true},
- {name:'Chopp Session IPA',size:'1,5 L',meta:'PET 1,5 L',flavor:'SESSION IPA',image:img.gold,tone:'ipa'},
+ {name:'Chopp Lager',size:'1,5 L',meta:'PET 1,5 L',flavor:'LAGER',image:'',tone:'lager'},
+ {name:'Chopp Pilsen',size:'1,5 L',meta:'PET 1,5 L',flavor:'PILSEN',image:'',tone:'pilsen'},
+ {name:'Chopp Session IPA',size:'1,5 L',meta:'PET 1,5 L',flavor:'SESSION IPA',image:'',tone:'ipa'},
  {name:'Chopp Lager',size:'700 ml',meta:'PET 700 ML',flavor:'LAGER',image:img.lager700,tone:'lager'},
  {name:'Chopp Pilsen',size:'700 ml',meta:'PET 700 ML',flavor:'PILSEN',image:img.pilsen700,tone:'pilsen'},
  {name:'Chopp Session IPA',size:'700 ml',meta:'PET 700 ML',flavor:'SESSION IPA',image:img.lager700,tone:'ipa',photo:true}
@@ -288,10 +288,10 @@ export default function RodadaSite(){
           <div className="variationTop"><span>{String(index+1).padStart(2,'0')} / 06</span><span>{item.meta}</span></div>
           <div className="variationVisual">
             <span className="variationFlavor" aria-hidden="true">{item.flavor}</span>
-            <div className={item.photo?'mockBottle photoAsset':'mockBottle'}>
+            {item.image&&<div className={item.photo?'mockBottle photoAsset':'mockBottle'}>
               <img src={item.image} alt={item.name+' '+item.size} loading="lazy" decoding="async"/>
               {item.photo?null:<div className="mockLabel"><b>RODADA</b><small>{item.flavor}</small><em>{item.size}</em></div>}
-            </div>
+            </div>}
           </div>
           <div className="variationBottom"><div><h3>{item.name}</h3><p>{item.size} · consulte disponibilidade</p></div><button type="button" className="cardAction" onClick={()=>openOrder(item.name+' '+item.size)} aria-label={'Pedir '+item.name+' '+item.size}>PEDIR <Arrow/></button></div>
         </Reveal>
@@ -410,7 +410,7 @@ export default function RodadaSite(){
           <span>{group}</span>
           <div className="orderGrid">
             {orderProducts.filter(product=>product.group===group).map(product=><button type="button" key={product.id} className={'orderOption '+(selectedOrders.includes(product.id)?'selected':'')} onClick={()=>toggleOrder(product.id)} aria-pressed={selectedOrders.includes(product.id)}>
-              <span className="orderThumb"><img src={product.image} alt="" loading="lazy" decoding="async"/></span>
+              {product.image&&<span className="orderThumb"><img src={product.image} alt="" loading="lazy" decoding="async"/></span>}
               <span className="orderOptionCopy"><b>{product.name}</b><small>{product.meta}</small></span>
               <i aria-hidden>{selectedOrders.includes(product.id)?'✓':'+'}</i>
             </button>)}
