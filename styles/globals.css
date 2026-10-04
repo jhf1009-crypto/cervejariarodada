@@ -301,3 +301,30 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
  .mockBottle.photoAsset{width:92%;height:300px}
  .mockBottle.photoAsset>img{border-radius:14px}
 }
+
+
+/* Order selection panel */
+.navCta,.cardAction,.beerOrderButton,.contactOrderButton{font-family:inherit}
+.navCta{background:transparent;color:inherit;cursor:pointer}
+.cardAction{background:transparent;color:inherit}
+.beerOrderButton,.contactOrderButton{background:transparent;color:inherit;border:0;cursor:pointer}
+.beerCopy .beerOrderButton{display:flex;justify-content:space-between;align-items:center;border-top:1px solid #0c35522c;border-bottom:1px solid #0c35522c;padding:15px 0;margin-top:28px;font-size:9px;font-weight:900;width:100%;text-align:left}
+.beerCopy .beerOrderButton span{transition:transform .25s}.beerCopy .beerOrderButton:hover span{transform:translate(4px,-4px)}
+.contactBox .contactOrderButton{display:flex;justify-content:space-between;gap:20px;align-items:center;padding:24px 0;border-bottom:1px solid #0a2b4530;width:100%;font-size:10px;font-weight:900;text-align:left}
+.orderOverlay{position:fixed;inset:0;z-index:500;background:#02111ecf;display:flex;justify-content:flex-end;padding:0}
+.orderPanel{width:min(760px,100%);height:100%;overflow:auto;background:linear-gradient(180deg,#f4f0e7,#e8e1d3);color:var(--ink);padding:34px 34px 26px;box-shadow:-35px 0 90px #00101f7a;display:flex;flex-direction:column}
+.orderPanelTop{display:flex;justify-content:space-between;gap:28px;align-items:flex-start}.orderPanelTop>div>small{font-size:8px;letter-spacing:1.8px;font-weight:900;color:var(--blue)}.orderPanel h2{font-size:clamp(48px,5.4vw,80px);line-height:.86;margin-top:10px}.orderPanel h2 em{font-style:normal;color:var(--blue)}
+.orderClose{width:44px;height:44px;border:1px solid #0b35502c;background:transparent;color:var(--ink);font-size:28px;line-height:1;flex:0 0 auto}
+.orderIntro{font-size:11px;line-height:1.75;color:#5d7484;max-width:560px;margin:22px 0 26px}
+.orderOptions{display:grid;gap:28px}.orderGroup>span{display:block;font-size:8px;letter-spacing:1.6px;text-transform:uppercase;font-weight:900;color:#587084;margin-bottom:10px}
+.orderGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.orderOption{min-height:92px;display:grid;grid-template-columns:64px 1fr 30px;gap:12px;align-items:center;background:#ffffff78;border:1px solid #0a355018;padding:10px;text-align:left;color:var(--ink);transition:border-color .22s,background .22s,transform .22s}
+.orderOption:hover{transform:translateY(-2px);border-color:#0872ba55;background:#fff}.orderOption.selected{border-color:var(--blue);background:#fff;box-shadow:0 0 0 1px var(--blue)}
+.orderThumb{width:64px;height:70px;display:grid;place-items:center;background:#dfe8ec;overflow:hidden}.orderThumb img{width:100%;height:100%;object-fit:contain}
+.orderOptionCopy{min-width:0}.orderOptionCopy b{display:block;font-family:var(--display);font-size:21px;line-height:.95}.orderOptionCopy small{display:block;font-size:7px;letter-spacing:.8px;color:#6e8492;margin-top:6px}.orderOption>i{font-style:normal;width:28px;height:28px;border-radius:50%;border:1px solid #0a35502c;display:grid;place-items:center;font-size:13px}.orderOption.selected>i{background:var(--blue);border-color:var(--blue);color:#fff}
+.orderFooter{position:sticky;bottom:-26px;margin-top:auto;padding:20px 0 26px;background:linear-gradient(180deg,transparent 0,#e8e1d3 18%);display:grid;grid-template-columns:1fr auto;gap:18px;align-items:end}.orderFooter>div small{display:block;font-size:7px;letter-spacing:1.3px;color:#6b8393;margin-bottom:5px}.orderFooter>div strong{font-family:var(--display);font-size:25px;line-height:1}.orderContinue{border:0}.orderContinue:disabled{opacity:.45;cursor:not-allowed;transform:none!important;box-shadow:none!important}
+@media(max-width:760px){
+ .orderPanel{padding:24px 18px 18px}.orderPanel h2{font-size:clamp(44px,13vw,62px)}.orderPanelTop{gap:14px}.orderIntro{margin:16px 0 22px}
+ .orderGrid{grid-template-columns:1fr}.orderOption{min-height:82px;grid-template-columns:56px 1fr 28px}.orderThumb{width:56px;height:62px}.orderOptionCopy b{font-size:20px}
+ .orderFooter{bottom:-18px;padding:18px 0;grid-template-columns:1fr}.orderContinue{width:100%}
+}
