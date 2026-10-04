@@ -320,7 +320,7 @@ export default function RodadaSite(){
       </Reveal>
 
       <Reveal className="eventSolutionCard eventSolutionService">
-        <a className="eventSolutionLink" href={wa('Olá! Meu nome é ______ e eu quero fazer um orçamento personalizado para o meu evento. Pode me ajudar?')} target="_blank" rel="noreferrer" aria-label="Solicitar orçamento personalizado pelo WhatsApp">
+        <a className="eventSolutionLink" href={wa('Olá! Eu quero fazer um orçamento personalizado para o meu evento. Pode me ajudar?')} target="_blank" rel="noreferrer" aria-label="Solicitar orçamento personalizado pelo WhatsApp">
           <div className="eventSolutionMeta"><span>04</span><span>ATENDIMENTO</span></div>
           <div className="eventSolutionVisual serviceVisual">
             <span className="eventSolutionWord">EVENTO</span>
