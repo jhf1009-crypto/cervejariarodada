@@ -100,7 +100,6 @@ function DesktopCameraJourney(){
         <span>SESSION IPA</span>
       </motion.div>
       <motion.div className="cameraProduct cameraLager" style={{x:safe(lagerX,-70),y:safe(lagerY,0),scale:safe(lagerScale,.82),rotate:safe(lagerRotate,-4),opacity:safe(lagerOpacity,.45)}}>
-        <img className="cameraGlass" src={img.copo} alt="" loading="lazy" decoding="async"/>
         <span>LAGER</span>
       </motion.div>
     </div>
@@ -144,7 +143,6 @@ function MobileCameraJourney(){
         <span>SESSION IPA</span>
       </motion.div>
       <motion.div className="cameraProduct cameraLager" style={{opacity:lagerOpacity,scale:lagerScale}}>
-        <img className="cameraGlass" src={img.copo} alt="" loading="lazy" decoding="async"/>
         <span>LAGER</span>
       </motion.div>
     </div>
@@ -304,6 +302,8 @@ export default function RodadaSite(){
     </div>
    </section>
 
+   <CameraJourney mobile={mobile}/>
+
    <section className="eventSolutions section" id="eventos" aria-labelledby="eventos-title">
     <Reveal className="eventSolutionsHead">
       <div>
@@ -363,8 +363,6 @@ export default function RodadaSite(){
       <a href={wa('Olá! Gostaria de solicitar um orçamento de chope para um evento.')} target="_blank" rel="noreferrer" className="primary">SOLICITAR ORÇAMENTO <Arrow/></a>
     </Reveal>
    </section>
-
-   <CameraJourney mobile={mobile}/>
 
    <section className="cold section">
     <Reveal><p className="eyebrow">04 / DESTAQUE RODADA</p><h2>GELADA.<br/>DO JEITO<br/><em>CERTO.</em></h2><p className="lead">Chopp gelado, identidade Rodada e formatos para diferentes momentos.</p><a className="coldCta" href="#chopes">VER TODOS OS CHOPES <Arrow/></a></Reveal>
