@@ -1,5 +1,28 @@
 import type { Metadata,Viewport } from 'next';
 import '@/styles/globals.css';
-export const metadata:Metadata={title:'Cervejaria Rodada | Puro malte do Oeste da Bahia',description:'Cervejaria Rodada — chopp e cerveja puro malte, do Oeste da Bahia para bons encontros.',openGraph:{title:'Cervejaria Rodada',description:'A sua festa. A nossa Rodada.',type:'website',locale:'pt_BR'}};
-export const viewport:Viewport={themeColor:'#042443'};
-export default function RootLayout({children}:{children:React.ReactNode}){return <html lang="pt-BR"><body>{children}</body></html>}
+
+const site='https://www.cervejariarodada.com.br';
+
+export const metadata:Metadata={
+ metadataBase:new URL(site),
+ title:{default:'Cervejaria Rodada | Chopes, cervejas e eventos em Luís Eduardo Magalhães',template:'%s | Cervejaria Rodada'},
+ description:'Chopes Lager, Pilsen e Session IPA, cervejas Rodada e estrutura com barris e chopeiras para festas e eventos em Luís Eduardo Magalhães, Bahia.',
+ alternates:{canonical:'/'},
+ openGraph:{
+  title:'Cervejaria Rodada | Chopes, cervejas e eventos',
+  description:'Conheça os chopes Rodada, a linha de cervejas e a estrutura para festas e eventos no Oeste da Bahia.',
+  url:site,
+  siteName:'Cervejaria Rodada',
+  locale:'pt_BR',
+  type:'website'
+ },
+ twitter:{card:'summary_large_image',title:'Cervejaria Rodada',description:'Chopes, cervejas e estrutura para eventos no Oeste da Bahia.'},
+ robots:{index:true,follow:true},
+ icons:{icon:'/icon.svg'}
+};
+
+export const viewport:Viewport={themeColor:'#031a30',width:'device-width',initialScale:1};
+
+export default function RootLayout({children}:{children:React.ReactNode}){
+ return <html lang="pt-BR"><body>{children}</body></html>
+}
