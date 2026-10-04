@@ -30,7 +30,7 @@ const choppProducts=[
 ];
 
 const beerProducts=[
- {name:'Cerveja Rodada Long Neck',meta:'LONG NECK',image:img.longneck,tone:'beer-pilsen'},
+ {name:'Cerveja Rodada Long Neck',meta:'LONG NECK',image:'',tone:'beer-pilsen'},
  {name:'Cerveja Rodada Lata',meta:'LATA',image:canData,tone:'beer-lager'}
 ];
 
@@ -97,7 +97,6 @@ function DesktopCameraJourney(){
 
     <div className="cameraRig" aria-hidden="true">
       <motion.div className="cameraProduct cameraPilsen" style={{x:safe(pilsenX,0),y:safe(pilsenY,0),scale:safe(pilsenScale,1),rotate:safe(pilsenRotate,-5),opacity:safe(pilsenOpacity,1)}}>
-        <img src={img.pilsen} alt="" loading="lazy" decoding="async"/>
         <span>PILSEN</span>
       </motion.div>
       <motion.div className="cameraProduct cameraIpa" style={{x:safe(ipaX,70),y:safe(ipaY,0),scale:safe(ipaScale,.82),rotate:safe(ipaRotate,8),opacity:safe(ipaOpacity,.45)}}>
@@ -105,7 +104,6 @@ function DesktopCameraJourney(){
         <span>SESSION IPA</span>
       </motion.div>
       <motion.div className="cameraProduct cameraLager" style={{x:safe(lagerX,-70),y:safe(lagerY,0),scale:safe(lagerScale,.82),rotate:safe(lagerRotate,-4),opacity:safe(lagerOpacity,.45)}}>
-        <img src={img.pilsen} alt="" loading="lazy" decoding="async"/>
         <img className="cameraGlass" src={img.copo} alt="" loading="lazy" decoding="async"/>
         <span>LAGER</span>
       </motion.div>
@@ -144,7 +142,6 @@ function MobileCameraJourney(){
     <div className="cameraTopline"><span>SCROLL EXPERIENCE</span><span>PURO MALTE · OESTE DA BAHIA</span></div>
     <div className="cameraRig" aria-hidden="true">
       <motion.div className="cameraProduct cameraPilsen" style={{opacity:pilsenOpacity,scale:pilsenScale}}>
-        <img src={img.pilsen} alt="" loading="lazy" decoding="async"/>
         <span>PILSEN</span>
       </motion.div>
       <motion.div className="cameraProduct cameraIpa" style={{opacity:ipaOpacity,scale:ipaScale}}>
@@ -152,7 +149,6 @@ function MobileCameraJourney(){
         <span>SESSION IPA</span>
       </motion.div>
       <motion.div className="cameraProduct cameraLager" style={{opacity:lagerOpacity,scale:lagerScale}}>
-        <img src={img.pilsen} alt="" loading="lazy" decoding="async"/>
         <img className="cameraGlass" src={img.copo} alt="" loading="lazy" decoding="async"/>
         <span>LAGER</span>
       </motion.div>
@@ -270,7 +266,6 @@ export default function RodadaSite(){
       <div className="orbit"/>
       <span className="ghost">PURO<br/>MALTE</span>
       <img src={img.barril} alt="Barril de Chopp Rodada" className="heroKeg" loading="eager" decoding="async" fetchPriority="high"/>
-      <img src={img.pilsen} alt="PET Chopp Rodada Pilsen" className="heroPet" loading="eager" decoding="async"/>
       <img src={img.copo} alt="Copo Rodada" className="heroCup" loading="eager" decoding="async"/>
       <div className="seal">DO OESTE<br/><b>DA BAHIA</b></div>
     </motion.div>
@@ -308,7 +303,7 @@ export default function RodadaSite(){
       {beerProducts.map((item,index)=>(
         <Reveal key={item.name} className={'beerCard '+item.tone}>
           <div className="beerCopy"><span>0{index+1} / 02 · {item.meta}</span><h3>{item.name}</h3><p>Uma nova forma de levar a identidade Rodada para diferentes momentos.</p><button type="button" className="beerOrderButton" onClick={()=>openOrder(item.name)}>PEDIR PELO WHATSAPP <Arrow/></button></div>
-          <div className="beerVisual"><span aria-hidden="true">{item.meta}</span><img src={item.image} alt={item.name} loading="lazy" decoding="async"/></div>
+          <div className="beerVisual"><span aria-hidden="true">{item.meta}</span>{item.image&&<img src={item.image} alt={item.name} loading="lazy" decoding="async"/>}</div>
         </Reveal>
       ))}
     </div>
@@ -378,7 +373,7 @@ export default function RodadaSite(){
 
    <section className="cold section">
     <Reveal><p className="eyebrow">04 / DESTAQUE RODADA</p><h2>GELADA.<br/>DO JEITO<br/><em>CERTO.</em></h2><p className="lead">Chopp gelado, identidade Rodada e formatos para diferentes momentos.</p><a className="coldCta" href="#chopes">VER TODOS OS CHOPES <Arrow/></a></Reveal>
-    <Reveal className="coldStage"><span>1,5<small>L</small></span><div className="rings"/><img src={img.pilsen} alt="PET Rodada Pilsen" loading="lazy" decoding="async"/></Reveal>
+    <Reveal className="coldStage"><span>1,5<small>L</small></span><div className="rings"/></Reveal>
    </section>
 
    <section className="lifestyle section">
@@ -410,7 +405,7 @@ export default function RodadaSite(){
           <span>{group}</span>
           <div className="orderGrid">
             {orderProducts.filter(product=>product.group===group).map(product=><button type="button" key={product.id} className={'orderOption '+(selectedOrders.includes(product.id)?'selected':'')} onClick={()=>toggleOrder(product.id)} aria-pressed={selectedOrders.includes(product.id)}>
-              <span className="orderThumb"><img src={product.image} alt="" loading="lazy" decoding="async"/></span>
+              {product.image&&<span className="orderThumb"><img src={product.image} alt="" loading="lazy" decoding="async"/></span>}
               <span className="orderOptionCopy"><b>{product.name}</b><small>{product.meta}</small></span>
               <i aria-hidden>{selectedOrders.includes(product.id)?'✓':'+'}</i>
             </button>)}
