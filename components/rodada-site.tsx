@@ -2,6 +2,7 @@
 
 import {useEffect,useRef,useState} from 'react';
 import {motion,useReducedMotion,useScroll,useSpring,useTransform} from 'framer-motion';
+import EventLeadForm from './event-lead-form';
 
 const img={
  barril:'https://static.wixstatic.com/media/e65861_9902f8972f124cc99b1297a5fc9f6834~mv2.png',
@@ -449,6 +450,7 @@ export default function RodadaSite(){
         <a className="primary" href={wa('Olá! Usei a calculadora do site para um evento com '+eventGuests+' convidados por '+eventHours+' horas. A estimativa foi de '+estimatedLiters+' L. Quero confirmar a quantidade e pedir um orçamento.')} target="_blank" rel="noreferrer">CONFIRMAR COM A RODADA <Arrow/></a>
       </div>
     </Reveal>
+    <EventLeadForm/>
    </section>
 
    <section className="cold section">
