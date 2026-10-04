@@ -175,6 +175,11 @@ function ScrollPhoto({children,className=''}:{children:React.ReactNode,className
 
 export default function RodadaSite(){
  const [menu,setMenu]=useState(false);
+ const [ageVerified,setAgeVerified]=useState<boolean|null>(null);
+ const [cookieChoice,setCookieChoice]=useState<'accepted'|'rejected'|null>(null);
+ const [eventGuests,setEventGuests]=useState(50);
+ const [eventHours,setEventHours]=useState(4);
+ const [eventProfile,setEventProfile]=useState<'leve'|'moderado'|'alto'>('moderado');
  const [orderOpen,setOrderOpen]=useState(false);
  const [selectedOrders,setSelectedOrders]=useState<string[]>([]);
  const [orderQuantities,setOrderQuantities]=useState<Record<string,number>>({});
@@ -185,6 +190,30 @@ export default function RodadaSite(){
  const reduced=useReducedMotion();
  const mobile=useIsMobile();
  const {scrollYProgress}=useScroll();
+
+ useEffect(()=>{
+  const age=window.localStorage.getItem('rodada_age_verified');
+  setAgeVerified(age==='yes');
+  const cookie=window.localStorage.getItem('rodada_cookie_choice');
+  if(cookie==='accepted'||cookie==='rejected')setCookieChoice(cookie);
+ },[]);
+
+ useEffect(()=>{
+  if(reduced)return;
+  let cleanup=()=>{};
+  Promise.all([import('gsap'),import('gsap/ScrollTrigger')]).then(([gsapModule,stModule])=>{
+   const gsap=gsapModule.gsap||gsapModule.default;
+   const ScrollTrigger=stModule.ScrollTrigger;
+   gsap.registerPlugin(ScrollTrigger);
+   const ctx=gsap.context(()=>{
+    gsap.utils.toArray<HTMLElement>('.sectionTitle h2,.eventSolutionsHead h2,.teamCopy h2,.contact h2').forEach(el=>{
+     gsap.fromTo(el,{y:28,opacity:.65},{y:0,opacity:1,duration:.8,ease:'power3.out',scrollTrigger:{trigger:el,start:'top 82%',once:true}});
+    });
+   });
+   cleanup=()=>ctx.revert();
+  }).catch(()=>{});
+  return()=>cleanup();
+ },[reduced]);
  const progress=useSpring(scrollYProgress,{stiffness:140,damping:30});
  const heroY=useTransform(scrollYProgress,[0,.22],[0,80]);
 
@@ -246,6 +275,9 @@ export default function RodadaSite(){
  };
  const chosenCity=orderCity==='Outra cidade'?cepCity:orderCity;
  const canContinueOrder=selectedOrders.length>0&&Boolean(chosenCity);
+ const litersPerPersonHour=eventProfile==='leve'?.45:eventProfile==='alto'?.8:.6;
+ const estimatedLiters=Math.max(10,Math.ceil((eventGuests*eventHours*litersPerPersonHour)/10)*10);
+ const suggestedKegs=estimatedLiters<=30?'1 barril de 30 L':estimatedLiters<=50?'1 barril de 50 L':Math.ceil(estimatedLiters/50)+' barris de 50 L';
  const continueOrder=()=>{
   if(!canContinueOrder)return;
   const custom=selectedOrders.includes('Pedido personalizado');
@@ -266,6 +298,13 @@ export default function RodadaSite(){
 
 
  return <div className="site">
+  {ageVerified===false&&<div className="ageGate" role="dialog" aria-modal="true" aria-labelledby="age-title">
+    <div className="ageGateCard"><small>CERVEJARIA RODADA · +18</small><h2 id="age-title">VOCÊ TEM<br/>18 ANOS OU MAIS?</h2><p>Este site apresenta bebidas alcoólicas e é destinado a maiores de 18 anos.</p><div><button type="button" className="primary" onClick={()=>{localStorage.setItem('rodada_age_verified','yes');setAgeVerified(true)}}>SIM, TENHO 18+</button><a href="https://www.google.com/" className="secondary">NÃO</a></div><span>BEBA COM MODERAÇÃO.</span></div>
+  </div>}
+  {ageVerified!==false&&cookieChoice===null&&<div className="cookieBanner" role="region" aria-label="Preferências de cookies">
+    <div><strong>Privacidade e cookies</strong><p>Usamos apenas cookies essenciais por padrão. Métricas de navegação só serão ativadas após seu aceite.</p></div>
+    <div><button type="button" onClick={()=>{localStorage.setItem('rodada_cookie_choice','rejected');setCookieChoice('rejected')}}>SÓ ESSENCIAIS</button><button type="button" className="primary" onClick={()=>{localStorage.setItem('rodada_cookie_choice','accepted');setCookieChoice('accepted')}}>ACEITAR MÉTRICAS</button></div>
+  </div>}
   <a className="skipLink" href="#conteudo">Pular para o conteúdo</a>
   {!reduced&&<motion.div className="progress" style={{scaleX:progress}}/>}
   <header className="nav">
@@ -312,7 +351,7 @@ export default function RodadaSite(){
               {item.photo?null:<div className="mockLabel"><b>RODADA</b><small>{item.flavor}</small><em>{item.size}</em></div>}
             </div>
           </div>
-          <div className="variationBottom"><div><h3>{item.name}</h3><p>{item.size} · consulte disponibilidade</p></div><button type="button" className="cardAction" onClick={()=>openOrder(item.name+' '+item.size)} aria-label={'Pedir '+item.name+' '+item.size}>PEDIR <Arrow/></button></div>
+          <div className="variationBottom"><div><h3>{item.name}</h3><p>{item.size} · consulte disponibilidade</p><a className="productDetailLink" href={'/produtos/'+(item.name+'-'+item.size).toLowerCase().replaceAll(' ','-').replaceAll(',','').replaceAll('ó','o')}>VER DETALHES <Arrow/></a></div><button type="button" className="cardAction" onClick={()=>openOrder(item.name+' '+item.size)} aria-label={'Pedir '+item.name+' '+item.size}>PEDIR <Arrow/></button></div>
         </Reveal>
       ))}
     </div>
@@ -326,7 +365,7 @@ export default function RodadaSite(){
     <div className="beerGrid">
       {beerProducts.map((item,index)=>(
         <Reveal key={item.name} className={'beerCard '+item.tone}>
-          <div className="beerCopy"><span>0{index+1} / 02 · {item.meta}</span><h3>{item.name}</h3><p>Uma nova forma de levar a identidade Rodada para diferentes momentos.</p><button type="button" className="beerOrderButton" onClick={()=>openOrder(item.name)}>PEDIR PELO WHATSAPP <Arrow/></button></div>
+          <div className="beerCopy"><span>0{index+1} / 02 · {item.meta}</span><h3>{item.name}</h3><p>Uma nova forma de levar a identidade Rodada para diferentes momentos.</p><a className="productDetailLink" href={'/produtos/'+item.name.toLowerCase().replaceAll(' ','-')}>VER DETALHES <Arrow/></a><button type="button" className="beerOrderButton" onClick={()=>openOrder(item.name)}>PEDIR PELO WHATSAPP <Arrow/></button></div>
           <div className="beerVisual"><span aria-hidden="true">{item.meta}</span>{item.image&&<img src={item.image} alt={item.name} loading="lazy" decoding="async"/>}</div>
         </Reveal>
       ))}
@@ -392,6 +431,23 @@ export default function RodadaSite(){
     <Reveal className="eventSolutionsCta">
       <div><small>VAI FAZER UM EVENTO?</small><strong>Peça seu orçamento sem burocracia.</strong></div>
       <a href={wa('Olá! Gostaria de solicitar um orçamento de chope para um evento.')} target="_blank" rel="noreferrer" className="primary">SOLICITAR ORÇAMENTO <Arrow/></a>
+    </Reveal>
+    <Reveal className="eventCalculator" aria-labelledby="calc-title">
+      <div className="eventCalcIntro">
+        <p className="eyebrow">CALCULADORA DE EVENTO</p>
+        <h3 id="calc-title">QUANTOS LITROS<br/>EU PRECISO?</h3>
+        <p>Faça uma estimativa inicial. O resultado é apenas uma referência de planejamento; a equipe Rodada confirma a quantidade ideal no orçamento.</p>
+      </div>
+      <div className="eventCalcControls">
+        <label>Convidados <strong>{eventGuests}</strong><input type="range" min="10" max="300" step="10" value={eventGuests} onChange={e=>setEventGuests(Number(e.target.value))}/></label>
+        <label>Duração <strong>{eventHours} h</strong><input type="range" min="2" max="12" step="1" value={eventHours} onChange={e=>setEventHours(Number(e.target.value))}/></label>
+        <fieldset><legend>Perfil de consumo</legend>{(['leve','moderado','alto'] as const).map(profile=><button key={profile} type="button" className={eventProfile===profile?'active':''} onClick={()=>setEventProfile(profile)}>{profile}</button>)}</fieldset>
+      </div>
+      <div className="eventCalcResult">
+        <small>ESTIMATIVA</small><strong>{estimatedLiters} L</strong><span>{suggestedKegs}</span>
+        <p>Cálculo: convidados × horas × fator de consumo ({litersPerPersonHour.toFixed(2).replace('.',',')} L/pessoa/h), arredondado para cima em blocos de 10 L.</p>
+        <a className="primary" href={wa('Olá! Usei a calculadora do site para um evento com '+eventGuests+' convidados por '+eventHours+' horas. A estimativa foi de '+estimatedLiters+' L. Quero confirmar a quantidade e pedir um orçamento.')} target="_blank" rel="noreferrer">CONFIRMAR COM A RODADA <Arrow/></a>
+      </div>
     </Reveal>
    </section>
 
