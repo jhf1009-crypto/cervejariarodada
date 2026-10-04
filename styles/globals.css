@@ -95,7 +95,7 @@
 .mockLabel{position:absolute;left:50%;top:54%;translate:-50% -50%;z-index:2;width:42%;min-width:95px;padding:10px 8px 9px;background:#f3efe6e8;border-top:3px solid #0a6db6;border-bottom:3px solid #0a6db6;text-align:center;box-shadow:0 6px 18px #00152b24;backdrop-filter:blur(2px)}
 .mockLabel b{display:block;font-family:var(--display);font-size:21px;line-height:.9;color:#0869ad}.mockLabel small{display:block;font-size:6px;font-weight:900;letter-spacing:1.2px;color:#384f5f;margin-top:4px}.mockLabel em{display:block;font-style:normal;font-size:6px;font-weight:800;color:#7b8b94;margin-top:4px}
 .variationCard.ipa .mockLabel{background:#171b18e8;border-color:#d3b06b}.variationCard.ipa .mockLabel b{color:#d8bc7a}.variationCard.ipa .mockLabel small,.variationCard.ipa .mockLabel em{color:#e1d1aa}
-.variationBottom{border-top:1px solid #08284224;padding-top:17px}.variationCard.ipa .variationBottom{border-color:#fff2}.variationBottom h3{font-size:25px;line-height:.95}.variationBottom p{font-size:8px;line-height:1.6;margin-top:6px;color:#60798b}.variationCard.ipa .variationBottom p{color:#c8b894}
+.variationBottom{border-top:1px solid #08284224;padding-top:17px}.variationCard.ipa .variationBottom{border-color:#fff2}.variationBottom h3{font-size:25px;line-height:.95}.variationBottom p{font-size:11px;line-height:1.6;margin-top:6px;color:#60798b}.variationCard.ipa .variationBottom p{color:#c8b894}
 .variationBottom>span{font-size:18px;transition:transform .3s}.variationCard:hover .variationBottom>span{transform:translate(4px,-4px)}
 .variationCard[data-reveal].visible .mockBottle{animation:variationIn .9s .08s var(--ease) both}
 @keyframes variationIn{from{opacity:0;translate:0 26px;scale:.92}to{opacity:1;translate:0 0;scale:1}}
