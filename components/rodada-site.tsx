@@ -18,10 +18,10 @@ const canData='data:image/webp;base64,UklGRrwLAABXRUJQVlA4ILALAADwMQCdASqXAG4APk
 
 // Imagens demonstrativas temporárias: substituir pelos arquivos oficiais quando forem disponibilizados.
 const choppProducts=[
- {name:'Chopp Lager',size:'1,5 L',meta:'PET 1,5 L',flavor:'LAGER',image:img.lager15,tone:'lager',photo:true},
+ {name:'Chopp Lager',size:'1,5 L',meta:'PET 1,5 L',flavor:'LAGER',image:'/events/image.png',tone:'lager',photo:true},
  {name:'Chopp Pilsen',size:'1,5 L',meta:'PET 1,5 L',flavor:'PILSEN',image:'/events/Garrafa%20Gelada%20de%20Cervejaria%20Rodada.png',tone:'pilsen',photo:true},
  {name:'Chopp Session IPA',size:'1,5 L',meta:'PET 1,5 L',flavor:'SESSION IPA',image:'/events/imagem%20generica%20chopp%201%2C5L.jpg',tone:'ipa',photo:true},
- {name:'Chopp Lager',size:'700 ml',meta:'PET 700 ML',flavor:'LAGER',image:'/events/imagem%20generica%20chopp%20700ml.jpg',tone:'lager',photo:true},
+ {name:'Chopp Lager',size:'700 ml',meta:'PET 700 ML',flavor:'LAGER',image:'/events/image.png',tone:'lager',photo:true},
  {name:'Chopp Pilsen',size:'700 ml',meta:'PET 700 ML',flavor:'PILSEN',image:'/events/imagem%20generica%20chopp%20700ml.jpg',tone:'pilsen',photo:true},
  {name:'Chopp Session IPA',size:'700 ml',meta:'PET 700 ML',flavor:'SESSION IPA',image:'/events/imagem%20generica%20chopp%20700ml.jpg',tone:'ipa',photo:true}
 ];
@@ -101,6 +101,7 @@ function DesktopCameraJourney(){
         <span>SESSION IPA</span>
       </motion.div>
       <motion.div className="cameraProduct cameraLager" style={{x:safe(lagerX,-70),y:safe(lagerY,0),scale:safe(lagerScale,.82),rotate:safe(lagerRotate,-4),opacity:safe(lagerOpacity,.45)}}>
+        <img src="/events/image.png" alt="" loading="lazy" decoding="async"/>
         <span>LAGER</span>
       </motion.div>
     </div>
@@ -145,6 +146,7 @@ function MobileCameraJourney(){
         <span>SESSION IPA</span>
       </motion.div>
       <motion.div className="cameraProduct cameraLager" style={{opacity:lagerOpacity,scale:lagerScale}}>
+        <img src="/events/image.png" alt="" loading="lazy" decoding="async"/>
         <span>LAGER</span>
       </motion.div>
     </div>
