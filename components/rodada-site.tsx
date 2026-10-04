@@ -263,7 +263,7 @@ export default function RodadaSite(){
       <div className="orbit"/>
       <span className="ghost">PURO<br/>MALTE</span>
       <img src={img.barril} alt="Barril de Chopp Rodada" className="heroKeg" loading="eager" decoding="async" fetchPriority="high"/>
-      <img src={img.copo} alt="Copo Rodada" className="heroCup" loading="eager" decoding="async"/>
+
       <div className="seal">DO OESTE<br/><b>DA BAHIA</b></div>
     </motion.div>
     <div className="heroFoot"><span>↓ A próxima Rodada começa aqui</span><span>BEBA COM MODERAÇÃO.</span></div>
