@@ -1,7 +1,6 @@
 'use client';
 
-import {useEffect,useRef,useState} from 'react';
-import {motion,useReducedMotion,useScroll,useSpring,useTransform} from 'framer-motion';
+import {useEffect,useState} from 'react';
 import EventLeadForm from './event-lead-form';
 
 const img={
@@ -44,135 +43,7 @@ const WHATSAPP='557798140440';
 const wa=(message:string)=>'https://wa.me/'+WHATSAPP+'?text='+encodeURIComponent(message);
 
 function Arrow(){return <span aria-hidden>↗</span>}
-function Reveal({children,className='',...props}:React.HTMLAttributes<HTMLDivElement>){return <div data-reveal className={className} {...props}>{children}</div>}
-
-function useIsMobile(){
- const [mobile,setMobile]=useState(false);
- useEffect(()=>{
-  const mq=window.matchMedia('(max-width: 760px)');
-  const update=()=>setMobile(mq.matches);
-  update();
-  mq.addEventListener('change',update);
-  return()=>mq.removeEventListener('change',update);
- },[]);
- return mobile;
-}
-
-function DesktopCameraJourney(){
- const ref=useRef<HTMLElement>(null);
- const reduced=useReducedMotion();
- const {scrollYProgress}=useScroll({target:ref,offset:['start start','end end']});
- const pilsenX=useTransform(scrollYProgress,[0,.22,.38],[0,-70,-250]);
- const pilsenY=useTransform(scrollYProgress,[0,.22,.38],[0,-18,40]);
- const pilsenScale=useTransform(scrollYProgress,[0,.22,.38],[1.02,1.34,.78]);
- const pilsenRotate=useTransform(scrollYProgress,[0,.38],[-5,-13]);
- const pilsenOpacity=useTransform(scrollYProgress,[0,.28,.42],[1,1,.18]);
-
- const ipaX=useTransform(scrollYProgress,[.22,.46,.64],[250,35,-215]);
- const ipaY=useTransform(scrollYProgress,[.22,.46,.64],[60,-18,30]);
- const ipaScale=useTransform(scrollYProgress,[.22,.46,.64],[.72,1.34,.76]);
- const ipaRotate=useTransform(scrollYProgress,[.22,.64],[12,3]);
- const ipaOpacity=useTransform(scrollYProgress,[.2,.34,.56,.68],[.12,1,1,.15]);
-
- const lagerX=useTransform(scrollYProgress,[.52,.74,1],[245,20,0]);
- const lagerY=useTransform(scrollYProgress,[.52,.74,1],[80,-10,0]);
- const lagerScale=useTransform(scrollYProgress,[.52,.74,1],[.7,1.38,.9]);
- const lagerRotate=useTransform(scrollYProgress,[.52,1],[-9,2]);
- const lagerOpacity=useTransform(scrollYProgress,[.5,.64,.88,1],[.12,1,1,.78]);
-
- const bgX=useTransform(scrollYProgress,[0,1],[-60,60]);
- const ringScale=useTransform(scrollYProgress,[0,1],[.88,1.18]);
- const copy1=useTransform(scrollYProgress,[0,.19,.31],[1,1,0]);
- const copy2=useTransform(scrollYProgress,[.24,.38,.55,.66],[0,1,1,0]);
- const copy3=useTransform(scrollYProgress,[.57,.71,1],[0,1,1]);
-
- const safe=(v:any,fallback:any)=>reduced?fallback:v;
-
- return <section className="cameraJourney" ref={ref} aria-label="Experiência em scroll dos sabores Rodada">
-   <div className="cameraSticky">
-    <motion.div className="cameraGrid" style={{x:safe(bgX,0)}}/>
-    <motion.div className="cameraRing cameraRingA" style={{scale:safe(ringScale,1)}}/>
-    <div className="cameraTopline"><span>SCROLL EXPERIENCE</span><span>PURO MALTE · OESTE DA BAHIA</span></div>
-
-    <div className="cameraRig" aria-hidden="true">
-      <motion.div className="cameraProduct cameraPilsen" style={{x:safe(pilsenX,0),y:safe(pilsenY,0),scale:safe(pilsenScale,1),rotate:safe(pilsenRotate,-5),opacity:safe(pilsenOpacity,1)}}>
-        <img src="/events/Garrafa%20Gelada%20de%20Cervejaria%20Rodada.png" alt="" loading="lazy" decoding="async"/>
-        <span>PILSEN</span>
-      </motion.div>
-      <motion.div className="cameraProduct cameraIpa" style={{x:safe(ipaX,70),y:safe(ipaY,0),scale:safe(ipaScale,.82),rotate:safe(ipaRotate,8),opacity:safe(ipaOpacity,.45)}}>
-        <span>SESSION IPA</span>
-      </motion.div>
-      <motion.div className="cameraProduct cameraLager" style={{x:safe(lagerX,-70),y:safe(lagerY,0),scale:safe(lagerScale,.82),rotate:safe(lagerRotate,-4),opacity:safe(lagerOpacity,.45)}}>
-        <img src="/events/image.png" alt="" loading="lazy" decoding="async"/>
-        <span>LAGER</span>
-      </motion.div>
-    </div>
-
-    <div className="cameraCopy">
-      <motion.div className="cameraChapter" style={{opacity:safe(copy1,1)}}>
-        <small>01 / PILSEN</small><h2>LEVEZA QUE<br/><em>PEDE MAIS UMA.</em></h2><p>O clássico da Rodada entra em cena primeiro: fresco, direto e feito para compartilhar.</p>
-      </motion.div>
-      <motion.div className="cameraChapter" style={{opacity:safe(copy2,0)}}>
-        <small>02 / SESSION IPA</small><h2>MAIS AROMA.<br/><em>MAIS PRESENÇA.</em></h2><p>A câmera aproxima a Session IPA para revelar uma Rodada com personalidade e um perfil mais intenso.</p>
-      </motion.div>
-      <motion.div className="cameraChapter" style={{opacity:safe(copy3,0)}}>
-        <small>03 / LAGER</small><h2>GELADA.<br/><em>SEM PRESSA.</em></h2><p>O passeio termina na Lager: uma escolha versátil para acompanhar a mesa do começo ao último brinde.</p>
-      </motion.div>
-    </div>
-
-    <div className="cameraProgress" aria-hidden="true"><motion.i style={{scaleX:scrollYProgress}}/></div>
-    <span className="cameraHint">ROLE PARA DIRIGIR A CÂMERA ↓</span>
-   </div>
-  </section>
-}
-
-function MobileCameraJourney(){
- const ref=useRef<HTMLElement>(null);
- const {scrollYProgress}=useScroll({target:ref,offset:['start start','end end']});
- const pilsenOpacity=useTransform(scrollYProgress,[0,.24,.37],[1,1,0]);
- const ipaOpacity=useTransform(scrollYProgress,[.28,.42,.6,.7],[0,1,1,0]);
- const lagerOpacity=useTransform(scrollYProgress,[.62,.76,1],[0,1,1]);
- const pilsenScale=useTransform(scrollYProgress,[0,.28,.37],[1.02,1.1,.96]);
- const ipaScale=useTransform(scrollYProgress,[.3,.5,.7],[.97,1.1,.97]);
- const lagerScale=useTransform(scrollYProgress,[.64,.82,1],[.97,1.1,1.02]);
-
- return <section className="cameraJourney mobileCameraJourney" ref={ref} aria-label="Experiência em scroll dos sabores Rodada">
-   <div className="cameraSticky">
-    <div className="cameraTopline"><span>SCROLL EXPERIENCE</span><span>PURO MALTE · OESTE DA BAHIA</span></div>
-    <div className="cameraRig" aria-hidden="true">
-      <motion.div className="cameraProduct cameraPilsen" style={{opacity:pilsenOpacity,scale:pilsenScale}}>
-        <img src="/events/Garrafa%20Gelada%20de%20Cervejaria%20Rodada.png" alt="" loading="lazy" decoding="async"/>
-        <span>PILSEN</span>
-      </motion.div>
-      <motion.div className="cameraProduct cameraIpa" style={{opacity:ipaOpacity,scale:ipaScale}}>
-        <span>SESSION IPA</span>
-      </motion.div>
-      <motion.div className="cameraProduct cameraLager" style={{opacity:lagerOpacity,scale:lagerScale}}>
-        <img src="/events/image.png" alt="" loading="lazy" decoding="async"/>
-        <span>LAGER</span>
-      </motion.div>
-    </div>
-    <div className="cameraCopy">
-      <motion.div className="cameraChapter" style={{opacity:pilsenOpacity}}><small>01 / PILSEN</small><h2>LEVEZA QUE<br/><em>PEDE MAIS UMA.</em></h2><p>O clássico da Rodada entra em cena primeiro: fresco, direto e feito para compartilhar.</p></motion.div>
-      <motion.div className="cameraChapter" style={{opacity:ipaOpacity}}><small>02 / SESSION IPA</small><h2>MAIS AROMA.<br/><em>MAIS PRESENÇA.</em></h2><p>A câmera aproxima a Session IPA para revelar uma Rodada com personalidade e um perfil mais intenso.</p></motion.div>
-      <motion.div className="cameraChapter" style={{opacity:lagerOpacity}}><small>03 / LAGER</small><h2>GELADA.<br/><em>SEM PRESSA.</em></h2><p>O passeio termina na Lager: uma escolha versátil para acompanhar a mesa do começo ao último brinde.</p></motion.div>
-    </div>
-    <div className="cameraProgress" aria-hidden="true"><motion.i style={{scaleX:scrollYProgress}}/></div>
-   </div>
-  </section>
-}
-
-function CameraJourney({mobile}:{mobile:boolean}){return mobile?<MobileCameraJourney/>:<DesktopCameraJourney/>}
-
-function ScrollPhoto({children,className=''}:{children:React.ReactNode,className?:string}){
- const ref=useRef<HTMLDivElement>(null);
- const reduced=useReducedMotion();
- const {scrollYProgress}=useScroll({target:ref,offset:['start end','end start']});
- const y=useTransform(scrollYProgress,[0,1],[38,-38]);
- const scale=useTransform(scrollYProgress,[0,.5,1],[.96,1.035,.98]);
- const rotate=useTransform(scrollYProgress,[0,1],[-.8,.8]);
- return <motion.div ref={ref} className={className} style={reduced?undefined:{y,scale,rotate}}>{children}</motion.div>
-}
+function Reveal({children,className='',...props}:React.HTMLAttributes<HTMLDivElement>){return <div className={className} {...props}>{children}</div>}
 
 export default function RodadaSite(){
  const [menu,setMenu]=useState(false);
@@ -188,9 +59,6 @@ export default function RodadaSite(){
  const [orderCep,setOrderCep]=useState('');
  const [cepCity,setCepCity]=useState('');
  const [cepStatus,setCepStatus]=useState<'idle'|'loading'|'success'|'error'>('idle');
- const reduced=useReducedMotion();
- const mobile=useIsMobile();
- const {scrollYProgress}=useScroll();
 
  useEffect(()=>{
   const age=window.localStorage.getItem('rodada_age_verified');
@@ -199,32 +67,9 @@ export default function RodadaSite(){
   if(cookie==='accepted'||cookie==='rejected')setCookieChoice(cookie);
  },[]);
 
- useEffect(()=>{
-  if(reduced)return;
-  let cleanup=()=>{};
-  Promise.all([import('gsap'),import('gsap/ScrollTrigger')]).then(([gsapModule,stModule])=>{
-   const gsap=gsapModule.gsap||gsapModule.default;
-   const ScrollTrigger=stModule.ScrollTrigger;
-   gsap.registerPlugin(ScrollTrigger);
-   const ctx=gsap.context(()=>{
-    gsap.utils.toArray<HTMLElement>('.sectionTitle h2,.eventSolutionsHead h2,.teamCopy h2,.contact h2').forEach(el=>{
-     gsap.fromTo(el,{y:28,opacity:.65},{y:0,opacity:1,duration:.8,ease:'power3.out',scrollTrigger:{trigger:el,start:'top 82%',once:true}});
-    });
-   });
-   cleanup=()=>ctx.revert();
-  }).catch(()=>{});
-  return()=>cleanup();
- },[reduced]);
- const progress=useSpring(scrollYProgress,{stiffness:140,damping:30});
- const heroY=useTransform(scrollYProgress,[0,.22],[0,80]);
 
- useEffect(()=>{
-  if(reduced)return;
-  const els=[...document.querySelectorAll<HTMLElement>('[data-reveal]')];
-  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target)}}),{threshold:.1,rootMargin:'0px 0px -8% 0px'});
-  els.forEach(el=>io.observe(el));
-  return()=>io.disconnect();
- },[reduced]);
+
+
 
  useEffect(()=>{
   if(!orderOpen)return;
@@ -307,7 +152,6 @@ export default function RodadaSite(){
     <div><button type="button" onClick={()=>{localStorage.setItem('rodada_cookie_choice','rejected');setCookieChoice('rejected')}}>SÓ ESSENCIAIS</button><button type="button" className="primary" onClick={()=>{localStorage.setItem('rodada_cookie_choice','accepted');setCookieChoice('accepted')}}>ACEITAR MÉTRICAS</button></div>
   </div>}
   <a className="skipLink" href="#conteudo">Pular para o conteúdo</a>
-  {!reduced&&<motion.div className="progress" style={{scaleX:progress}}/>}
   <header className="nav">
    <a href="#inicio" className="brand" aria-label="Cervejaria Rodada — início"><b>RODADA</b><small>PURO MALTE</small></a>
    <nav id="menu-principal" className={menu?'open':''} aria-label="Navegação principal">
@@ -326,13 +170,13 @@ export default function RodadaSite(){
      <p className="lead">Chopp puro malte do Oeste da Bahia, feito para transformar bons encontros em grandes momentos.</p>
      <div className="actions heroActions"><a href="#chopes" className="primary">VER CHOPES <Arrow/></a><a href="#cervejas" className="secondary">Ver cervejas ↓</a><a href="#eventos" className="secondary">Quero chope para meu evento ↓</a></div>
     </div>
-    <motion.div className="heroStage" style={!reduced&&!mobile?{y:heroY}:undefined}>
+    <div className="heroStage">
       <div className="orbit"/>
       <span className="ghost">PURO<br/>MALTE</span>
       <img src={img.barril} alt="Barril de Chopp Rodada" className="heroKeg" loading="eager" decoding="async" fetchPriority="high"/>
 
       <div className="seal">DO OESTE<br/><b>DA BAHIA</b></div>
-    </motion.div>
+    </div>
     <div className="heroFoot"><span>↓ A próxima Rodada começa aqui</span><span>BEBA COM MODERAÇÃO.</span></div>
    </section>
 
@@ -372,8 +216,6 @@ export default function RodadaSite(){
       ))}
     </div>
    </section>
-
-   <CameraJourney mobile={mobile}/>
 
    <section className="eventSolutions section" id="eventos" aria-labelledby="eventos-title">
     <Reveal className="eventSolutionsHead">
@@ -461,9 +303,9 @@ export default function RodadaSite(){
    <section className="lifestyle section">
     <Reveal className="sectionTitle"><div><p className="eyebrow dark">05 / FEITA PARA COMPARTILHAR</p><h2>TODA HISTÓRIA BOA<br/>COMEÇA COM <em>UMA RODADA.</em></h2></div></Reveal>
     <div className="lifeGrid">
-      {mobile?<div className="lifeMain scrollPhoto"><strong>BORA<br/>BRINDAR?</strong><img src={img.people} alt="Pessoa brindando com Rodada" loading="lazy" decoding="async"/></div>:<ScrollPhoto className="lifeMain scrollPhoto"><strong>BORA<br/>BRINDAR?</strong><img src={img.people} alt="Pessoa brindando com Rodada" loading="lazy" decoding="async"/></ScrollPhoto>}
-      {mobile?<div className="lifeQuote scrollPhoto"><span>MAIS<br/>MUITO</span><p>Mais encontro. Mais conversa. Mais motivo para reunir.</p></div>:<ScrollPhoto className="lifeQuote scrollPhoto"><span>MAIS<br/>MUITO</span><p>Mais encontro. Mais conversa. Mais motivo para reunir.</p></ScrollPhoto>}
-      {mobile?<div className="lifeProduct scrollPhoto"><img src={img.copo} alt="Copo Rodada" loading="lazy" decoding="async"/><span>PURO MALTE · PURA RODADA</span></div>:<ScrollPhoto className="lifeProduct scrollPhoto"><img src={img.copo} alt="Copo Rodada" loading="lazy" decoding="async"/><span>PURO MALTE · PURA RODADA</span></ScrollPhoto>}
+      <div className="lifeMain scrollPhoto"><strong>BORA<br/>BRINDAR?</strong><img src={img.people} alt="Pessoa brindando com Rodada" loading="lazy" decoding="async"/></div>
+      <div className="lifeQuote scrollPhoto"><span>MAIS<br/>MUITO</span><p>Mais encontro. Mais conversa. Mais motivo para reunir.</p></div>
+      <div className="lifeProduct scrollPhoto"><img src={img.copo} alt="Copo Rodada" loading="lazy" decoding="async"/><span>PURO MALTE · PURA RODADA</span></div>
     </div>
    </section>
 
@@ -479,7 +321,7 @@ export default function RodadaSite(){
   </main>
 
   {orderOpen&&<div className="orderOverlay" role="presentation" onMouseDown={e=>{if(e.target===e.currentTarget)setOrderOpen(false)}}>
-    <motion.aside className="orderPanel" role="dialog" aria-modal="true" aria-labelledby="order-title" initial={reduced?false:{opacity:0,x:48}} animate={{opacity:1,x:0}} transition={{duration:.28,ease:[.16,1,.3,1]}}>
+    <aside className="orderPanel" role="dialog" aria-modal="true" aria-labelledby="order-title">
       <div className="orderPanelTop"><div><small>FAÇA SUA ESCOLHA</small><h2 id="order-title">QUAL DAS NOSSAS<br/><em>RODADAS</em> VOCÊ VAI<br/>LEVAR HOJE?</h2></div><button type="button" className="orderClose" onClick={()=>setOrderOpen(false)} aria-label="Fechar painel">×</button></div>
       <p className="orderIntro">Escolha o produto, defina a quantidade e, em seguida, continuamos o atendimento pelo WhatsApp com sua seleção já preenchida. Cervejas podem ser escolhidas em fardos de 6 unidades.</p>
       <div className="orderOptions">
@@ -537,7 +379,7 @@ export default function RodadaSite(){
         </div>}
       </div>
       <div className="orderFooter"><div>{selectedOrders.length?<><small>VOCÊ ESCOLHEU</small><strong>{selectedOrders.length} {selectedOrders.length===1?'item':'itens'}{chosenCity?' · '+chosenCity:''}</strong></>:<><small>ESCOLHA SEUS PRODUTOS</small><strong>Você pode selecionar mais de um.</strong></>}</div><button type="button" className="primary orderContinue" disabled={!canContinueOrder} onClick={continueOrder}>{!orderCity?'ESCOLHA SUA CIDADE':orderCity==='Outra cidade'&&!cepCity?'INFORME SEU CEP':'CONTINUAR NO WHATSAPP'} <Arrow/></button></div>
-    </motion.aside>
+    </aside>
   </div>}
 
   <a className="whatsappFloat" href={wa('Olá! Gostaria de fazer um pedido ou tirar uma dúvida sobre a Cervejaria Rodada.')} target="_blank" rel="noreferrer" aria-label="Falar com a Cervejaria Rodada pelo WhatsApp"><span>WhatsApp</span><b>↗</b></a>
