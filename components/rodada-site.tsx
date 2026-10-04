@@ -320,16 +320,18 @@ export default function RodadaSite(){
       </Reveal>
 
       <Reveal className="eventSolutionCard eventSolutionService">
-        <div className="eventSolutionMeta"><span>04</span><span>ATENDIMENTO</span></div>
-        <div className="eventSolutionVisual serviceVisual">
-          <span className="eventSolutionWord">EVENTO</span>
-          <div className="serviceStack" aria-hidden="true">
-            <img src={img.barril} alt="" loading="lazy" decoding="async"/>
-            <img src={img.barril} alt="" loading="lazy" decoding="async"/>
-            <img src={img.chopeira} alt="" loading="lazy" decoding="async"/>
+        <a className="eventSolutionLink" href={wa('Olá! Meu nome é ______ e eu quero fazer um orçamento personalizado para o meu evento. Pode me ajudar?')} target="_blank" rel="noreferrer" aria-label="Solicitar orçamento personalizado pelo WhatsApp">
+          <div className="eventSolutionMeta"><span>04</span><span>ATENDIMENTO</span></div>
+          <div className="eventSolutionVisual serviceVisual">
+            <span className="eventSolutionWord">EVENTO</span>
+            <div className="serviceStack" aria-hidden="true">
+              <img src={img.barril} alt="" loading="lazy" decoding="async"/>
+              <img src={img.barril} alt="" loading="lazy" decoding="async"/>
+              <img src={img.chopeira} alt="" loading="lazy" decoding="async"/>
+            </div>
           </div>
-        </div>
-        <div className="eventSolutionCopy"><h3>Orçamento personalizado</h3><p>Conte o tipo de evento e a necessidade. A Rodada orienta a estrutura adequada e segue o atendimento pelo WhatsApp.</p></div>
+          <div className="eventSolutionCopy"><h3>Orçamento personalizado</h3><p>Conte o tipo de evento e a necessidade. A Rodada orienta a estrutura adequada e segue o atendimento pelo WhatsApp.</p><span className="eventSolutionAction">SOLICITAR ORÇAMENTO <Arrow/></span></div>
+        </a>
       </Reveal>
     </div>
 
