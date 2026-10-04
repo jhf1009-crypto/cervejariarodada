@@ -176,6 +176,7 @@ export default function RodadaSite(){
  const [menu,setMenu]=useState(false);
  const [orderOpen,setOrderOpen]=useState(false);
  const [selectedOrders,setSelectedOrders]=useState<string[]>([]);
+ const [orderQuantities,setOrderQuantities]=useState<Record<string,number>>({});
  const [orderCity,setOrderCity]=useState('');
  const [orderCep,setOrderCep]=useState('');
  const [cepCity,setCepCity]=useState('');
@@ -203,8 +204,26 @@ export default function RodadaSite(){
   return()=>{document.body.style.overflow=previous;window.removeEventListener('keydown',onKey)};
  },[orderOpen]);
 
- const openOrder=(product='')=>{setSelectedOrders(product?[product]:[]);setOrderOpen(true);setMenu(false)};
- const toggleOrder=(product:string)=>setSelectedOrders(current=>current.includes(product)?current.filter(item=>item!==product):[...current,product]);
+ const openOrder=(product='')=>{
+  setSelectedOrders(product?[product]:[]);
+  setOrderQuantities(product?{[product]:1}:{});
+  setOrderOpen(true);
+  setMenu(false);
+ };
+ const toggleOrder=(product:string)=>{
+  setSelectedOrders(current=>{
+   if(current.includes(product)){
+    setOrderQuantities(quantities=>{const next={...quantities};delete next[product];return next});
+    return current.filter(item=>item!==product);
+   }
+   setOrderQuantities(quantities=>({...quantities,[product]:quantities[product]||1}));
+   return [...current,product];
+  });
+ };
+ const changeOrderQuantity=(product:string,delta:number)=>{
+  setOrderQuantities(current=>({...current,[product]:Math.min(99,Math.max(1,(current[product]||1)+delta))}));
+ };
+ const isBeerOrder=(product:string)=>beerProducts.some(item=>item.name===product);
  const selectCity=(city:string)=>{
   setOrderCity(city);
   if(city!=='Outra cidade'){setOrderCep('');setCepCity('');setCepStatus('idle')}
@@ -230,7 +249,14 @@ export default function RodadaSite(){
   if(!canContinueOrder)return;
   const custom=selectedOrders.includes('Pedido personalizado');
   const products=selectedOrders.filter(item=>item!=='Pedido personalizado');
-  const lines=products.length?'\n\nProdutos selecionados:\n- '+products.join('\n- '):'';
+  const lines=products.length?'\n\nProdutos selecionados:\n'+products.map(product=>{
+   const quantity=orderQuantities[product]||1;
+   if(isBeerOrder(product)){
+    const units=quantity*6;
+    return '- '+product+': '+quantity+' '+(quantity===1?'fardo':'fardos')+' de 6 ('+units+' unidades)';
+   }
+   return '- '+product+': '+quantity+' '+(quantity===1?'unidade':'unidades');
+  }).join('\n'):'';
   const customLine=custom?'\n\nTambém quero fazer um pedido personalizado e explicar os detalhes.':'';
   const cityLine='\n\nCidade: '+chosenCity+(orderCity==='Outra cidade'&&orderCep?'\nCEP: '+orderCep:'');
   window.open(wa('Olá! Gostaria de fazer um pedido.'+lines+customLine+cityLine+'\n\nPode me informar disponibilidade e valores?'),'_blank','noopener,noreferrer');
@@ -396,16 +422,31 @@ export default function RodadaSite(){
   {orderOpen&&<div className="orderOverlay" role="presentation" onMouseDown={e=>{if(e.target===e.currentTarget)setOrderOpen(false)}}>
     <motion.aside className="orderPanel" role="dialog" aria-modal="true" aria-labelledby="order-title" initial={reduced?false:{opacity:0,x:48}} animate={{opacity:1,x:0}} transition={{duration:.28,ease:[.16,1,.3,1]}}>
       <div className="orderPanelTop"><div><small>FAÇA SUA ESCOLHA</small><h2 id="order-title">QUAL DAS NOSSAS<br/><em>RODADAS</em> VOCÊ VAI<br/>LEVAR HOJE?</h2></div><button type="button" className="orderClose" onClick={()=>setOrderOpen(false)} aria-label="Fechar painel">×</button></div>
-      <p className="orderIntro">Escolha o produto e, em seguida, continuamos o atendimento pelo WhatsApp com sua seleção já preenchida.</p>
+      <p className="orderIntro">Escolha o produto, defina a quantidade e, em seguida, continuamos o atendimento pelo WhatsApp com sua seleção já preenchida. Cervejas podem ser escolhidas em fardos de 6 unidades.</p>
       <div className="orderOptions">
         {['Chopes','Cervejas','Barril + Chopeira'].map(group=><div className="orderGroup" key={group}>
           <span>{group}</span>
           <div className="orderGrid">
-            {orderProducts.filter(product=>product.group===group).map(product=><button type="button" key={product.id} className={'orderOption '+(selectedOrders.includes(product.id)?'selected':'')} onClick={()=>toggleOrder(product.id)} aria-pressed={selectedOrders.includes(product.id)}>
-              {product.image&&<span className="orderThumb"><img src={product.image} alt="" loading="lazy" decoding="async"/></span>}
-              <span className="orderOptionCopy"><b>{product.name}</b><small>{product.meta}</small></span>
-              <i aria-hidden>{selectedOrders.includes(product.id)?'✓':'+'}</i>
-            </button>)}
+            {orderProducts.filter(product=>product.group===group).map(product=>{
+              const selected=selectedOrders.includes(product.id);
+              const quantity=orderQuantities[product.id]||1;
+              const beer=isBeerOrder(product.id);
+              return <div className={'orderProductChoice '+(selected?'selected':'')} key={product.id}>
+                <button type="button" className={'orderOption '+(selected?'selected':'')} onClick={()=>toggleOrder(product.id)} aria-pressed={selected}>
+                  {product.image&&<span className="orderThumb"><img src={product.image} alt="" loading="lazy" decoding="async"/></span>}
+                  <span className="orderOptionCopy"><b>{product.name}</b><small>{product.meta}</small></span>
+                  <i aria-hidden>{selected?'✓':'+'}</i>
+                </button>
+                {selected&&<div className="orderQuantity">
+                  <div><small>{beer?'QUANTIDADE DE FARDOS':'QUANTIDADE'}</small><strong>{beer?quantity+' '+(quantity===1?'fardo':'fardos')+' · '+(quantity*6)+' unidades':quantity+' '+(quantity===1?'unidade':'unidades')}</strong></div>
+                  <div className="orderQuantityControls" role="group" aria-label={'Quantidade de '+product.name}>
+                    <button type="button" onClick={()=>changeOrderQuantity(product.id,-1)} disabled={quantity<=1} aria-label={'Diminuir quantidade de '+product.name}>−</button>
+                    <span>{quantity}</span>
+                    <button type="button" onClick={()=>changeOrderQuantity(product.id,1)} disabled={quantity>=99} aria-label={'Aumentar quantidade de '+product.name}>+</button>
+                  </div>
+                </div>}
+              </div>
+            })}
           </div>
         </div>)}
       </div>
