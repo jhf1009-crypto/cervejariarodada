@@ -358,3 +358,17 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
  .orderCityGrid{display:grid;grid-template-columns:1fr 1fr}.orderCityOption:last-child{grid-column:1/-1}
  .orderCepRow{grid-template-columns:1fr}.orderCepRow button{min-height:42px}
 }
+
+
+/* Platform conversion / legal / event calculator */
+.productDetailLink{display:inline-flex;align-items:center;gap:8px;margin-top:10px;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--blue)}
+.ageGate{position:fixed;inset:0;z-index:9999;background:rgba(3,24,43,.96);display:grid;place-items:center;padding:20px;backdrop-filter:blur(12px)}
+.ageGateCard{width:min(680px,100%);background:#f2efe7;color:#082842;border-radius:28px;padding:clamp(28px,5vw,56px);box-shadow:0 32px 100px rgba(0,0,0,.35)}
+.ageGateCard small{font-weight:800;letter-spacing:.18em}.ageGateCard h2{font-size:clamp(52px,8vw,94px);margin:18px 0;line-height:.88}.ageGateCard p{max-width:520px;line-height:1.7;margin-bottom:24px}.ageGateCard>div{display:flex;gap:12px;flex-wrap:wrap}.ageGateCard>span{display:block;margin-top:24px;font-size:11px;font-weight:800;letter-spacing:.14em}
+.cookieBanner{position:fixed;z-index:9000;left:18px;right:18px;bottom:18px;background:#f2efe7;color:#082842;border:1px solid rgba(8,40,66,.15);border-radius:18px;box-shadow:0 20px 60px rgba(0,0,0,.28);padding:18px 20px;display:flex;justify-content:space-between;gap:22px;align-items:center}
+.cookieBanner p{margin-top:5px;max-width:680px;font-size:13px;line-height:1.5}.cookieBanner>div:last-child{display:flex;gap:10px;flex-wrap:wrap}.cookieBanner button{border:1px solid #0b3555;background:transparent;color:#082842;border-radius:999px;padding:12px 16px;font-weight:800;font-size:11px;letter-spacing:.06em}.cookieBanner .primary{background:var(--blue);color:white;border-color:var(--blue)}
+.eventCalculator{margin-top:34px;background:#061f37;border:1px solid rgba(255,255,255,.12);border-radius:28px;padding:clamp(24px,4vw,52px);display:grid;grid-template-columns:1.05fr 1.1fr .9fr;gap:32px;align-items:start}
+.eventCalcIntro h3{font-size:clamp(42px,5vw,74px);line-height:.9}.eventCalcIntro>p:last-child{margin-top:18px;color:#b7cad8;line-height:1.7}
+.eventCalcControls{display:grid;gap:22px}.eventCalcControls label{display:grid;grid-template-columns:1fr auto;gap:8px;font-size:12px;font-weight:700;letter-spacing:.05em}.eventCalcControls input{grid-column:1/-1;width:100%;accent-color:#0a82db}.eventCalcControls fieldset{border:0;padding:0;margin:0;display:flex;gap:8px;flex-wrap:wrap}.eventCalcControls legend{width:100%;font-size:12px;font-weight:700;margin-bottom:10px}.eventCalcControls fieldset button{border:1px solid rgba(255,255,255,.2);background:transparent;color:white;border-radius:999px;padding:10px 14px;text-transform:capitalize}.eventCalcControls fieldset button.active{background:#0a82db;border-color:#0a82db}
+.eventCalcResult{background:#f2efe7;color:#082842;border-radius:22px;padding:24px;display:flex;flex-direction:column;gap:10px}.eventCalcResult small{font-weight:900;letter-spacing:.15em}.eventCalcResult>strong{font-family:var(--display);font-size:64px;line-height:.9}.eventCalcResult>span{font-weight:800}.eventCalcResult p{font-size:12px;line-height:1.55;opacity:.8;margin:4px 0 8px}.eventCalcResult .primary{text-align:center}
+@media(max-width:900px){.eventCalculator{grid-template-columns:1fr}.cookieBanner{align-items:flex-start;flex-direction:column}.cookieBanner>div:last-child{width:100%}.cookieBanner button{flex:1}.ageGateCard h2{font-size:56px}}
