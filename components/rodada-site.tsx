@@ -84,16 +84,16 @@ function DesktopCameraJourney(){
 
     <div className="cameraRig" aria-hidden="true">
       <motion.div className="cameraProduct cameraPilsen" style={{x:safe(pilsenX,0),y:safe(pilsenY,0),scale:safe(pilsenScale,1),rotate:safe(pilsenRotate,-5),opacity:safe(pilsenOpacity,1)}}>
-        <img src={img.pilsen} alt=""/>
+        <img src={img.pilsen} alt="" loading="lazy" decoding="async"/>
         <span>PILSEN</span>
       </motion.div>
       <motion.div className="cameraProduct cameraIpa" style={{x:safe(ipaX,70),y:safe(ipaY,0),scale:safe(ipaScale,.82),rotate:safe(ipaRotate,8),opacity:safe(ipaOpacity,.45)}}>
-        <img src={img.gold} alt=""/>
+        <img src={img.gold} alt="" loading="lazy" decoding="async"/>
         <span>SESSION IPA</span>
       </motion.div>
       <motion.div className="cameraProduct cameraLager" style={{x:safe(lagerX,-70),y:safe(lagerY,0),scale:safe(lagerScale,.82),rotate:safe(lagerRotate,-4),opacity:safe(lagerOpacity,.45)}}>
-        <img src={img.pilsen} alt=""/>
-        <img className="cameraGlass" src={img.copo} alt=""/>
+        <img src={img.pilsen} alt="" loading="lazy" decoding="async"/>
+        <img className="cameraGlass" src={img.copo} alt="" loading="lazy" decoding="async"/>
         <span>LAGER</span>
       </motion.div>
     </div>
@@ -103,7 +103,7 @@ function DesktopCameraJourney(){
         <small>01 / PILSEN</small><h2>LEVEZA QUE<br/><em>PEDE MAIS UMA.</em></h2><p>O clássico da Rodada entra em cena primeiro: fresco, direto e feito para compartilhar.</p>
       </motion.div>
       <motion.div className="cameraChapter" style={{opacity:safe(copy2,0)}}>
-        <small>02 / SESSION IPA</small><h2>MAIS AROMA.<br/><em>MAIS PRESENÇA.</em></h2><p>A câmera aproxima a Gold para revelar uma Rodada com personalidade e um perfil mais intenso.</p>
+        <small>02 / SESSION IPA</small><h2>MAIS AROMA.<br/><em>MAIS PRESENÇA.</em></h2><p>A câmera aproxima a Session IPA para revelar uma Rodada com personalidade e um perfil mais intenso.</p>
       </motion.div>
       <motion.div className="cameraChapter" style={{opacity:safe(copy3,0)}}>
         <small>03 / LAGER</small><h2>GELADA.<br/><em>SEM PRESSA.</em></h2><p>O passeio termina na Lager: uma escolha versátil para acompanhar a mesa do começo ao último brinde.</p>
@@ -131,16 +131,16 @@ function MobileCameraJourney(){
     <div className="cameraTopline"><span>SCROLL EXPERIENCE</span><span>PURO MALTE · OESTE DA BAHIA</span></div>
     <div className="cameraRig" aria-hidden="true">
       <motion.div className="cameraProduct cameraPilsen" style={{opacity:pilsenOpacity,scale:pilsenScale}}>
-        <img src={img.pilsen} alt=""/>
+        <img src={img.pilsen} alt="" loading="lazy" decoding="async"/>
         <span>PILSEN</span>
       </motion.div>
       <motion.div className="cameraProduct cameraIpa" style={{opacity:ipaOpacity,scale:ipaScale}}>
-        <img src={img.gold} alt=""/>
+        <img src={img.gold} alt="" loading="lazy" decoding="async"/>
         <span>SESSION IPA</span>
       </motion.div>
       <motion.div className="cameraProduct cameraLager" style={{opacity:lagerOpacity,scale:lagerScale}}>
-        <img src={img.pilsen} alt=""/>
-        <img className="cameraGlass" src={img.copo} alt=""/>
+        <img src={img.pilsen} alt="" loading="lazy" decoding="async"/>
+        <img className="cameraGlass" src={img.copo} alt="" loading="lazy" decoding="async"/>
         <span>LAGER</span>
       </motion.div>
     </div>
@@ -192,7 +192,7 @@ export default function RodadaSite(){
     <a href="#chopes" onClick={()=>setMenu(false)}>Chopes</a><a href="#cervejas" onClick={()=>setMenu(false)}>Cervejas</a><a href="#eventos" onClick={()=>setMenu(false)}>Eventos</a><a href="#equipe" onClick={()=>setMenu(false)}>A Rodada</a><a href="#contato" onClick={()=>setMenu(false)}>Contato</a>
    </nav>
    <a href={wa('Olá! Gostaria de fazer um pedido na Cervejaria Rodada.')} target="_blank" rel="noreferrer" className="navCta">PEDIR PELO WHATSAPP <Arrow/></a>
-   <button className="menu" onClick={()=>setMenu(!menu)} aria-label="Abrir menu" aria-expanded={menu} aria-controls="menu-principal"><i/><i/></button>
+   <button type="button" className="menu" onClick={()=>setMenu(!menu)} aria-label="Abrir menu" aria-expanded={menu} aria-controls="menu-principal"><i/><i/></button>
   </header>
 
   <main id="conteudo">
@@ -266,7 +266,7 @@ export default function RodadaSite(){
         <div className="eventSolutionMeta"><span>01</span><span>CHOPEIRA RODADA</span></div>
         <div className="eventSolutionVisual">
           <span className="eventSolutionWord">CHOPEIRA</span>
-          <img src={img.chopeira} alt="Chopeira Rodada para eventos"/>
+          <img src={img.chopeira} alt="Chopeira Rodada para eventos" loading="lazy" decoding="async"/>
         </div>
         <div className="eventSolutionCopy"><h3>Chopeira Rodada</h3><p>Serviço na temperatura certa, com presença visual da marca e experiência de chopp tirado na hora.</p></div>
       </Reveal>
@@ -275,7 +275,7 @@ export default function RodadaSite(){
         <div className="eventSolutionMeta"><span>02</span><span>BARRIL / KEG</span></div>
         <div className="eventSolutionVisual">
           <span className="eventSolutionWord">BARRIL</span>
-          <img src={img.barril} alt="Barril de chopp Rodada"/>
+          <img src={img.barril} alt="Barril de chopp Rodada" loading="lazy" decoding="async"/>
         </div>
         <div className="eventSolutionCopy"><h3>Barris Rodada</h3><p>Volume para encontros maiores, festas e operações que precisam manter a Rodada fluindo por mais tempo.</p></div>
       </Reveal>
@@ -284,8 +284,8 @@ export default function RodadaSite(){
         <div className="eventSolutionMeta"><span>03</span><span>SUPORTE NO EVENTO</span></div>
         <div className="eventSolutionVisual">
           <span className="eventSolutionWord">KIT</span>
-          <img className="comboMachine" src={img.chopeira} alt="Chopeira Rodada"/>
-          <img className="comboKeg" src={img.barril} alt="Barril Rodada"/>
+          <img className="comboMachine" src={img.chopeira} alt="Chopeira Rodada" loading="lazy" decoding="async"/>
+          <img className="comboKeg" src={img.barril} alt="Barril Rodada" loading="lazy" decoding="async"/>
         </div>
         <div className="eventSolutionCopy"><h3>Suporte para servir</h3><p>Estrutura preparada para operação, manutenção e troca de barris quando necessário.</p></div>
       </Reveal>
@@ -319,15 +319,15 @@ export default function RodadaSite(){
 
    <section className="cold section">
     <Reveal><p className="eyebrow">04 / DESTAQUE RODADA</p><h2>GELADA.<br/>DO JEITO<br/><em>CERTO.</em></h2><p className="lead">Chopp gelado, identidade Rodada e formatos para diferentes momentos.</p><a className="coldCta" href="#chopes">VER TODOS OS CHOPES <Arrow/></a></Reveal>
-    <Reveal className="coldStage"><span>1,5<small>L</small></span><div className="rings"/><img src={img.pilsen} alt="PET Rodada Pilsen"/></Reveal>
+    <Reveal className="coldStage"><span>1,5<small>L</small></span><div className="rings"/><img src={img.pilsen} alt="PET Rodada Pilsen" loading="lazy" decoding="async"/></Reveal>
    </section>
 
    <section className="lifestyle section">
     <Reveal className="sectionTitle"><div><p className="eyebrow dark">05 / FEITA PARA COMPARTILHAR</p><h2>TODA HISTÓRIA BOA<br/>COMEÇA COM <em>UMA RODADA.</em></h2></div></Reveal>
     <div className="lifeGrid">
-      {mobile?<div className="lifeMain scrollPhoto"><strong>BORA<br/>BRINDAR?</strong><img src={img.people} alt="Pessoa brindando com Rodada"/></div>:<ScrollPhoto className="lifeMain scrollPhoto"><strong>BORA<br/>BRINDAR?</strong><img src={img.people} alt="Pessoa brindando com Rodada"/></ScrollPhoto>}
+      {mobile?<div className="lifeMain scrollPhoto"><strong>BORA<br/>BRINDAR?</strong><img src={img.people} alt="Pessoa brindando com Rodada" loading="lazy" decoding="async"/></div>:<ScrollPhoto className="lifeMain scrollPhoto"><strong>BORA<br/>BRINDAR?</strong><img src={img.people} alt="Pessoa brindando com Rodada" loading="lazy" decoding="async"/></ScrollPhoto>}
       {mobile?<div className="lifeQuote scrollPhoto"><span>MAIS<br/>MUITO</span><p>Mais encontro. Mais conversa. Mais motivo para reunir.</p></div>:<ScrollPhoto className="lifeQuote scrollPhoto"><span>MAIS<br/>MUITO</span><p>Mais encontro. Mais conversa. Mais motivo para reunir.</p></ScrollPhoto>}
-      {mobile?<div className="lifeProduct scrollPhoto"><img src={img.copo} alt="Copo Rodada"/><span>PURO MALTE · PURA RODADA</span></div>:<ScrollPhoto className="lifeProduct scrollPhoto"><img src={img.copo} alt="Copo Rodada"/><span>PURO MALTE · PURA RODADA</span></ScrollPhoto>}
+      {mobile?<div className="lifeProduct scrollPhoto"><img src={img.copo} alt="Copo Rodada" loading="lazy" decoding="async"/><span>PURO MALTE · PURA RODADA</span></div>:<ScrollPhoto className="lifeProduct scrollPhoto"><img src={img.copo} alt="Copo Rodada" loading="lazy" decoding="async"/><span>PURO MALTE · PURA RODADA</span></ScrollPhoto>}
     </div>
    </section>
 
