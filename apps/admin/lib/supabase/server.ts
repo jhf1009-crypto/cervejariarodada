@@ -8,6 +8,6 @@ export async function createClient(){
  const store=await cookies();
  return createServerClient(url,key,{cookies:{
   getAll(){return store.getAll();},
-  setAll(values){try{values.forEach(({name,value,options})=>store.set(name,value,options));}catch{}}
+  setAll(values:{name:string;value:string;options?:Record<string,unknown>}[]){try{values.forEach(({name,value,options})=>store.set(name,value,options as never));}catch{}}
  }});
 }
