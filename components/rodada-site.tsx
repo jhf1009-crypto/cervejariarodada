@@ -10,8 +10,8 @@ const img={
  pilsen:'https://static.wixstatic.com/media/e65861_73ba84d3d64d4edfbaa88396fd0d36af~mv2.png',
  gold:'https://static.wixstatic.com/media/e65861_1fc2670a30b842c88522c016dff4ce1d~mv2.png',
  people:'https://static.wixstatic.com/media/e65861_8a0413f6b6da41e9893375e88c4b05d8~mv2.png',
- lager15:'/products/temp/chopp-lager-15l.svg',
- pilsen15:'/products/temp/chopp-pilsen-15l.svg',
+ lager15:'/products/temp/chopp-15l-user.webp',
+ pilsen15:'/products/temp/chopp-15l-user.webp',
  lager700:'/products/temp/chopp-lager-700ml.svg',
  pilsen700:'/products/temp/chopp-pilsen-700ml.svg',
  longneck:'/products/temp/cerveja-long-neck.svg'
