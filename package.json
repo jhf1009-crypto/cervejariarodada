@@ -9,7 +9,12 @@
     "build": "next build",
     "build:all": "pnpm -r build",
     "typecheck": "tsc --noEmit",
-    "typecheck:all": "pnpm -r typecheck"
+    "typecheck:all": "pnpm -r typecheck",
+    "build:site": "next build",
+    "typecheck:site": "tsc --noEmit",
+    "build:admin": "npm --prefix apps/admin run build",
+    "typecheck:admin": "npm --prefix apps/admin run typecheck",
+    "verify": "npm run typecheck:site && npm run build:site && npm run typecheck:admin && npm run build:admin"
   },
   "dependencies": {
     "framer-motion": "14.0.0",
@@ -18,8 +23,7 @@
     "react-dom": "19.3.0",
     "gsap": "3.13.0",
     "@supabase/supabase-js": "2.57.4",
-    "zod": "4.1.11",
-    "@supabase/ssr": "0.7.0"
+    "zod": "4.1.11"
   },
   "devDependencies": {
     "@types/node": "26.6.4",
