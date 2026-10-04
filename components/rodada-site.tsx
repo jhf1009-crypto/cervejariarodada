@@ -373,7 +373,7 @@ export default function RodadaSite(){
 
   {orderOpen&&<div className="orderOverlay" role="presentation" onMouseDown={e=>{if(e.target===e.currentTarget)setOrderOpen(false)}}>
     <motion.aside className="orderPanel" role="dialog" aria-modal="true" aria-labelledby="order-title" initial={reduced?false:{opacity:0,x:48}} animate={{opacity:1,x:0}} transition={{duration:.28,ease:[.16,1,.3,1]}}>
-      <div className="orderPanelTop"><div><small>FAÇA SUA ESCOLHA</small><h2 id="order-title">QUAL DAS NOSSAS<br/><em>MARAVILHAS</em> VOCÊ VAI<br/>LEVAR HOJE?</h2></div><button type="button" className="orderClose" onClick={()=>setOrderOpen(false)} aria-label="Fechar painel">×</button></div>
+      <div className="orderPanelTop"><div><small>FAÇA SUA ESCOLHA</small><h2 id="order-title">QUAL DAS NOSSAS<br/><em>RODADAS</em> VOCÊ VAI<br/>LEVAR HOJE?</h2></div><button type="button" className="orderClose" onClick={()=>setOrderOpen(false)} aria-label="Fechar painel">×</button></div>
       <p className="orderIntro">Escolha o produto e, em seguida, continuamos o atendimento pelo WhatsApp com sua seleção já preenchida.</p>
       <div className="orderOptions">
         {['Chopes','Cervejas'].map(group=><div className="orderGroup" key={group}>
