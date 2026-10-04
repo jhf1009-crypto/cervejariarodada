@@ -12,8 +12,8 @@ const img={
  people:'https://static.wixstatic.com/media/e65861_8a0413f6b6da41e9893375e88c4b05d8~mv2.png',
  lager15:'/products/temp/chopp-15l-user.webp',
  pilsen15:'/products/temp/chopp-15l-user.webp',
- lager700:'/products/temp/chopp-lager-700ml.svg',
- pilsen700:'/products/temp/chopp-pilsen-700ml.svg',
+ lager700:'/products/temp/chopp-700ml-user.webp',
+ pilsen700:'/products/temp/chopp-700ml-user.webp',
  longneck:'/products/temp/cerveja-long-neck.svg'
 };
 
