@@ -19,7 +19,7 @@ const canData='data:image/webp;base64,UklGRrwLAABXRUJQVlA4ILALAADwMQCdASqXAG4APk
 // Imagens demonstrativas temporárias: substituir pelos arquivos oficiais quando forem disponibilizados.
 const choppProducts=[
  {name:'Chopp Lager',size:'1,5 L',meta:'PET 1,5 L',flavor:'LAGER',image:img.lager15,tone:'lager',photo:true},
- {name:'Chopp Pilsen',size:'1,5 L',meta:'PET 1,5 L',flavor:'PILSEN',image:img.pilsen15,tone:'pilsen',photo:true},
+ {name:'Chopp Pilsen',size:'1,5 L',meta:'PET 1,5 L',flavor:'PILSEN',image:'/events/Garrafa%20Gelada%20de%20Cervejaria%20Rodada.png',tone:'pilsen',photo:true},
  {name:'Chopp Session IPA',size:'1,5 L',meta:'PET 1,5 L',flavor:'SESSION IPA',image:'/events/imagem%20generica%20chopp%201%2C5L.jpg',tone:'ipa',photo:true},
  {name:'Chopp Lager',size:'700 ml',meta:'PET 700 ML',flavor:'LAGER',image:'/events/imagem%20generica%20chopp%20700ml.jpg',tone:'lager',photo:true},
  {name:'Chopp Pilsen',size:'700 ml',meta:'PET 700 ML',flavor:'PILSEN',image:'/events/imagem%20generica%20chopp%20700ml.jpg',tone:'pilsen',photo:true},
@@ -94,6 +94,7 @@ function DesktopCameraJourney(){
 
     <div className="cameraRig" aria-hidden="true">
       <motion.div className="cameraProduct cameraPilsen" style={{x:safe(pilsenX,0),y:safe(pilsenY,0),scale:safe(pilsenScale,1),rotate:safe(pilsenRotate,-5),opacity:safe(pilsenOpacity,1)}}>
+        <img src="/events/Garrafa%20Gelada%20de%20Cervejaria%20Rodada.png" alt="" loading="lazy" decoding="async"/>
         <span>PILSEN</span>
       </motion.div>
       <motion.div className="cameraProduct cameraIpa" style={{x:safe(ipaX,70),y:safe(ipaY,0),scale:safe(ipaScale,.82),rotate:safe(ipaRotate,8),opacity:safe(ipaOpacity,.45)}}>
@@ -137,6 +138,7 @@ function MobileCameraJourney(){
     <div className="cameraTopline"><span>SCROLL EXPERIENCE</span><span>PURO MALTE · OESTE DA BAHIA</span></div>
     <div className="cameraRig" aria-hidden="true">
       <motion.div className="cameraProduct cameraPilsen" style={{opacity:pilsenOpacity,scale:pilsenScale}}>
+        <img src="/events/Garrafa%20Gelada%20de%20Cervejaria%20Rodada.png" alt="" loading="lazy" decoding="async"/>
         <span>PILSEN</span>
       </motion.div>
       <motion.div className="cameraProduct cameraIpa" style={{opacity:ipaOpacity,scale:ipaScale}}>
