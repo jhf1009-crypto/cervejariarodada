@@ -380,7 +380,7 @@ export default function RodadaSite(){
 
    <section className="team section" id="equipe">
      <Reveal className="teamCopy"><p className="eyebrow">06 / QUEM FAZ ACONTECER</p><h2>CONHEÇA<br/>NOSSA <em>EQUIPE.</em></h2><p>Por trás de cada produto Rodada existe uma equipe comprometida com qualidade, dedicação e paixão pelo que faz. Nosso trabalho é levar sabor, experiência e excelência para cada momento especial dos nossos clientes.</p><span className="signature">GENTE BOA FAZENDO UMA RODADA AINDA MELHOR.</span></Reveal>
-     <Reveal className="teamPhoto"><div className="teamImageFrame"><img src="/team/equipe-rodada-hq.webp" alt="Equipe Rodada reunida" loading="lazy" decoding="async"/><div><small>GENTE QUE FAZ A RODADA ACONTECER</small><strong>Qualidade, cuidado e presença em cada encontro.</strong></div></div><span>CERVEJARIA RODADA · LUÍS EDUARDO MAGALHÃES · BA</span></Reveal>
+     <Reveal className="teamPhoto"><div className="teamImageFrame"><img src="/events/image.png" alt="Equipe Rodada reunida" loading="lazy" decoding="async"/><div><small>GENTE QUE FAZ A RODADA ACONTECER</small><strong>Qualidade, cuidado e presença em cada encontro.</strong></div></div><span>CERVEJARIA RODADA · LUÍS EDUARDO MAGALHÃES · BA</span></Reveal>
    </section>
 
    <section className="contact section" id="contato">
