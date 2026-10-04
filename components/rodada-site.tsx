@@ -29,7 +29,7 @@ const choppProducts=[
 
 const beerProducts=[
  {name:'Cerveja Rodada Long Neck',meta:'LONG NECK',image:'/garrafa%20cerveja%20generica%20sem%20fundo.png',tone:'beer-pilsen'},
- {name:'Cerveja Rodada Lata',meta:'LATA',image:canData,tone:'beer-lager'}
+ {name:'Cerveja Rodada Lata',meta:'LATA',image:'/events/image.png',tone:'beer-lager'}
 ];
 
 const orderProducts=[
