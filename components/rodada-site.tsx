@@ -193,7 +193,7 @@ export default function RodadaSite(){
     <a href="#chopes" onClick={()=>setMenu(false)}>Chopes</a><a href="#cervejas" onClick={()=>setMenu(false)}>Cervejas</a><a href="#eventos" onClick={()=>setMenu(false)}>Eventos</a><a href="#equipe" onClick={()=>setMenu(false)}>A Rodada</a><a href="#contato" onClick={()=>setMenu(false)}>Contato</a>
    </nav>
    <a href={wa('Olá! Gostaria de fazer um pedido na Cervejaria Rodada.')} target="_blank" rel="noreferrer" className="navCta">PEDIR PELO WHATSAPP <Arrow/></a>
-   <button type="button" className="menu" onClick={()=>setMenu(!menu)} aria-label="Abrir menu" aria-expanded={menu} aria-controls="menu-principal"><i/><i/></button>
+   <button type="button" className="menu" onClick={()=>setMenu(!menu)} aria-label={menu?'Fechar menu':'Abrir menu'} aria-expanded={menu} aria-controls="menu-principal"><i/><i/></button>
   </header>
 
   <main id="conteudo">
