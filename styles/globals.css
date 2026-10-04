@@ -328,3 +328,9 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
  .orderGrid{grid-template-columns:1fr}.orderOption{min-height:82px;grid-template-columns:56px 1fr 28px}.orderThumb{width:56px;height:62px}.orderOptionCopy b{font-size:20px}
  .orderFooter{bottom:-18px;padding:18px 0;grid-template-columns:1fr}.orderContinue{width:100%}
 }
+
+.eventSolutionLink{display:flex;flex-direction:column;height:100%;color:inherit;text-decoration:none}
+.eventSolutionLink .eventSolutionVisual{flex:1}
+.eventSolutionAction{display:inline-flex;align-items:center;gap:10px;margin-top:13px;font-size:8px;font-weight:900;letter-spacing:.8px;color:var(--gold)}
+.eventSolutionService{cursor:pointer}
+.eventSolutionService:focus-within{outline:2px solid var(--gold);outline-offset:4px}
