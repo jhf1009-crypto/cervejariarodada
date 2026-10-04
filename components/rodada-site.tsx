@@ -32,7 +32,7 @@ const WHATSAPP='557798140440';
 const wa=(message:string)=>'https://wa.me/'+WHATSAPP+'?text='+encodeURIComponent(message);
 
 function Arrow(){return <span aria-hidden>↗</span>}
-function Reveal({children,className=''}:{children:React.ReactNode,className?:string}){return <div data-reveal className={className}>{children}</div>}
+function Reveal({children,className='',...props}:React.HTMLAttributes<HTMLDivElement>){return <div data-reveal className={className} {...props}>{children}</div>}
 
 function useIsMobile(){
  const [mobile,setMobile]=useState(false);
