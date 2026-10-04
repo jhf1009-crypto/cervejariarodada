@@ -1,0 +1,7 @@
+{
+  "name":"@rodada/site",
+  "version":"2.1.0",
+  "private":true,
+  "description":"Target package for the public site. During the compatibility phase the production app remains at repository root to avoid breaking the current Vercel deployment.",
+  "scripts":{"migration-status":"echo Public site still runs from repository root until Vercel cutover"}
+}
