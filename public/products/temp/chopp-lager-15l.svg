@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="1300" viewBox="0 0 900 1300" role="img" aria-label="PET de chopp Lager 1,5 L">
+<defs>
+  <linearGradient id="plastic" x1="0" x2="1"><stop offset="0" stop-color="#edfaff" stop-opacity=".35"/><stop offset=".18" stop-color="#fff" stop-opacity=".78"/><stop offset=".48" stop-color="#bcecff" stop-opacity=".18"/><stop offset=".8" stop-color="#fff" stop-opacity=".56"/><stop offset="1" stop-color="#9fd9ee" stop-opacity=".22"/></linearGradient>
+  <linearGradient id="beer" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f2c95e"/><stop offset=".55" stop-color="#d99516"/><stop offset="1" stop-color="#a85d08"/></linearGradient>
+  <linearGradient id="shine" x1="0" x2="1"><stop offset="0" stop-color="#fff" stop-opacity=".72"/><stop offset=".35" stop-color="#fff" stop-opacity=".08"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+</defs>
+<ellipse cx="450" cy="1170" rx="235" ry="38" fill="#09243a" opacity=".16"/>
+<rect x="360" y="54" width="180" height="56" rx="14" fill="#0c3150"/>
+<path d="M375 250 Q345 285 270 290 Q225 325 225 390 L225 990 Q225 1110 335 1110 L565 1110 Q675 1110 675 990 L675 390 Q675 325 630 290 Q555 285 525 250 Z" fill="url(#plastic)" stroke="#d9f4ff" stroke-opacity=".65" stroke-width="4"/>
+<path d="M385 95 H515 V250 H385 Z" fill="url(#plastic)" stroke="#d9f4ff" stroke-opacity=".6" stroke-width="3"/>
+<path d="M249 425 H651 V1018 Q651 1066 595 1072 H305 Q249 1066 249 1018 Z" fill="url(#beer)" opacity=".94"/>
+<path d="M249 425 H651 V490 H249 Z" fill="#f4e6bd" opacity=".78"/>
+<path d="M283 360 C315 315,335 295,375 277 V1010 C341 1040,315 1048,283 1040 Z" fill="url(#shine)" opacity=".72"/>
+<rect x="261" y="485" width="378" height="245" rx="18" fill="#f7f3e8" opacity=".98"/>
+<rect x="261" y="485" width="378" height="12" rx="6" fill="#d0a84c"/>
+<rect x="261" y="718" width="378" height="12" rx="6" fill="#d0a84c"/>
+<text x="450" y="555" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="50" font-weight="800" fill="#0b3150">RODADA</text>
+<text x="450" y="603" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="24" font-weight="700" letter-spacing="4" fill="#d0a84c">LAGER</text>
+<text x="450" y="649" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="28" font-weight="700" fill="#577184">1,5 L</text>
+<path d="M295 1048 Q450 1020 605 1048" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="8"/>
+</svg>
