@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="1300" viewBox="0 0 900 1300" role="img" aria-label="PET de chopp Pilsen 700 ml">
+<defs>
+  <linearGradient id="plastic" x1="0" x2="1"><stop offset="0" stop-color="#edfaff" stop-opacity=".35"/><stop offset=".18" stop-color="#fff" stop-opacity=".78"/><stop offset=".48" stop-color="#bcecff" stop-opacity=".18"/><stop offset=".8" stop-color="#fff" stop-opacity=".56"/><stop offset="1" stop-color="#9fd9ee" stop-opacity=".22"/></linearGradient>
+  <linearGradient id="beer" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f6d470"/><stop offset=".55" stop-color="#d99516"/><stop offset="1" stop-color="#a85d08"/></linearGradient>
+  <linearGradient id="shine" x1="0" x2="1"><stop offset="0" stop-color="#fff" stop-opacity=".72"/><stop offset=".35" stop-color="#fff" stop-opacity=".08"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+</defs>
+<ellipse cx="450" cy="1110" rx="180" ry="38" fill="#09243a" opacity=".16"/>
+<rect x="378" y="142" width="144" height="52" rx="14" fill="#0c3150"/>
+<path d="M390 335 Q360 370 330 395 Q285 430 285 495 L285 910 Q285 1030 395 1030 L505 1030 Q615 1030 615 910 L615 495 Q615 430 570 395 Q540 370 510 335 Z" fill="url(#plastic)" stroke="#d9f4ff" stroke-opacity=".65" stroke-width="4"/>
+<path d="M400 180 H500 V335 H400 Z" fill="url(#plastic)" stroke="#d9f4ff" stroke-opacity=".6" stroke-width="3"/>
+<path d="M309 530 H591 V938 Q591 986 535 992 H365 Q309 986 309 938 Z" fill="url(#beer)" opacity=".94"/>
+<path d="M309 530 H591 V595 H309 Z" fill="#f4e6bd" opacity=".78"/>
+<path d="M343 465 C375 420,395 400,435 382 V930 C401 960,375 968,343 960 Z" fill="url(#shine)" opacity=".72"/>
+<rect x="321" y="535" width="258" height="205" rx="18" fill="#f7f3e8" opacity=".98"/>
+<rect x="321" y="535" width="258" height="12" rx="6" fill="#0a76bb"/>
+<rect x="321" y="728" width="258" height="12" rx="6" fill="#0a76bb"/>
+<text x="450" y="605" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="40" font-weight="800" fill="#0b3150">RODADA</text>
+<text x="450" y="653" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="20" font-weight="700" letter-spacing="4" fill="#0a76bb">PILSEN</text>
+<text x="450" y="699" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="22" font-weight="700" fill="#577184">700 ml</text>
+<path d="M355 968 Q450 940 545 968" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="8"/>
+</svg>
