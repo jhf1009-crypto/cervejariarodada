@@ -21,7 +21,7 @@ export const fallbackSiteData:PublicSiteData={
     deliveryArea:null,leadTimes:null,fees:null,paymentMethods:null,story:null,seo:null
   },
   faqs:[],
-  team:[],
+  team:[{id:'fallback-team',name:'Equipe Rodada',role:null,photoUrl:'/team/equipe-rodada-hq.webp',photoAlt:'Equipe Rodada reunida'}],
   legalPages:[]
 };
 
