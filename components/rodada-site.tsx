@@ -2,50 +2,41 @@
 
 import {useEffect,useState} from 'react';
 import EventLeadForm from './event-lead-form';
+import {formatVolume} from '@/lib/fallback-data';
+import type {PublicProduct,PublicSiteData} from '@/lib/types';
 
-const img={
- barril:'https://static.wixstatic.com/media/e65861_9902f8972f124cc99b1297a5fc9f6834~mv2.png',
- chopeira:'https://static.wixstatic.com/media/e65861_59be33e4eb2d4667934007c12dac8bb8~mv2.png',
- copo:'https://static.wixstatic.com/media/e65861_0a067da5ca374260bd7d3f63c42d6169~mv2.png',
- people:'https://static.wixstatic.com/media/e65861_8a0413f6b6da41e9893375e88c4b05d8~mv2.png',
- lager15:'/products/temp/chopp-15l-user.webp',
- pilsen15:'/products/temp/chopp-15l-user.webp',
- lager700:'/products/temp/chopp-700ml-user.webp',
- pilsen700:'/products/temp/chopp-700ml-user.webp',
+const placeholder={
+ src:'/placeholders/rodada-placeholder-960.webp',
+ srcSet:'/placeholders/rodada-placeholder-480.webp 480w, /placeholders/rodada-placeholder-960.webp 960w, /placeholders/rodada-placeholder-1440.webp 1440w'
 };
 
-const canData='data:image/webp;base64,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';
+function PlaceholderImage({alt,className='',sizes='(max-width: 760px) 92vw, 50vw',priority=false}:{alt:string;className?:string;sizes?:string;priority?:boolean}){
+ return <img src={placeholder.src} srcSet={placeholder.srcSet} sizes={sizes} width={960} height={720} alt={alt} className={className} loading={priority?'eager':'lazy'} decoding="async" fetchPriority={priority?'high':'auto'}/>;
+}
 
-// Imagens demonstrativas temporárias: substituir pelos arquivos oficiais quando forem disponibilizados.
-const choppProducts=[
- {name:'Chopp Lager',size:'1,5 L',meta:'PET 1,5 L',flavor:'LAGER',image:'/events/image.png',tone:'lager',photo:true},
- {name:'Chopp Pilsen',size:'1,5 L',meta:'PET 1,5 L',flavor:'PILSEN',image:'/events/Garrafa%20Gelada%20de%20Cervejaria%20Rodada.png',tone:'pilsen',photo:true},
- {name:'Chopp Session IPA',size:'1,5 L',meta:'PET 1,5 L',flavor:'SESSION IPA',image:'/events/imagem%20generica%20chopp%201%2C5L.jpg',tone:'ipa',photo:true},
- {name:'Chopp Lager',size:'700 ml',meta:'PET 700 ML',flavor:'LAGER',image:'/events/image.png',tone:'lager',photo:true},
- {name:'Chopp Pilsen',size:'700 ml',meta:'PET 700 ML',flavor:'PILSEN',image:'/events/imagem%20generica%20chopp%20700ml.jpg',tone:'pilsen',photo:true},
- {name:'Chopp Session IPA',size:'700 ml',meta:'PET 700 ML',flavor:'SESSION IPA',image:'/events/imagem%20generica%20chopp%20700ml.jpg',tone:'ipa',photo:true}
-];
-
-const beerProducts=[
- {name:'Cerveja Rodada Long Neck',meta:'LONG NECK',image:'/garrafa%20cerveja%20generica%20sem%20fundo.png',tone:'beer-pilsen'},
- {name:'Cerveja Rodada Lata',meta:'LATA',image:'/events/image.png',tone:'beer-lager'}
-];
-
-const orderProducts=[
- ...choppProducts.map(item=>({id:item.name+' '+item.size,name:item.name+' '+item.size,meta:item.flavor+' · '+item.size,image:item.image,group:'Chopes'})),
- ...beerProducts.map(item=>({id:item.name,name:item.name,meta:item.meta,image:item.image,group:'Cervejas'})),
- {id:'Barril de Chopp Rodada 30 L',name:'Barril de Chopp Rodada 30 L',meta:'BARRIL 30 L',image:img.barril,group:'Barril + Chopeira'},
- {id:'Barril de Chopp Rodada 50 L',name:'Barril de Chopp Rodada 50 L',meta:'BARRIL 50 L',image:img.barril,group:'Barril + Chopeira'},
- {id:'Chopeira Rodada',name:'Chopeira Rodada',meta:'CHOPEIRA PARA EVENTOS',image:img.chopeira,group:'Barril + Chopeira'}
-];
-
-const WHATSAPP='557798140440';
-const wa=(message:string)=>'https://wa.me/'+WHATSAPP+'?text='+encodeURIComponent(message);
-
+// Fotos oficiais ausentes usam placeholder neutro até substituição confirmada.
 function Arrow(){return <span aria-hidden>↗</span>}
 function Reveal({children,className='',...props}:React.HTMLAttributes<HTMLDivElement>){return <div className={className} {...props}>{children}</div>}
 
-export default function RodadaSite(){
+function productTone(product:PublicProduct){
+ const key=(product.style||product.name).toLowerCase();
+ if(key.includes('pilsen'))return 'pilsen';
+ if(key.includes('ipa'))return 'ipa';
+ if(key.includes('lager'))return 'lager';
+ return product.category==='cerveja'?'beer-lager':'lager';
+}
+
+function mediaFor(product:PublicProduct){
+ const image=product.images[0];
+ return {src:image?.url||placeholder.src,alt:image?.alt||('Foto oficial de '+product.name+' pendente')};
+}
+
+function MediaImage({src,alt,className='',sizes='(max-width: 760px) 80vw, 40vw'}:{src:string;alt:string;className?:string;sizes?:string}){
+ if(src.startsWith('/placeholders/'))return <PlaceholderImage alt={alt} className={className} sizes={sizes}/>;
+ return <img src={src} alt={alt} className={className} loading="lazy" decoding="async"/>;
+}
+
+export default function RodadaSite({data}:{data:PublicSiteData}){
  const [menu,setMenu]=useState(false);
  const [ageVerified,setAgeVerified]=useState<boolean|null>(null);
  const [cookieChoice,setCookieChoice]=useState<'accepted'|'rejected'|null>(null);
@@ -59,6 +50,25 @@ export default function RodadaSite(){
  const [orderCep,setOrderCep]=useState('');
  const [cepCity,setCepCity]=useState('');
  const [cepStatus,setCepStatus]=useState<'idle'|'loading'|'success'|'error'>('idle');
+ const choppProducts=data.products.filter(product=>product.category==='chope').map(product=>{
+  const media=mediaFor(product);
+  const size=formatVolume(product.volumeMl)||'';
+  return {id:product.id,slug:product.slug,name:product.name,size,meta:[product.packaging,size].filter(Boolean).join(' '),flavor:(product.style||'Chope').toUpperCase(),image:media.src,imageAlt:media.alt,tone:productTone(product),photo:true};
+ });
+ const beerProducts=data.products.filter(product=>product.category==='cerveja').map(product=>{
+  const media=mediaFor(product);
+  return {id:product.id,slug:product.slug,name:product.name,meta:product.packaging||'CERVEJA',image:media.src,imageAlt:media.alt,tone:'beer-'+productTone(product)};
+ });
+ const orderProducts=[
+  ...choppProducts.map(item=>({id:item.name+' '+item.size,name:item.name+' '+item.size,meta:item.flavor+' · '+item.size,image:item.image,imageAlt:item.imageAlt,group:'Chopes'})),
+  ...beerProducts.map(item=>({id:item.name,name:item.name,meta:item.meta,image:item.image,imageAlt:item.imageAlt,group:'Cervejas'})),
+  {id:'Barril de Chopp Rodada 30 L',name:'Barril de Chopp Rodada 30 L',meta:'BARRIL 30 L',image:placeholder.src,imageAlt:'Foto oficial do barril Rodada pendente',group:'Barril + Chopeira'},
+  {id:'Barril de Chopp Rodada 50 L',name:'Barril de Chopp Rodada 50 L',meta:'BARRIL 50 L',image:placeholder.src,imageAlt:'Foto oficial do barril Rodada pendente',group:'Barril + Chopeira'},
+  {id:'Chopeira Rodada',name:'Chopeira Rodada',meta:'CHOPEIRA PARA EVENTOS',image:placeholder.src,imageAlt:'Foto oficial da chopeira Rodada pendente',group:'Barril + Chopeira'}
+ ];
+ const whatsapp=(data.settings.whatsapp||'').replace(/\D/g,'');
+ const wa=(message:string)=>whatsapp?'https://wa.me/'+whatsapp+'?text='+encodeURIComponent(message):'#contato';
+ const hasPracticalInfo=Boolean(data.settings.address||data.settings.openingHours||data.settings.deliveryArea||data.settings.leadTimes||data.settings.fees||data.settings.paymentMethods);
 
  useEffect(()=>{
   const age=window.localStorage.getItem('rodada_age_verified');
@@ -155,7 +165,7 @@ export default function RodadaSite(){
   <header className="nav">
    <a href="#inicio" className="brand" aria-label="Cervejaria Rodada — início"><b>RODADA</b><small>PURO MALTE</small></a>
    <nav id="menu-principal" className={menu?'open':''} aria-label="Navegação principal">
-    <a href="#chopes" onClick={()=>setMenu(false)}>Chopes</a><a href="#cervejas" onClick={()=>setMenu(false)}>Cervejas</a><a href="#eventos" onClick={()=>setMenu(false)}>Eventos</a><a href="#equipe" onClick={()=>setMenu(false)}>A Rodada</a><a href="#contato" onClick={()=>setMenu(false)}>Contato</a>
+    <a href="#chopes" onClick={()=>setMenu(false)}>Chopes</a><a href="#cervejas" onClick={()=>setMenu(false)}>Cervejas</a><a href="#eventos" onClick={()=>setMenu(false)}>Eventos</a>{(data.team.length>0||data.settings.story)&&<a href={data.team.length>0?'#equipe':'#historia'} onClick={()=>setMenu(false)}>A Rodada</a>}<a href="#contato" onClick={()=>setMenu(false)}>Contato</a>
    </nav>
    <button type="button" className="navCta" onClick={()=>openOrder()}>PEDIR PELO WHATSAPP <Arrow/></button>
    <button type="button" className="menu" onClick={()=>setMenu(!menu)} aria-label={menu?'Fechar menu':'Abrir menu'} aria-expanded={menu} aria-controls="menu-principal"><i/><i/></button>
@@ -173,14 +183,14 @@ export default function RodadaSite(){
     <div className="heroStage">
       <div className="orbit"/>
       <span className="ghost">PURO<br/>MALTE</span>
-      <img src={img.barril} alt="Barril de Chopp Rodada" className="heroKeg" loading="eager" decoding="async" fetchPriority="high"/>
+      <PlaceholderImage alt="Foto oficial do barril Rodada pendente" className="heroKeg" priority sizes="(max-width: 760px) 72vw, 45vw"/>
 
       <div className="seal">DO OESTE<br/><b>DA BAHIA</b></div>
     </div>
     <div className="heroFoot"><span>↓ A próxima Rodada começa aqui</span><span>BEBA COM MODERAÇÃO.</span></div>
    </section>
 
-   <section className="products section" id="chopes" aria-labelledby="chopes-title">
+   {choppProducts.length>0&&<section className="products section" id="chopes" aria-labelledby="chopes-title">
     <Reveal className="sectionTitle commerceTitle">
       <div><p className="eyebrow dark">01 / CHOPES RODADA</p><h2 id="chopes-title">ESCOLHA SEU<br/><em>CHOPP RODADA.</em></h2></div>
       <div className="sectionIntro"><p>Lager, Pilsen e Session IPA em formatos práticos para levar para casa ou reunir a turma.</p><a href={wa('Olá! Gostaria de saber quais chopes Rodada estão disponíveis hoje.')} target="_blank" rel="noreferrer">Consultar disponibilidade <Arrow/></a></div>
@@ -192,17 +202,17 @@ export default function RodadaSite(){
           <div className="variationVisual">
             <span className="variationFlavor" aria-hidden="true">{item.flavor}</span>
             <div className={item.photo?'mockBottle photoAsset':'mockBottle'}>
-              <img src={item.image} alt={item.name+' '+item.size} loading="lazy" decoding="async"/>
+              <MediaImage src={item.image} alt={item.imageAlt}/>
               {item.photo?null:<div className="mockLabel"><b>RODADA</b><small>{item.flavor}</small><em>{item.size}</em></div>}
             </div>
           </div>
-          <div className="variationBottom"><div><h3>{item.name}</h3><p>{item.size} · consulte disponibilidade</p><a className="productDetailLink" href={'/produtos/'+(item.name+'-'+item.size).toLowerCase().replaceAll(' ','-').replaceAll(',','').replaceAll('ó','o')}>VER DETALHES <Arrow/></a></div><button type="button" className="cardAction" onClick={()=>openOrder(item.name+' '+item.size)} aria-label={'Pedir '+item.name+' '+item.size}>PEDIR <Arrow/></button></div>
+          <div className="variationBottom"><div><h3>{item.name}</h3><p>{item.size} · consulte disponibilidade</p><a className="productDetailLink" href={'/produtos/'+item.slug}>VER DETALHES <Arrow/></a></div><button type="button" className="cardAction" onClick={()=>openOrder(item.name+' '+item.size)} aria-label={'Pedir '+item.name+' '+item.size}>PEDIR <Arrow/></button></div>
         </Reveal>
       ))}
     </div>
-   </section>
+   </section>}
 
-   <section className="beerSection section" id="cervejas" aria-labelledby="cervejas-title">
+   {beerProducts.length>0&&<section className="beerSection section" id="cervejas" aria-labelledby="cervejas-title">
     <Reveal className="sectionTitle commerceTitle">
       <div><p className="eyebrow dark">02 / CERVEJAS RODADA</p><h2 id="cervejas-title">A RODADA<br/><em>TAMBÉM EM CERVEJA.</em></h2></div>
       <div className="sectionIntro"><p>Long neck ou lata: escolha o formato e consulte a disponibilidade atual diretamente com a Rodada.</p><a href={wa('Olá! Gostaria de saber quais cervejas Rodada estão disponíveis.')} target="_blank" rel="noreferrer">Ver disponibilidade <Arrow/></a></div>
@@ -210,12 +220,12 @@ export default function RodadaSite(){
     <div className="beerGrid">
       {beerProducts.map((item,index)=>(
         <Reveal key={item.name} className={'beerCard '+item.tone}>
-          <div className="beerCopy"><span>0{index+1} / 02 · {item.meta}</span><h3>{item.name}</h3><p>Uma nova forma de levar a identidade Rodada para diferentes momentos.</p><a className="productDetailLink" href={'/produtos/'+item.name.toLowerCase().replaceAll(' ','-')}>VER DETALHES <Arrow/></a><button type="button" className="beerOrderButton" onClick={()=>openOrder(item.name)}>PEDIR PELO WHATSAPP <Arrow/></button></div>
-          <div className="beerVisual"><span aria-hidden="true">{item.meta}</span>{item.image&&<img src={item.image} alt={item.name} loading="lazy" decoding="async"/>}</div>
+          <div className="beerCopy"><span>0{index+1} / 02 · {item.meta}</span><h3>{item.name}</h3><p>Uma nova forma de levar a identidade Rodada para diferentes momentos.</p><a className="productDetailLink" href={'/produtos/'+item.slug}>VER DETALHES <Arrow/></a><button type="button" className="beerOrderButton" onClick={()=>openOrder(item.name)}>PEDIR PELO WHATSAPP <Arrow/></button></div>
+          <div className="beerVisual"><span aria-hidden="true">{item.meta}</span>{item.image&&<MediaImage src={item.image} alt={item.imageAlt}/>}</div>
         </Reveal>
       ))}
     </div>
-   </section>
+   </section>}
 
    <section className="eventSolutions section" id="eventos" aria-labelledby="eventos-title">
     <Reveal className="eventSolutionsHead">
@@ -231,7 +241,7 @@ export default function RodadaSite(){
         <div className="eventSolutionMeta"><span>01</span><span>CHOPEIRA RODADA</span></div>
         <div className="eventSolutionVisual">
           <span className="eventSolutionWord">CHOPEIRA</span>
-          <img src="/events/Chopeira%20RODADA%20em%20Bar%20Aconchegante.png" alt="Chopeira Rodada em ambiente de evento" loading="lazy" decoding="async"/>
+          <PlaceholderImage alt="Foto oficial da chopeira Rodada pendente"/>
         </div>
         <div className="eventSolutionCopy"><h3>Chopeira Rodada</h3><p>Serviço na temperatura certa, com presença visual da marca e experiência de chopp tirado na hora.</p></div>
       </Reveal>
@@ -240,7 +250,7 @@ export default function RodadaSite(){
         <div className="eventSolutionMeta"><span>02</span><span>BARRIL / KEG</span></div>
         <div className="eventSolutionVisual">
           <span className="eventSolutionWord">BARRIL</span>
-          <img src="/events/Pir%C3%A2mide%20de%20Kegs%20RODADA%20na%20Cervejaria.png" alt="Barris Rodada empilhados no estoque" loading="lazy" decoding="async"/>
+          <PlaceholderImage alt="Foto oficial dos barris Rodada pendente"/>
         </div>
         <div className="eventSolutionCopy"><h3>Barris Rodada</h3><p>Volume para encontros maiores, festas e operações que precisam manter a Rodada fluindo por mais tempo.</p></div>
       </Reveal>
@@ -249,7 +259,7 @@ export default function RodadaSite(){
         <div className="eventSolutionMeta"><span>03</span><span>SUPORTE NO EVENTO</span></div>
         <div className="eventSolutionVisual">
           <span className="eventSolutionWord">KIT</span>
-          <img src="/events/Promotores%20e%20Cerveja%20Artesanal%20ao%20Ar%20Livre.png" alt="Equipe de suporte para servir chopp em eventos" loading="lazy" decoding="async"/>
+          <PlaceholderImage alt="Foto real da equipe em evento pendente"/>
         </div>
         <div className="eventSolutionCopy"><h3>Suporte para servir</h3><p>Equipe Rodada para auxiliar na operação, manutenção e troca de barris quando necessário.</p></div>
       </Reveal>
@@ -259,7 +269,7 @@ export default function RodadaSite(){
           <div className="eventSolutionMeta"><span>04</span><span>ATENDIMENTO</span></div>
           <div className="eventSolutionVisual serviceVisual">
             <span className="eventSolutionWord">EVENTO</span>
-            <img src="/events/Planejamento%20de%20Eventos%20da%20Rodada%20Cervejaria.png" alt="Planejamento de orçamento personalizado da Rodada Cervejaria" loading="lazy" decoding="async"/>
+            <PlaceholderImage alt="Foto real de planejamento de evento pendente"/>
           </div>
           <div className="eventSolutionCopy"><h3>Orçamento personalizado</h3><p>Conte o tipo de evento e a necessidade. A Rodada orienta a estrutura adequada e segue o atendimento pelo WhatsApp.</p><span className="eventSolutionAction">SOLICITAR ORÇAMENTO <Arrow/></span></div>
         </a>
@@ -303,20 +313,37 @@ export default function RodadaSite(){
    <section className="lifestyle section">
     <Reveal className="sectionTitle"><div><p className="eyebrow dark">05 / FEITA PARA COMPARTILHAR</p><h2>TODA HISTÓRIA BOA<br/>COMEÇA COM <em>UMA RODADA.</em></h2></div></Reveal>
     <div className="lifeGrid">
-      <div className="lifeMain scrollPhoto"><strong>BORA<br/>BRINDAR?</strong><img src={img.people} alt="Pessoa brindando com Rodada" loading="lazy" decoding="async"/></div>
+      <div className="lifeMain scrollPhoto"><strong>BORA<br/>BRINDAR?</strong><PlaceholderImage alt="Foto lifestyle oficial da Rodada pendente"/></div>
       <div className="lifeQuote scrollPhoto"><span>MAIS<br/>MUITO</span><p>Mais encontro. Mais conversa. Mais motivo para reunir.</p></div>
-      <div className="lifeProduct scrollPhoto"><img src={img.copo} alt="Copo Rodada" loading="lazy" decoding="async"/><span>PURO MALTE · PURA RODADA</span></div>
+      <div className="lifeProduct scrollPhoto"><PlaceholderImage alt="Foto oficial do copo Rodada pendente"/><span>PURO MALTE · PURA RODADA</span></div>
     </div>
    </section>
 
-   <section className="team section" id="equipe">
-     <Reveal className="teamCopy"><p className="eyebrow">06 / QUEM FAZ ACONTECER</p><h2>CONHEÇA<br/>NOSSA <em>EQUIPE.</em></h2><p>Por trás de cada produto Rodada existe uma equipe comprometida com qualidade, dedicação e paixão pelo que faz. Nosso trabalho é levar sabor, experiência e excelência para cada momento especial dos nossos clientes.</p><span className="signature">GENTE BOA FAZENDO UMA RODADA AINDA MELHOR.</span></Reveal>
-     <Reveal className="teamPhoto"><div className="teamImageFrame"><img src="/events/image.png" alt="Equipe Rodada reunida" loading="lazy" decoding="async"/><div><small>GENTE QUE FAZ A RODADA ACONTECER</small><strong>Qualidade, cuidado e presença em cada encontro.</strong></div></div><span>CERVEJARIA RODADA · LUÍS EDUARDO MAGALHÃES · BA</span></Reveal>
-   </section>
+   {data.settings.story&&<section className="team section" id="historia">
+     <Reveal className="teamCopy"><p className="eyebrow">06 / NOSSA HISTÓRIA</p><h2>DO OESTE<br/>PARA A <em>RODADA.</em></h2><p>{data.settings.story}</p></Reveal>
+   </section>}
+   {data.team.length>0&&<section className="team section" id="equipe">
+     <Reveal className="teamCopy"><p className="eyebrow">07 / QUEM FAZ ACONTECER</p><h2>CONHEÇA<br/>NOSSA <em>EQUIPE.</em></h2></Reveal>
+     <div className="teamMembers">{data.team.map(member=><article key={member.id} className="teamMember">{member.photoUrl&&<MediaImage src={member.photoUrl} alt={member.photoAlt||('Foto de '+member.name)}/>}<h3>{member.name}</h3>{member.role&&<p>{member.role}</p>}</article>)}</div>
+   </section>}
 
+   {hasPracticalInfo&&<section className="practical section" id="informacoes">
+    <p className="eyebrow dark">INFORMAÇÕES PRÁTICAS</p><h2>ANTES DA<br/><em>SUA RODADA.</em></h2>
+    <div className="practicalGrid">
+      {data.settings.address&&<div><small>ONDE ESTAMOS</small><p>{data.settings.address}</p></div>}
+      {data.settings.deliveryArea&&<div><small>ÁREA DE ENTREGA</small><p>{data.settings.deliveryArea}</p></div>}
+      {data.settings.leadTimes&&<div><small>PRAZOS</small><p>{data.settings.leadTimes}</p></div>}
+      {data.settings.fees&&<div><small>TAXAS</small><p>{data.settings.fees}</p></div>}
+      {data.settings.paymentMethods&&<div><small>PAGAMENTO</small><p>{data.settings.paymentMethods}</p></div>}
+    </div>
+   </section>}
+   {data.faqs.length>0&&<section className="faq section" id="faq">
+    <p className="eyebrow dark">DÚVIDAS FREQUENTES</p><h2>FAQ<br/><em>RODADA.</em></h2>
+    <div className="faqList">{data.faqs.map(item=><details key={item.id}><summary>{item.question}</summary><p>{item.answer}</p></details>)}</div>
+   </section>}
    <section className="contact section" id="contato">
     <Reveal><p className="eyebrow dark">07 / FALE COM A RODADA</p><h2>BORA TOMAR<br/>UMA <em>RODADA?</em></h2><p>Fale com a Cervejaria Rodada para consultar produtos, barris, eventos e disponibilidade na sua região.</p></Reveal>
-    <Reveal className="contactBox"><div><small>COMERCIAL</small><strong>(77) 9814-0440</strong></div><button type="button" className="contactOrderButton" onClick={()=>openOrder()}>PEDIR PELO WHATSAPP <Arrow/></button><a href="mailto:contato@cervejariarodada.com.br">contato@cervejariarodada.com.br <Arrow/></a></Reveal>
+    <Reveal className="contactBox">{data.settings.phone&&<div><small>COMERCIAL</small><strong>{data.settings.phone}</strong></div>}<button type="button" className="contactOrderButton" onClick={()=>openOrder()}>PEDIR PELO WHATSAPP <Arrow/></button>{data.settings.email&&<a href={'mailto:'+data.settings.email}>{data.settings.email} <Arrow/></a>}</Reveal>
    </section>
   </main>
 
@@ -334,7 +361,7 @@ export default function RodadaSite(){
               const beer=isBeerOrder(product.id);
               return <div className={'orderProductChoice '+(selected?'selected':'')} key={product.id}>
                 <button type="button" className={'orderOption '+(selected?'selected':'')} onClick={()=>toggleOrder(product.id)} aria-pressed={selected}>
-                  {product.image&&<span className="orderThumb"><img src={product.image} alt="" loading="lazy" decoding="async"/></span>}
+                  {product.image&&<span className="orderThumb"><MediaImage src={product.image} alt={product.imageAlt} sizes="72px"/></span>}
                   <span className="orderOptionCopy"><b>{product.name}</b><small>{product.meta}</small></span>
                   <i aria-hidden>{selected?'✓':'+'}</i>
                 </button>
@@ -385,7 +412,7 @@ export default function RodadaSite(){
   <a className="whatsappFloat" href={wa('Olá! Gostaria de fazer um pedido ou tirar uma dúvida sobre a Cervejaria Rodada.')} target="_blank" rel="noreferrer" aria-label="Falar com a Cervejaria Rodada pelo WhatsApp"><span>WhatsApp</span><b>↗</b></a>
 
   <footer className="footer section">
-   <div className="footerTop"><div><div className="brand big"><b>RODADA</b><small>PURO MALTE</small></div><p>Naturalmente brasileira.<br/>Orgulhosamente do Oeste da Bahia.</p></div><div><b>EXPLORE</b><a href="#chopes">Chopes</a><a href="#cervejas">Cervejas</a><a href="#eventos">Eventos</a><a href="#equipe">A Rodada</a></div><div><b>CONTATO</b><a href="mailto:contato@cervejariarodada.com.br">E-mail</a><a href="https://www.instagram.com/cervejariarodada/" target="_blank" rel="noreferrer">Instagram ↗</a></div></div>
+   <div className="footerTop"><div><div className="brand big"><b>RODADA</b><small>PURO MALTE</small></div><p>Naturalmente brasileira.<br/>Orgulhosamente do Oeste da Bahia.</p></div><div><b>EXPLORE</b><a href="#chopes">Chopes</a><a href="#cervejas">Cervejas</a><a href="#eventos">Eventos</a><a href="#equipe">A Rodada</a></div><div><b>CONTATO</b>{data.settings.email&&<a href={'mailto:'+data.settings.email}>E-mail</a>}{data.settings.socialLinks?.instagram&&<a href={data.settings.socialLinks.instagram} target="_blank" rel="noreferrer">Instagram ↗</a>}{data.legalPages.map(page=><a key={page.slug} href={'/legal/'+page.slug}>{page.title}</a>)}</div></div>
    <div className="footerWord">A VIDA PEDE RODADA.</div>
    <div className="footerBottom"><span>© {new Date().getFullYear()} Cervejaria Rodada Ltda.</span><b>BEBA COM MODERAÇÃO.</b><span>Conteúdo destinado a maiores de 18 anos.</span></div>
   </footer>

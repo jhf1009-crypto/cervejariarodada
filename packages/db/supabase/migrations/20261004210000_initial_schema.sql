@@ -1,4 +1,4 @@
--- Canonical schema draft. Generate the versioned migration with Supabase CLI after project setup.
+-- Rodada initial schema. Apply only to the dedicated Cervejaria Rodada Supabase project.
 create extension if not exists pgcrypto;
 
 create type public.product_category as enum ('chope','cerveja');
@@ -155,10 +155,17 @@ create policy "admins manage settings" on public.site_settings for all to authen
 create policy "admins manage legal" on public.legal_pages for all to authenticated using(public.is_admin(array['owner','editor']::public.admin_role[])) with check(public.is_admin(array['owner','editor']::public.admin_role[]));
 
 
--- Keep updated_at correct on every mutable row.
+-- updated_at automático
 create or replace function public.set_updated_at()
-returns trigger language plpgsql security invoker set search_path=public as $$
-begin new.updated_at=now(); return new; end;
+returns trigger
+language plpgsql
+security invoker
+set search_path = public
+as $$
+begin
+  new.updated_at = now();
+  return new;
+end;
 $$;
 
 create trigger beer_styles_set_updated_at before update on public.beer_styles for each row execute function public.set_updated_at();

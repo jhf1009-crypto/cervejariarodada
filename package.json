@@ -14,7 +14,10 @@
     "typecheck:site": "tsc --noEmit",
     "build:admin": "npm --prefix apps/admin run build",
     "typecheck:admin": "npm --prefix apps/admin run typecheck",
-    "verify": "npm run typecheck:site && npm run build:site && npm run typecheck:admin && npm run build:admin"
+    "verify": "npm run typecheck:site && npm run build:site && npm run typecheck:admin && npm run build:admin",
+    "lint": "npm run lint:site && npm run lint:admin",
+    "lint:site": "eslint app components lib --max-warnings=0",
+    "lint:admin": "eslint apps/admin --max-warnings=0"
   },
   "dependencies": {
     "next": "16.3.8",
@@ -27,6 +30,8 @@
     "@types/node": "26.6.4",
     "@types/react": "19.3.0",
     "@types/react-dom": "19.3.0",
-    "typescript": "7.0.2"
+    "typescript": "5.9.3",
+    "eslint": "9.39.1",
+    "eslint-config-next": "16.3.8"
   }
 }

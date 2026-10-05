@@ -20,6 +20,8 @@ jobs:
           node-version: 22
       - name: Install site dependencies
         run: npm install --no-audit --no-fund
+      - name: Lint public site
+        run: npm run lint:site
       - name: Typecheck public site
         run: npm run typecheck:site
       - name: Build public site
@@ -36,8 +38,12 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
+      - name: Install root lint dependencies
+        run: npm install --no-audit --no-fund
       - name: Install admin dependencies
         run: npm install --prefix apps/admin --no-audit --no-fund
+      - name: Lint admin
+        run: npm run lint:admin
       - name: Typecheck admin
         run: npm --prefix apps/admin run typecheck
       - name: Build admin
