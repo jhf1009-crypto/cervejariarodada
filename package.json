@@ -21,7 +21,8 @@
     "react": "19.3.0",
     "react-dom": "19.3.0",
     "@supabase/supabase-js": "2.57.4",
-    "zod": "4.1.11"
+    "zod": "4.1.11",
+    "@supabase/ssr": "0.7.0"
   },
   "devDependencies": {
     "@types/node": "26.6.4",
