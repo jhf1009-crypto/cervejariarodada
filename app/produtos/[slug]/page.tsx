@@ -45,7 +45,7 @@ export default async function ProductPage({params}:{params:Promise<{slug:string}
    ]}
   ]
  };
- const facts=[
+ const facts:Array<[string,string|null]>=[
   ['ESTILO',product.style],['EMBALAGEM',product.packaging],['VOLUME',volume],['ABV',product.abv==null?null:product.abv+'%'],
   ['IBU',product.ibu==null?null:String(product.ibu)],['COR',product.colorDescription],['TEMPERATURA',product.servingTemperature]
  ].filter(([,value])=>Boolean(value));
