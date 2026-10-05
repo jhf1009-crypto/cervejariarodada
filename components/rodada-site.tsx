@@ -10,17 +10,6 @@ const placeholder={
  srcSet:'/placeholders/rodada-placeholder-480.webp 480w, /placeholders/rodada-placeholder-960.webp 960w, /placeholders/rodada-placeholder-1440.webp 1440w'
 };
 
-const img={
- barril:placeholder.src,
- chopeira:placeholder.src,
- copo:placeholder.src,
- people:placeholder.src,
- lager15:'/products/temp/chopp-15l-user.webp',
- pilsen15:'/products/temp/chopp-15l-user.webp',
- lager700:'/products/temp/chopp-700ml-user.webp',
- pilsen700:'/products/temp/chopp-700ml-user.webp',
-};
-
 function PlaceholderImage({alt,className='',sizes='(max-width: 760px) 92vw, 50vw',priority=false}:{alt:string;className?:string;sizes?:string;priority?:boolean}){
  return <img src={placeholder.src} srcSet={placeholder.srcSet} sizes={sizes} width={960} height={720} alt={alt} className={className} loading={priority?'eager':'lazy'} decoding="async" fetchPriority={priority?'high':'auto'}/>;
 }
