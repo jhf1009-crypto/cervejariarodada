@@ -46,10 +46,14 @@ export default async function ProductPage({params}:{params:Promise<{slug:string}
    ]}
   ]
  };
- const facts:Array<[string,string|null]>=[
-  ['ESTILO',product.style],['EMBALAGEM',product.packaging],['VOLUME',volume],['ABV',product.abv==null?null:product.abv+'%'],
-  ['IBU',product.ibu==null?null:String(product.ibu)],['COR',product.colorDescription],['TEMPERATURA',product.servingTemperature]
- ].filter(([,value])=>Boolean(value));
+ const facts:Array<[string,string|null]>=[];
+ if(product.style)facts.push(['ESTILO',product.style]);
+ if(product.packaging)facts.push(['EMBALAGEM',product.packaging]);
+ if(volume)facts.push(['VOLUME',volume]);
+ if(product.abv!=null)facts.push(['ABV',product.abv+'%']);
+ if(product.ibu!=null)facts.push(['IBU',String(product.ibu)]);
+ if(product.colorDescription)facts.push(['COR',product.colorDescription]);
+ if(product.servingTemperature)facts.push(['TEMPERATURA',product.servingTemperature]);
 
  return <main className="productPage">
   <script type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify(jsonLd)}}/>
