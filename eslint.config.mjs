@@ -8,7 +8,8 @@ export default defineConfig([
   {
     rules:{
       '@next/next/no-img-element':'off',
-      '@typescript-eslint/no-explicit-any':'off'
+      '@typescript-eslint/no-explicit-any':'off',
+      'react-hooks/set-state-in-effect':'off'
     }
   },
   globalIgnores(['.next/**','apps/admin/.next/**','node_modules/**'])
