@@ -1,24 +1,23 @@
 'use client';
 
 import {FormEvent,useEffect,useState} from 'react';
-import {useSearchParams} from 'next/navigation';
 import {createBrowserSupabaseClient} from '../../../lib/supabase/client';
 import styles from '../admin.module.css';
 
 export default function AdminLogin(){
-  const searchParams=useSearchParams();
   const [email,setEmail]=useState('');
   const [password,setPassword]=useState('');
   const [error,setError]=useState('');
   const [loading,setLoading]=useState(false);
 
   useEffect(()=>{
-    if(searchParams.get('logout')!=='1')return;
+    const params=new URLSearchParams(window.location.search);
+    if(params.get('logout')!=='1')return;
     const supabase=createBrowserSupabaseClient();
     supabase.auth.signOut().finally(()=>{
       window.history.replaceState({},'', '/admin/login');
     });
-  },[searchParams]);
+  },[]);
 
   async function submit(event:FormEvent){
     event.preventDefault();
