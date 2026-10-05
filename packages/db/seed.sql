@@ -6,7 +6,7 @@ insert into public.beer_styles (name,slug) values
 on conflict (slug) do nothing;
 
 insert into public.products (name,slug,category,beer_style_id,packaging,volume_ml,short_description,sort_order,published)
-select v.name,v.slug,'chope'::public.product_category,s.id,v.packaging,v.volume_ml,null,v.sort_order,false
+select v.name,v.slug,'chope'::public.product_category,s.id,v.packaging,v.volume_ml,null,v.sort_order,true
 from (values
  ('Chopp Lager','chope-lager-1500','Lager','PET',1500,1),
  ('Chopp Pilsen','chope-pilsen-1500','Pilsen','PET',1500,2),
@@ -19,8 +19,8 @@ join public.beer_styles s on s.name=v.style
 on conflict (slug) do nothing;
 
 insert into public.products (name,slug,category,packaging,sort_order,published) values
- ('Cerveja Rodada Long Neck','cerveja-rodada-long-neck','cerveja','LONG NECK',7,false),
- ('Cerveja Rodada Lata','cerveja-rodada-lata','cerveja','LATA',8,false)
+ ('Cerveja Rodada Long Neck','cerveja-rodada-long-neck','cerveja','LONG NECK',7,true),
+ ('Cerveja Rodada Lata','cerveja-rodada-lata','cerveja','LATA',8,true)
 on conflict (slug) do nothing;
 
 insert into public.keg_sizes (liters,estimated_cups,rental_price,sale_price,active) values
