@@ -2,7 +2,7 @@
 
 import {revalidatePath} from 'next/cache';
 import {z} from 'zod';
-import {requireOwner,type AdminRole} from '../../lib/auth';
+import {requireOwner} from '../../lib/auth';
 import {createAdminClient} from '../../lib/supabase/admin';
 
 export type UserActionState={ok:boolean;message:string};
@@ -95,6 +95,3 @@ export async function deactivateUserAction(formData:FormData){
   revalidatePath('/users');
 }
 
-export function roleLabel(role:AdminRole){
-  return role==='owner'?'Owner':role==='editor'?'Editor':'Viewer';
-}
