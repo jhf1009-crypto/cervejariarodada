@@ -1,9 +1,25 @@
-import { defineConfig, globalIgnores } from "eslint/config";
-import nextVitals from "eslint-config-next/core-web-vitals";
-import nextTs from "eslint-config-next/typescript";
+import tsParser from '@typescript-eslint/parser';
+import tsPlugin from '@typescript-eslint/eslint-plugin';
 
-export default defineConfig([
-  ...nextVitals,
-  ...nextTs,
-  globalIgnores([".next/**","next-env.d.ts"]),
-]);
+export default [
+  {
+    ignores:['.next/**','next-env.d.ts'],
+  },
+  {
+    files:['**/*.{ts,tsx}'],
+    languageOptions:{
+      parser:tsParser,
+      parserOptions:{
+        ecmaVersion:'latest',
+        sourceType:'module',
+        ecmaFeatures:{jsx:true},
+      },
+    },
+    plugins:{'@typescript-eslint':tsPlugin},
+    rules:{
+      ...tsPlugin.configs.recommended.rules,
+      'no-unused-vars':'off',
+      '@typescript-eslint/no-unused-vars':['error',{argsIgnorePattern:'^_',varsIgnorePattern:'^_'}],
+    },
+  },
+];
