@@ -218,54 +218,6 @@ export default function RodadaSite(){
    </section>
 
    <section className="eventSolutions section" id="eventos" aria-labelledby="eventos-title">
-    <Reveal className="eventSolutionsHead">
-      <div>
-        <p className="eyebrow">03 / EVENTOS RODADA</p>
-        <h2 id="eventos-title">SEU EVENTO.<br/><em>NOSSA ESTRUTURA.</em></h2>
-      </div>
-      <p>Para aniversários, casamentos, confraternizações e eventos empresariais, a Rodada oferece barris, chopeiras, suporte e atendimento para manter o chopp fluindo do começo ao fim.</p>
-    </Reveal>
-
-    <div className="eventSolutionsGrid">
-      <Reveal className="eventSolutionCard eventSolutionHero">
-        <div className="eventSolutionMeta"><span>01</span><span>CHOPEIRA RODADA</span></div>
-        <div className="eventSolutionVisual">
-          <span className="eventSolutionWord">CHOPEIRA</span>
-          <img src="/events/Chopeira%20RODADA%20em%20Bar%20Aconchegante.png" alt="Chopeira Rodada em ambiente de evento" loading="lazy" decoding="async"/>
-        </div>
-        <div className="eventSolutionCopy"><h3>Chopeira Rodada</h3><p>Serviço na temperatura certa, com presença visual da marca e experiência de chopp tirado na hora.</p></div>
-      </Reveal>
-
-      <Reveal className="eventSolutionCard">
-        <div className="eventSolutionMeta"><span>02</span><span>BARRIL / KEG</span></div>
-        <div className="eventSolutionVisual">
-          <span className="eventSolutionWord">BARRIL</span>
-          <img src="/events/Pir%C3%A2mide%20de%20Kegs%20RODADA%20na%20Cervejaria.png" alt="Barris Rodada empilhados no estoque" loading="lazy" decoding="async"/>
-        </div>
-        <div className="eventSolutionCopy"><h3>Barris Rodada</h3><p>Volume para encontros maiores, festas e operações que precisam manter a Rodada fluindo por mais tempo.</p></div>
-      </Reveal>
-
-      <Reveal className="eventSolutionCard eventSolutionCombo">
-        <div className="eventSolutionMeta"><span>03</span><span>SUPORTE NO EVENTO</span></div>
-        <div className="eventSolutionVisual">
-          <span className="eventSolutionWord">KIT</span>
-          <img src="/events/Promotores%20e%20Cerveja%20Artesanal%20ao%20Ar%20Livre.png" alt="Equipe de suporte para servir chopp em eventos" loading="lazy" decoding="async"/>
-        </div>
-        <div className="eventSolutionCopy"><h3>Suporte para servir</h3><p>Equipe Rodada para auxiliar na operação, manutenção e troca de barris quando necessário.</p></div>
-      </Reveal>
-
-      <Reveal className="eventSolutionCard eventSolutionService">
-        <a className="eventSolutionLink" href={wa('Olá! Eu quero fazer um orçamento personalizado para o meu evento. Pode me ajudar?')} target="_blank" rel="noreferrer" aria-label="Solicitar orçamento personalizado pelo WhatsApp">
-          <div className="eventSolutionMeta"><span>04</span><span>ATENDIMENTO</span></div>
-          <div className="eventSolutionVisual serviceVisual">
-            <span className="eventSolutionWord">EVENTO</span>
-            <img src="/events/Planejamento%20de%20Eventos%20da%20Rodada%20Cervejaria.png" alt="Planejamento de orçamento personalizado da Rodada Cervejaria" loading="lazy" decoding="async"/>
-          </div>
-          <div className="eventSolutionCopy"><h3>Orçamento personalizado</h3><p>Conte o tipo de evento e a necessidade. A Rodada orienta a estrutura adequada e segue o atendimento pelo WhatsApp.</p><span className="eventSolutionAction">SOLICITAR ORÇAMENTO <Arrow/></span></div>
-        </a>
-      </Reveal>
-    </div>
-
     <Reveal className="eventSteps" aria-label="Como pedir orçamento para evento">
       <div><span>01</span><strong>Conte sobre o evento</strong><p>Data, cidade, tipo de ocasião e quantidade estimada de pessoas.</p></div>
       <div><span>02</span><strong>A Rodada orienta a estrutura</strong><p>Barris, chopeiras e suporte conforme a necessidade.</p></div>
