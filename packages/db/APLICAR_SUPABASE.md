@@ -5,16 +5,17 @@
 ## Opção A — Supabase CLI
 
 1. Instale a CLI do Supabase.
-2. Na raiz do repositório, entre na conta:
+2. Entre na pasta do banco: `cd packages/db`.
+3. Entre na conta:
    `supabase login`
-3. Vincule **somente** o novo projeto da Rodada:
+4. Vincule **somente** o novo projeto da Rodada:
    `supabase link --project-ref SEU_PROJECT_REF_DA_RODADA`
-4. Confira o projeto mostrado pela CLI antes de continuar.
-5. Aplique as migrations:
+5. Confira o projeto mostrado pela CLI antes de continuar.
+6. Aplique as migrations:
    `supabase db push`
-6. Abra o SQL Editor do novo projeto e execute `packages/db/supabase/seed.sql` uma única vez.
-7. Crie o primeiro usuário administrativo manualmente no Auth e adicione o UUID dele em `public.admin_profiles` com role `owner`.
-8. Ative MFA/TOTP para esse owner.
+7. Abra o SQL Editor do novo projeto e execute `packages/db/supabase/seed.sql` uma única vez.
+8. Crie o primeiro usuário administrativo manualmente no Auth e adicione o UUID dele em `public.admin_profiles` com role `owner`.
+9. Ative MFA/TOTP para esse owner.
 
 ## Opção B — SQL Editor
 
