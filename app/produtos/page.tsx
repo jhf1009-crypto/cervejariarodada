@@ -1,12 +1,20 @@
 import type {Metadata} from 'next';
-import {catalog} from '@/lib/catalog';
+import ProductCatalog from '@/components/product-catalog';
+import {getPublicProducts} from '@/lib/site-data';
 
+export const revalidate=60;
 export const metadata:Metadata={title:'Produtos',description:'Conheça os chopes e cervejas da Cervejaria Rodada.',alternates:{canonical:'/produtos'}};
 
-export default function ProductsPage(){
+export default async function ProductsPage(){
+ const products=await getPublicProducts();
+ const breadcrumb={'@context':'https://schema.org','@type':'BreadcrumbList',itemListElement:[
+  {'@type':'ListItem',position:1,name:'Início',item:'https://www.cervejariarodada.com.br/'},
+  {'@type':'ListItem',position:2,name:'Produtos',item:'https://www.cervejariarodada.com.br/produtos'}
+ ]};
  return <main className="catalogPage">
+  <script type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify(breadcrumb)}}/>
   <a className="productBack" href="/">← INÍCIO</a>
-  <header><p className="eyebrow">CATÁLOGO RODADA</p><h1>CHOPES E<br/>CERVEJAS.</h1><p>Veja os formatos já apresentados no site e consulte a disponibilidade atual com a Rodada.</p></header>
-  <section className="catalogGrid">{catalog.map(product=><a key={product.slug} href={'/produtos/'+product.slug} className="catalogCard"><div><span>{product.category}</span><h2>{product.name}</h2><p>{product.volume||product.packaging}</p></div><img src={product.image} alt=""/><b>VER PRODUTO ↗</b></a>)}</section>
+  <header><p className="eyebrow">CATÁLOGO RODADA</p><h1>CHOPES E<br/>CERVEJAS.</h1><p>Consulte os formatos publicados e filtre por categoria ou volume.</p></header>
+  <ProductCatalog products={products}/>
  </main>;
 }
