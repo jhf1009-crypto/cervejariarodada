@@ -176,7 +176,7 @@ export default function RodadaSite({data}:{data:PublicSiteData}){
   <header className="nav">
    <a href="#inicio" className="brand" aria-label="Cervejaria Rodada — início"><b>RODADA</b><small>PURO MALTE</small></a>
    <nav id="menu-principal" className={menu?'open':''} aria-label="Navegação principal">
-    <a href="#chopes" onClick={()=>setMenu(false)}>Chopes</a><a href="#cervejas" onClick={()=>setMenu(false)}>Cervejas</a><a href="#eventos" onClick={()=>setMenu(false)}>Eventos</a><a href="#equipe" onClick={()=>setMenu(false)}>A Rodada</a><a href="#contato" onClick={()=>setMenu(false)}>Contato</a>
+    <a href="#chopes" onClick={()=>setMenu(false)}>Chopes</a><a href="#cervejas" onClick={()=>setMenu(false)}>Cervejas</a><a href="#eventos" onClick={()=>setMenu(false)}>Eventos</a>{(data.team.length>0||data.settings.story)&&<a href={data.team.length>0?'#equipe':'#historia'} onClick={()=>setMenu(false)}>A Rodada</a>}<a href="#contato" onClick={()=>setMenu(false)}>Contato</a>
    </nav>
    <button type="button" className="navCta" onClick={()=>openOrder()}>PEDIR PELO WHATSAPP <Arrow/></button>
    <button type="button" className="menu" onClick={()=>setMenu(!menu)} aria-label={menu?'Fechar menu':'Abrir menu'} aria-expanded={menu} aria-controls="menu-principal"><i/><i/></button>
