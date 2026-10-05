@@ -66,7 +66,11 @@ async function loadFromDatabase():Promise<PublicSiteData>{
     openingHours:s.opening_hours??null,phone:s.phone??null,whatsapp:s.whatsapp??null,email:s.email??null,
     socialLinks:s.social_links??null,deliveryArea:s.delivery_area??null,leadTimes:s.lead_times??null,fees:s.fees??null,
     paymentMethods:s.payment_methods??null,story:s.story??null,seo:s.seo??null
-  }:fallbackSiteData.settings;
+  }:{
+    legalName:null,cnpj:null,mapaRegistration:null,address:null,latitude:null,longitude:null,openingHours:null,
+    phone:null,whatsapp:null,email:null,socialLinks:null,deliveryArea:null,leadTimes:null,fees:null,paymentMethods:null,
+    story:null,seo:null
+  };
 
   const faqs:PublicFaq[]=(faqResult.data??[]).map((row:any)=>({id:row.id,question:row.question,answer:row.answer,category:row.category??null}));
   const team:PublicTeamMember[]=(teamResult.data??[]).map((row:any)=>({
@@ -76,7 +80,7 @@ async function loadFromDatabase():Promise<PublicSiteData>{
 
   return {
     source:'database',
-    products:products.length?products:fallbackSiteData.products,
+    products,
     settings:{...fallbackSiteData.settings,...settings},
     faqs,team,legalPages
   };
@@ -88,9 +92,12 @@ const cachedDatabaseLoad=unstable_cache(loadFromDatabase,['rodada-public-site-da
 });
 
 export async function getPublicSiteData():Promise<PublicSiteData>{
+  if(!process.env.NEXT_PUBLIC_SUPABASE_URL||!process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY){
+    return fallbackSiteData;
+  }
   try{return await cachedDatabaseLoad();}
   catch(error){
-    console.error('[Rodada] Falha ao carregar Supabase; usando fallback estático.',error);
+    console.error('[Rodada] Supabase indisponível; usando fallback estático.',error);
     return fallbackSiteData;
   }
 }
