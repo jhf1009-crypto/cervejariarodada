@@ -153,3 +153,23 @@ create policy "admins manage faqs" on public.faqs for all to authenticated using
 create policy "admins manage leads" on public.leads for all to authenticated using(public.is_admin(array['owner','editor']::public.admin_role[])) with check(public.is_admin(array['owner','editor']::public.admin_role[]));
 create policy "admins manage settings" on public.site_settings for all to authenticated using(public.is_admin(array['owner','editor']::public.admin_role[])) with check(public.is_admin(array['owner','editor']::public.admin_role[]));
 create policy "admins manage legal" on public.legal_pages for all to authenticated using(public.is_admin(array['owner','editor']::public.admin_role[])) with check(public.is_admin(array['owner','editor']::public.admin_role[]));
+
+
+-- Keep updated_at correct on every mutable row.
+create or replace function public.set_updated_at()
+returns trigger language plpgsql security invoker set search_path=public as $$
+begin new.updated_at=now(); return new; end;
+$$;
+
+create trigger beer_styles_set_updated_at before update on public.beer_styles for each row execute function public.set_updated_at();
+create trigger products_set_updated_at before update on public.products for each row execute function public.set_updated_at();
+create trigger keg_sizes_set_updated_at before update on public.keg_sizes for each row execute function public.set_updated_at();
+create trigger event_packages_set_updated_at before update on public.event_packages for each row execute function public.set_updated_at();
+create trigger events_gallery_set_updated_at before update on public.events_gallery for each row execute function public.set_updated_at();
+create trigger testimonials_set_updated_at before update on public.testimonials for each row execute function public.set_updated_at();
+create trigger team_members_set_updated_at before update on public.team_members for each row execute function public.set_updated_at();
+create trigger faqs_set_updated_at before update on public.faqs for each row execute function public.set_updated_at();
+create trigger leads_set_updated_at before update on public.leads for each row execute function public.set_updated_at();
+create trigger site_settings_set_updated_at before update on public.site_settings for each row execute function public.set_updated_at();
+create trigger legal_pages_set_updated_at before update on public.legal_pages for each row execute function public.set_updated_at();
+create trigger admin_profiles_set_updated_at before update on public.admin_profiles for each row execute function public.set_updated_at();
