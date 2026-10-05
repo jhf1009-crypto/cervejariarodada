@@ -218,11 +218,14 @@ export default function RodadaSite(){
    </section>
 
    <section className="eventSolutions section" id="eventos" aria-labelledby="eventos-title">
-    <Reveal className="eventSteps" aria-label="Como pedir orçamento para evento">
-      <div><span>01</span><strong>Conte sobre o evento</strong><p>Data, cidade, tipo de ocasião e quantidade estimada de pessoas.</p></div>
-      <div><span>02</span><strong>A Rodada orienta a estrutura</strong><p>Barris, chopeiras e suporte conforme a necessidade.</p></div>
-      <div><span>03</span><strong>Receba o orçamento</strong><p>Converse diretamente com a equipe e alinhe os detalhes.</p></div>
-    </Reveal>
+    <div className="eventQuoteFlow">
+      <Reveal className="eventSteps" aria-label="Como pedir orçamento para evento">
+        <div><span>01</span><strong>Conte sobre o evento</strong><p>Data, cidade, tipo de ocasião e quantidade estimada de pessoas.</p></div>
+        <div><span>02</span><strong>A Rodada orienta a estrutura</strong><p>Barris, chopeiras e suporte conforme a necessidade.</p></div>
+        <div><span>03</span><strong>Receba o orçamento</strong><p>Converse diretamente com a equipe e alinhe os detalhes.</p></div>
+      </Reveal>
+      <EventLeadForm/>
+    </div>
     <Reveal className="eventSolutionsCta">
       <div><small>VAI FAZER UM EVENTO?</small><strong>Peça seu orçamento sem burocracia.</strong></div>
       <a href={wa('Olá! Gostaria de solicitar um orçamento de chope para um evento.')} target="_blank" rel="noreferrer" className="primary">SOLICITAR ORÇAMENTO <Arrow/></a>
@@ -244,7 +247,6 @@ export default function RodadaSite(){
         <a className="primary" href={wa('Olá! Usei a calculadora do site para um evento com '+eventGuests+' convidados por '+eventHours+' horas. A estimativa foi de '+estimatedLiters+' L. Quero confirmar a quantidade e pedir um orçamento.')} target="_blank" rel="noreferrer">CONFIRMAR COM A RODADA <Arrow/></a>
       </div>
     </Reveal>
-    <EventLeadForm/>
    </section>
 
    <section className="team section" id="equipe">
