@@ -247,20 +247,6 @@ export default function RodadaSite(){
     <EventLeadForm/>
    </section>
 
-   <section className="cold section">
-    <Reveal><p className="eyebrow">04 / DESTAQUE RODADA</p><h2>GELADA.<br/>DO JEITO<br/><em>CERTO.</em></h2><p className="lead">Chopp gelado, identidade Rodada e formatos para diferentes momentos.</p><a className="coldCta" href="#chopes">VER TODOS OS CHOPES <Arrow/></a></Reveal>
-    <Reveal className="coldStage"><span>1,5<small>L</small></span><div className="rings"/></Reveal>
-   </section>
-
-   <section className="lifestyle section">
-    <Reveal className="sectionTitle"><div><p className="eyebrow dark">05 / FEITA PARA COMPARTILHAR</p><h2>TODA HISTÓRIA BOA<br/>COMEÇA COM <em>UMA RODADA.</em></h2></div></Reveal>
-    <div className="lifeGrid">
-      <div className="lifeMain scrollPhoto"><strong>BORA<br/>BRINDAR?</strong><img src={img.people} alt="Pessoa brindando com Rodada" loading="lazy" decoding="async"/></div>
-      <div className="lifeQuote scrollPhoto"><span>MAIS<br/>MUITO</span><p>Mais encontro. Mais conversa. Mais motivo para reunir.</p></div>
-      <div className="lifeProduct scrollPhoto"><img src={img.copo} alt="Copo Rodada" loading="lazy" decoding="async"/><span>PURO MALTE · PURA RODADA</span></div>
-    </div>
-   </section>
-
    <section className="team section" id="equipe">
      <Reveal className="teamCopy"><p className="eyebrow">06 / QUEM FAZ ACONTECER</p><h2>CONHEÇA<br/>NOSSA <em>EQUIPE.</em></h2><p>Por trás de cada produto Rodada existe uma equipe comprometida com qualidade, dedicação e paixão pelo que faz. Nosso trabalho é levar sabor, experiência e excelência para cada momento especial dos nossos clientes.</p><span className="signature">GENTE BOA FAZENDO UMA RODADA AINDA MELHOR.</span></Reveal>
      <Reveal className="teamPhoto"><div className="teamImageFrame"><img src="/events/image.png" alt="Equipe Rodada reunida" loading="lazy" decoding="async"/><div><small>GENTE QUE FAZ A RODADA ACONTECER</small><strong>Qualidade, cuidado e presença em cada encontro.</strong></div></div><span>CERVEJARIA RODADA · LUÍS EDUARDO MAGALHÃES · BA</span></Reveal>
