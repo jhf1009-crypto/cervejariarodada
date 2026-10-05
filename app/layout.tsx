@@ -1,7 +1,7 @@
 import type { Metadata,Viewport } from 'next';
 import '@/styles/globals.css';
 
-const site='https://www.cervejariarodada.com.br';
+const site=process.env.NEXT_PUBLIC_SITE_URL||'https://www.cervejariarodada.com.br';
 
 export const metadata:Metadata={
  metadataBase:new URL(site),
