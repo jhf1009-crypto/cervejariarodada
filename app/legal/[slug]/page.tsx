@@ -1,4 +1,5 @@
 import type {Metadata} from 'next';
+import Link from 'next/link';
 import {notFound} from 'next/navigation';
 import {getPublicLegalPage} from '@/lib/site-data';
 
@@ -23,7 +24,7 @@ export default async function LegalPage({params}:{params:Promise<{slug:string}>}
  ]};
  return <main className="legalPage">
   <script type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify(breadcrumb)}}/>
-  <a className="productBack" href="/">← VOLTAR AO SITE</a>
+  <Link className="productBack" href="/">← VOLTAR AO SITE</Link>
   <article><p className="eyebrow">CERVEJARIA RODADA</p><h1>{page.title}</h1><div className="legalBody">{page.body.split('\n').map((line,index)=>line.trim()?<p key={index}>{line}</p>:<br key={index}/>)}</div></article>
  </main>;
 }
