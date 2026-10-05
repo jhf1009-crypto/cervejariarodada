@@ -1,4 +1,5 @@
 import type {Metadata} from 'next';
+import Link from 'next/link';
 import ProductCatalog from '@/components/product-catalog';
 import {getPublicProducts} from '@/lib/site-data';
 
@@ -13,7 +14,7 @@ export default async function ProductsPage(){
  ]};
  return <main className="catalogPage">
   <script type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify(breadcrumb)}}/>
-  <a className="productBack" href="/">← INÍCIO</a>
+  <Link className="productBack" href="/">← INÍCIO</Link>
   <header><p className="eyebrow">CATÁLOGO RODADA</p><h1>CHOPES E<br/>CERVEJAS.</h1><p>Consulte os formatos publicados e filtre por categoria ou volume.</p></header>
   <ProductCatalog products={products}/>
  </main>;
