@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import {redirect} from 'next/navigation';
 
 export const metadata={
@@ -20,7 +21,7 @@ export default function AdminEntry(){
         O subdomínio administrativo ainda precisa ser conectado na Vercel.
       </p>
       <div className="productActions">
-        <a className="primary" href="/">VOLTAR AO SITE</a>
+        <Link className="primary" href="/">VOLTAR AO SITE</Link>
       </div>
       <p className="productDisclosure">
         Quando a variável NEXT_PUBLIC_ADMIN_URL estiver configurada, /admin redirecionará automaticamente para o painel.
