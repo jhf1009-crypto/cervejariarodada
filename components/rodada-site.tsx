@@ -190,7 +190,7 @@ export default function RodadaSite({data}:{data:PublicSiteData}){
     <div className="heroFoot"><span>↓ A próxima Rodada começa aqui</span><span>BEBA COM MODERAÇÃO.</span></div>
    </section>
 
-   <section className="products section" id="chopes" aria-labelledby="chopes-title">
+   {choppProducts.length>0&&<section className="products section" id="chopes" aria-labelledby="chopes-title">
     <Reveal className="sectionTitle commerceTitle">
       <div><p className="eyebrow dark">01 / CHOPES RODADA</p><h2 id="chopes-title">ESCOLHA SEU<br/><em>CHOPP RODADA.</em></h2></div>
       <div className="sectionIntro"><p>Lager, Pilsen e Session IPA em formatos práticos para levar para casa ou reunir a turma.</p><a href={wa('Olá! Gostaria de saber quais chopes Rodada estão disponíveis hoje.')} target="_blank" rel="noreferrer">Consultar disponibilidade <Arrow/></a></div>
@@ -210,9 +210,9 @@ export default function RodadaSite({data}:{data:PublicSiteData}){
         </Reveal>
       ))}
     </div>
-   </section>
+   </section>}
 
-   <section className="beerSection section" id="cervejas" aria-labelledby="cervejas-title">
+   {beerProducts.length>0&&<section className="beerSection section" id="cervejas" aria-labelledby="cervejas-title">
     <Reveal className="sectionTitle commerceTitle">
       <div><p className="eyebrow dark">02 / CERVEJAS RODADA</p><h2 id="cervejas-title">A RODADA<br/><em>TAMBÉM EM CERVEJA.</em></h2></div>
       <div className="sectionIntro"><p>Long neck ou lata: escolha o formato e consulte a disponibilidade atual diretamente com a Rodada.</p><a href={wa('Olá! Gostaria de saber quais cervejas Rodada estão disponíveis.')} target="_blank" rel="noreferrer">Ver disponibilidade <Arrow/></a></div>
@@ -225,7 +225,7 @@ export default function RodadaSite({data}:{data:PublicSiteData}){
         </Reveal>
       ))}
     </div>
-   </section>
+   </section>}
 
    <section className="eventSolutions section" id="eventos" aria-labelledby="eventos-title">
     <Reveal className="eventSolutionsHead">
