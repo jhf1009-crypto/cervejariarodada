@@ -47,3 +47,15 @@ Nada desta lista deve ser inventado ou publicado sem confirmação.
 - [ ] Configurar admin.cervejariarodada.com.br
 - [ ] Configurar variáveis e segredo de revalidação
 - [ ] Criar primeiro owner e exigir MFA
+
+
+## Admin — fatia 1
+- [ ] Aplicar `packages/db/schema.sql` no projeto Supabase da Cervejaria Rodada.
+- [ ] Configurar `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` e `SUPABASE_SECRET_KEY` no projeto Vercel do admin.
+- [ ] Configurar `ADMIN_APP_URL=https://admin.cervejariarodada.com.br`.
+- [ ] Criar projeto Vercel separado com Root Directory `apps/admin`.
+- [ ] Apontar DNS de `admin.cervejariarodada.com.br` para a Vercel.
+- [ ] Adicionar `https://admin.cervejariarodada.com.br/auth/callback` nas Redirect URLs do Supabase Auth.
+- [ ] Configurar SMTP de produção no Supabase para convites e recuperação.
+- [ ] Criar primeiro owner no Supabase da Rodada e inserir o perfil `owner`.
+- [ ] Validar login, MFA, convite de editor, troca de papel, desativação, recuperação e logout contra o Supabase real.
