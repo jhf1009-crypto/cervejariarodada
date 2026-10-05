@@ -1,4 +1,5 @@
 import type {MetadataRoute} from 'next';
 export default function robots():MetadataRoute.Robots{
- return {rules:[{userAgent:'*',allow:'/'}],sitemap:'https://www.cervejariarodada.com.br/sitemap.xml'};
+ const base=process.env.NEXT_PUBLIC_SITE_URL||'https://www.cervejariarodada.com.br';
+ return {rules:[{userAgent:'*',allow:'/'}],sitemap:base+'/sitemap.xml'};
 }
