@@ -2,6 +2,8 @@
 
 import {useEffect,useState} from 'react';
 import EventLeadForm from './event-lead-form';
+import {formatVolume} from '@/lib/fallback-data';
+import type {PublicProduct,PublicSiteData} from '@/lib/types';
 
 const placeholder={
  src:'/placeholders/rodada-placeholder-960.webp',
@@ -24,35 +26,28 @@ function PlaceholderImage({alt,className='',sizes='(max-width: 760px) 92vw, 50vw
 }
 
 // Fotos oficiais ausentes usam placeholder neutro até substituição confirmada.
-const choppProducts=[
- {name:'Chopp Lager',size:'1,5 L',meta:'PET 1,5 L',flavor:'LAGER',image:img.lager15,tone:'lager',photo:true},
- {name:'Chopp Pilsen',size:'1,5 L',meta:'PET 1,5 L',flavor:'PILSEN',image:img.pilsen15,tone:'pilsen',photo:true},
- {name:'Chopp Session IPA',size:'1,5 L',meta:'PET 1,5 L',flavor:'SESSION IPA',image:placeholder.src,tone:'ipa',photo:true},
- {name:'Chopp Lager',size:'700 ml',meta:'PET 700 ML',flavor:'LAGER',image:img.lager700,tone:'lager',photo:true},
- {name:'Chopp Pilsen',size:'700 ml',meta:'PET 700 ML',flavor:'PILSEN',image:img.pilsen700,tone:'pilsen',photo:true},
- {name:'Chopp Session IPA',size:'700 ml',meta:'PET 700 ML',flavor:'SESSION IPA',image:placeholder.src,tone:'ipa',photo:true}
-];
-
-const beerProducts=[
- {name:'Cerveja Rodada Long Neck',meta:'LONG NECK',image:placeholder.src,tone:'beer-pilsen'},
- {name:'Cerveja Rodada Lata',meta:'LATA',image:placeholder.src,tone:'beer-lager'}
-];
-
-const orderProducts=[
- ...choppProducts.map(item=>({id:item.name+' '+item.size,name:item.name+' '+item.size,meta:item.flavor+' · '+item.size,image:item.image,group:'Chopes'})),
- ...beerProducts.map(item=>({id:item.name,name:item.name,meta:item.meta,image:item.image,group:'Cervejas'})),
- {id:'Barril de Chopp Rodada 30 L',name:'Barril de Chopp Rodada 30 L',meta:'BARRIL 30 L',image:img.barril,group:'Barril + Chopeira'},
- {id:'Barril de Chopp Rodada 50 L',name:'Barril de Chopp Rodada 50 L',meta:'BARRIL 50 L',image:img.barril,group:'Barril + Chopeira'},
- {id:'Chopeira Rodada',name:'Chopeira Rodada',meta:'CHOPEIRA PARA EVENTOS',image:img.chopeira,group:'Barril + Chopeira'}
-];
-
-const WHATSAPP='557798140440';
-const wa=(message:string)=>'https://wa.me/'+WHATSAPP+'?text='+encodeURIComponent(message);
-
 function Arrow(){return <span aria-hidden>↗</span>}
 function Reveal({children,className='',...props}:React.HTMLAttributes<HTMLDivElement>){return <div className={className} {...props}>{children}</div>}
 
-export default function RodadaSite(){
+function productTone(product:PublicProduct){
+ const key=(product.style||product.name).toLowerCase();
+ if(key.includes('pilsen'))return 'pilsen';
+ if(key.includes('ipa'))return 'ipa';
+ if(key.includes('lager'))return 'lager';
+ return product.category==='cerveja'?'beer-lager':'lager';
+}
+
+function mediaFor(product:PublicProduct){
+ const image=product.images[0];
+ return {src:image?.url||placeholder.src,alt:image?.alt||('Foto oficial de '+product.name+' pendente')};
+}
+
+function MediaImage({src,alt,className='',sizes='(max-width: 760px) 80vw, 40vw'}:{src:string;alt:string;className?:string;sizes?:string}){
+ if(src.startsWith('/placeholders/'))return <PlaceholderImage alt={alt} className={className} sizes={sizes}/>;
+ return <img src={src} alt={alt} className={className} loading="lazy" decoding="async"/>;
+}
+
+export default function RodadaSite({data}:{data:PublicSiteData}){
  const [menu,setMenu]=useState(false);
  const [ageVerified,setAgeVerified]=useState<boolean|null>(null);
  const [cookieChoice,setCookieChoice]=useState<'accepted'|'rejected'|null>(null);
@@ -66,6 +61,25 @@ export default function RodadaSite(){
  const [orderCep,setOrderCep]=useState('');
  const [cepCity,setCepCity]=useState('');
  const [cepStatus,setCepStatus]=useState<'idle'|'loading'|'success'|'error'>('idle');
+ const choppProducts=data.products.filter(product=>product.category==='chope').map(product=>{
+  const media=mediaFor(product);
+  const size=formatVolume(product.volumeMl)||'';
+  return {id:product.id,slug:product.slug,name:product.name,size,meta:[product.packaging,size].filter(Boolean).join(' '),flavor:(product.style||'Chope').toUpperCase(),image:media.src,imageAlt:media.alt,tone:productTone(product),photo:true};
+ });
+ const beerProducts=data.products.filter(product=>product.category==='cerveja').map(product=>{
+  const media=mediaFor(product);
+  return {id:product.id,slug:product.slug,name:product.name,meta:product.packaging||'CERVEJA',image:media.src,imageAlt:media.alt,tone:'beer-'+productTone(product)};
+ });
+ const orderProducts=[
+  ...choppProducts.map(item=>({id:item.name+' '+item.size,name:item.name+' '+item.size,meta:item.flavor+' · '+item.size,image:item.image,imageAlt:item.imageAlt,group:'Chopes'})),
+  ...beerProducts.map(item=>({id:item.name,name:item.name,meta:item.meta,image:item.image,imageAlt:item.imageAlt,group:'Cervejas'})),
+  {id:'Barril de Chopp Rodada 30 L',name:'Barril de Chopp Rodada 30 L',meta:'BARRIL 30 L',image:placeholder.src,imageAlt:'Foto oficial do barril Rodada pendente',group:'Barril + Chopeira'},
+  {id:'Barril de Chopp Rodada 50 L',name:'Barril de Chopp Rodada 50 L',meta:'BARRIL 50 L',image:placeholder.src,imageAlt:'Foto oficial do barril Rodada pendente',group:'Barril + Chopeira'},
+  {id:'Chopeira Rodada',name:'Chopeira Rodada',meta:'CHOPEIRA PARA EVENTOS',image:placeholder.src,imageAlt:'Foto oficial da chopeira Rodada pendente',group:'Barril + Chopeira'}
+ ];
+ const whatsapp=(data.settings.whatsapp||'').replace(/\D/g,'');
+ const wa=(message:string)=>whatsapp?'https://wa.me/'+whatsapp+'?text='+encodeURIComponent(message):'#contato';
+ const hasPracticalInfo=Boolean(data.settings.address||data.settings.openingHours||data.settings.deliveryArea||data.settings.leadTimes||data.settings.fees||data.settings.paymentMethods);
 
  useEffect(()=>{
   const age=window.localStorage.getItem('rodada_age_verified');
@@ -199,11 +213,11 @@ export default function RodadaSite(){
           <div className="variationVisual">
             <span className="variationFlavor" aria-hidden="true">{item.flavor}</span>
             <div className={item.photo?'mockBottle photoAsset':'mockBottle'}>
-              <img src={item.image} alt={item.name+' '+item.size} loading="lazy" decoding="async"/>
+              <MediaImage src={item.image} alt={item.imageAlt}/>
               {item.photo?null:<div className="mockLabel"><b>RODADA</b><small>{item.flavor}</small><em>{item.size}</em></div>}
             </div>
           </div>
-          <div className="variationBottom"><div><h3>{item.name}</h3><p>{item.size} · consulte disponibilidade</p><a className="productDetailLink" href={'/produtos/'+(item.name+'-'+item.size).toLowerCase().replaceAll(' ','-').replaceAll(',','').replaceAll('ó','o')}>VER DETALHES <Arrow/></a></div><button type="button" className="cardAction" onClick={()=>openOrder(item.name+' '+item.size)} aria-label={'Pedir '+item.name+' '+item.size}>PEDIR <Arrow/></button></div>
+          <div className="variationBottom"><div><h3>{item.name}</h3><p>{item.size} · consulte disponibilidade</p><a className="productDetailLink" href={'/produtos/'+item.slug}>VER DETALHES <Arrow/></a></div><button type="button" className="cardAction" onClick={()=>openOrder(item.name+' '+item.size)} aria-label={'Pedir '+item.name+' '+item.size}>PEDIR <Arrow/></button></div>
         </Reveal>
       ))}
     </div>
@@ -217,8 +231,8 @@ export default function RodadaSite(){
     <div className="beerGrid">
       {beerProducts.map((item,index)=>(
         <Reveal key={item.name} className={'beerCard '+item.tone}>
-          <div className="beerCopy"><span>0{index+1} / 02 · {item.meta}</span><h3>{item.name}</h3><p>Uma nova forma de levar a identidade Rodada para diferentes momentos.</p><a className="productDetailLink" href={'/produtos/'+item.name.toLowerCase().replaceAll(' ','-')}>VER DETALHES <Arrow/></a><button type="button" className="beerOrderButton" onClick={()=>openOrder(item.name)}>PEDIR PELO WHATSAPP <Arrow/></button></div>
-          <div className="beerVisual"><span aria-hidden="true">{item.meta}</span>{item.image&&<img src={item.image} alt={item.name} loading="lazy" decoding="async"/>}</div>
+          <div className="beerCopy"><span>0{index+1} / 02 · {item.meta}</span><h3>{item.name}</h3><p>Uma nova forma de levar a identidade Rodada para diferentes momentos.</p><a className="productDetailLink" href={'/produtos/'+item.slug}>VER DETALHES <Arrow/></a><button type="button" className="beerOrderButton" onClick={()=>openOrder(item.name)}>PEDIR PELO WHATSAPP <Arrow/></button></div>
+          <div className="beerVisual"><span aria-hidden="true">{item.meta}</span>{item.image&&<MediaImage src={item.image} alt={item.imageAlt}/>}</div>
         </Reveal>
       ))}
     </div>
@@ -316,14 +330,31 @@ export default function RodadaSite(){
     </div>
    </section>
 
-   <section className="team section" id="equipe">
-     <Reveal className="teamCopy"><p className="eyebrow">06 / QUEM FAZ ACONTECER</p><h2>CONHEÇA<br/>NOSSA <em>EQUIPE.</em></h2><p>Por trás de cada produto Rodada existe uma equipe comprometida com qualidade, dedicação e paixão pelo que faz. Nosso trabalho é levar sabor, experiência e excelência para cada momento especial dos nossos clientes.</p><span className="signature">GENTE BOA FAZENDO UMA RODADA AINDA MELHOR.</span></Reveal>
-     <Reveal className="teamPhoto"><div className="teamImageFrame"><img src="/team/equipe-rodada-hq.webp" alt="Equipe Rodada reunida" loading="lazy" decoding="async" width="1200" height="900"/><div><small>GENTE QUE FAZ A RODADA ACONTECER</small><strong>Qualidade, cuidado e presença em cada encontro.</strong></div></div><span>CERVEJARIA RODADA · LUÍS EDUARDO MAGALHÃES · BA</span></Reveal>
-   </section>
+   {data.settings.story&&<section className="team section" id="historia">
+     <Reveal className="teamCopy"><p className="eyebrow">06 / NOSSA HISTÓRIA</p><h2>DO OESTE<br/>PARA A <em>RODADA.</em></h2><p>{data.settings.story}</p></Reveal>
+   </section>}
+   {data.team.length>0&&<section className="team section" id="equipe">
+     <Reveal className="teamCopy"><p className="eyebrow">07 / QUEM FAZ ACONTECER</p><h2>CONHEÇA<br/>NOSSA <em>EQUIPE.</em></h2></Reveal>
+     <div className="teamMembers">{data.team.map(member=><article key={member.id} className="teamMember">{member.photoUrl&&<MediaImage src={member.photoUrl} alt={member.photoAlt||('Foto de '+member.name)}/>}<h3>{member.name}</h3>{member.role&&<p>{member.role}</p>}</article>)}</div>
+   </section>}
 
+   {hasPracticalInfo&&<section className="practical section" id="informacoes">
+    <p className="eyebrow dark">INFORMAÇÕES PRÁTICAS</p><h2>ANTES DA<br/><em>SUA RODADA.</em></h2>
+    <div className="practicalGrid">
+      {data.settings.address&&<div><small>ONDE ESTAMOS</small><p>{data.settings.address}</p></div>}
+      {data.settings.deliveryArea&&<div><small>ÁREA DE ENTREGA</small><p>{data.settings.deliveryArea}</p></div>}
+      {data.settings.leadTimes&&<div><small>PRAZOS</small><p>{data.settings.leadTimes}</p></div>}
+      {data.settings.fees&&<div><small>TAXAS</small><p>{data.settings.fees}</p></div>}
+      {data.settings.paymentMethods&&<div><small>PAGAMENTO</small><p>{data.settings.paymentMethods}</p></div>}
+    </div>
+   </section>}
+   {data.faqs.length>0&&<section className="faq section" id="faq">
+    <p className="eyebrow dark">DÚVIDAS FREQUENTES</p><h2>FAQ<br/><em>RODADA.</em></h2>
+    <div className="faqList">{data.faqs.map(item=><details key={item.id}><summary>{item.question}</summary><p>{item.answer}</p></details>)}</div>
+   </section>}
    <section className="contact section" id="contato">
     <Reveal><p className="eyebrow dark">07 / FALE COM A RODADA</p><h2>BORA TOMAR<br/>UMA <em>RODADA?</em></h2><p>Fale com a Cervejaria Rodada para consultar produtos, barris, eventos e disponibilidade na sua região.</p></Reveal>
-    <Reveal className="contactBox"><div><small>COMERCIAL</small><strong>(77) 9814-0440</strong></div><button type="button" className="contactOrderButton" onClick={()=>openOrder()}>PEDIR PELO WHATSAPP <Arrow/></button><a href="mailto:contato@cervejariarodada.com.br">contato@cervejariarodada.com.br <Arrow/></a></Reveal>
+    <Reveal className="contactBox">{data.settings.phone&&<div><small>COMERCIAL</small><strong>{data.settings.phone}</strong></div>}<button type="button" className="contactOrderButton" onClick={()=>openOrder()}>PEDIR PELO WHATSAPP <Arrow/></button>{data.settings.email&&<a href={'mailto:'+data.settings.email}>{data.settings.email} <Arrow/></a>}</Reveal>
    </section>
   </main>
 
@@ -341,7 +372,7 @@ export default function RodadaSite(){
               const beer=isBeerOrder(product.id);
               return <div className={'orderProductChoice '+(selected?'selected':'')} key={product.id}>
                 <button type="button" className={'orderOption '+(selected?'selected':'')} onClick={()=>toggleOrder(product.id)} aria-pressed={selected}>
-                  {product.image&&<span className="orderThumb"><img src={product.image} alt="" loading="lazy" decoding="async"/></span>}
+                  {product.image&&<span className="orderThumb"><MediaImage src={product.image} alt={product.imageAlt} sizes="72px"/></span>}
                   <span className="orderOptionCopy"><b>{product.name}</b><small>{product.meta}</small></span>
                   <i aria-hidden>{selected?'✓':'+'}</i>
                 </button>
@@ -392,7 +423,7 @@ export default function RodadaSite(){
   <a className="whatsappFloat" href={wa('Olá! Gostaria de fazer um pedido ou tirar uma dúvida sobre a Cervejaria Rodada.')} target="_blank" rel="noreferrer" aria-label="Falar com a Cervejaria Rodada pelo WhatsApp"><span>WhatsApp</span><b>↗</b></a>
 
   <footer className="footer section">
-   <div className="footerTop"><div><div className="brand big"><b>RODADA</b><small>PURO MALTE</small></div><p>Naturalmente brasileira.<br/>Orgulhosamente do Oeste da Bahia.</p></div><div><b>EXPLORE</b><a href="#chopes">Chopes</a><a href="#cervejas">Cervejas</a><a href="#eventos">Eventos</a><a href="#equipe">A Rodada</a></div><div><b>CONTATO</b><a href="mailto:contato@cervejariarodada.com.br">E-mail</a><a href="https://www.instagram.com/cervejariarodada/" target="_blank" rel="noreferrer">Instagram ↗</a></div></div>
+   <div className="footerTop"><div><div className="brand big"><b>RODADA</b><small>PURO MALTE</small></div><p>Naturalmente brasileira.<br/>Orgulhosamente do Oeste da Bahia.</p></div><div><b>EXPLORE</b><a href="#chopes">Chopes</a><a href="#cervejas">Cervejas</a><a href="#eventos">Eventos</a><a href="#equipe">A Rodada</a></div><div><b>CONTATO</b>{data.settings.email&&<a href={'mailto:'+data.settings.email}>E-mail</a>}{data.settings.socialLinks?.instagram&&<a href={data.settings.socialLinks.instagram} target="_blank" rel="noreferrer">Instagram ↗</a>}{data.legalPages.map(page=><a key={page.slug} href={'/legal/'+page.slug}>{page.title}</a>)}</div></div>
    <div className="footerWord">A VIDA PEDE RODADA.</div>
    <div className="footerBottom"><span>© {new Date().getFullYear()} Cervejaria Rodada Ltda.</span><b>BEBA COM MODERAÇÃO.</b><span>Conteúdo destinado a maiores de 18 anos.</span></div>
   </footer>
