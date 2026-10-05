@@ -85,7 +85,7 @@ create table public.legal_pages (
 
 create table public.admin_profiles (
  user_id uuid primary key references auth.users(id) on delete cascade, role public.admin_role not null default 'viewer',
- display_name text, created_at timestamptz not null default now(), updated_at timestamptz not null default now()
+ display_name text, active boolean not null default true, created_at timestamptz not null default now(), updated_at timestamptz not null default now()
 );
 
 create table public.audit_log (
@@ -93,6 +93,14 @@ create table public.audit_log (
  action text not null, entity_table text not null, entity_id text, old_value jsonb, new_value jsonb,
  created_at timestamptz not null default now()
 );
+
+create table public.admin_login_attempts (
+ id bigint generated always as identity primary key,
+ identity_hash text not null,
+ succeeded boolean not null default false,
+ created_at timestamptz not null default now()
+);
+create index admin_login_attempts_identity_created_idx on public.admin_login_attempts(identity_hash,created_at desc);
 
 alter table public.beer_styles enable row level security;
 alter table public.products enable row level security;
@@ -108,6 +116,7 @@ alter table public.site_settings enable row level security;
 alter table public.legal_pages enable row level security;
 alter table public.admin_profiles enable row level security;
 alter table public.audit_log enable row level security;
+alter table public.admin_login_attempts enable row level security;
 
 revoke all on all tables in schema public from anon,authenticated;
 grant select on public.beer_styles,public.products,public.product_images,public.keg_sizes,public.event_packages,public.events_gallery,public.testimonials,public.team_members,public.faqs,public.site_settings,public.legal_pages to anon;
@@ -130,26 +139,52 @@ create policy "public lead insert" on public.leads for insert to anon with check
 );
 
 create or replace function public.is_admin(required_roles public.admin_role[] default array['owner','editor','viewer']::public.admin_role[])
-returns boolean language sql stable security invoker set search_path=public as $$
- select exists(select 1 from public.admin_profiles p where p.user_id=(select auth.uid()) and p.role=any(required_roles));
+returns boolean
+language sql
+stable
+security definer
+set search_path=public,pg_catalog
+as $$
+ select exists(
+  select 1 from public.admin_profiles p
+  where p.user_id=(select auth.uid())
+    and p.active=true
+    and p.role=any(required_roles)
+ );
 $$;
+revoke all on function public.is_admin(public.admin_role[]) from public;
+grant execute on function public.is_admin(public.admin_role[]) to authenticated;
 
 create policy "admins read profiles" on public.admin_profiles for select to authenticated using(public.is_admin());
-create policy "owners manage profiles" on public.admin_profiles for all to authenticated
+create policy "owners insert profiles" on public.admin_profiles for insert to authenticated
+ with check(public.is_admin(array['owner']::public.admin_role[]));
+create policy "owners update profiles" on public.admin_profiles for update to authenticated
  using(public.is_admin(array['owner']::public.admin_role[]))
  with check(public.is_admin(array['owner']::public.admin_role[]));
 create policy "owners read audit" on public.audit_log for select to authenticated
  using(public.is_admin(array['owner']::public.admin_role[]));
 
-create policy "admins manage styles" on public.beer_styles for all to authenticated using(public.is_admin(array['owner','editor']::public.admin_role[])) with check(public.is_admin(array['owner','editor']::public.admin_role[]));
-create policy "admins manage products" on public.products for all to authenticated using(public.is_admin(array['owner','editor']::public.admin_role[])) with check(public.is_admin(array['owner','editor']::public.admin_role[]));
-create policy "admins manage product images" on public.product_images for all to authenticated using(public.is_admin(array['owner','editor']::public.admin_role[])) with check(public.is_admin(array['owner','editor']::public.admin_role[]));
-create policy "admins manage keg sizes" on public.keg_sizes for all to authenticated using(public.is_admin(array['owner','editor']::public.admin_role[])) with check(public.is_admin(array['owner','editor']::public.admin_role[]));
-create policy "admins manage event packages" on public.event_packages for all to authenticated using(public.is_admin(array['owner','editor']::public.admin_role[])) with check(public.is_admin(array['owner','editor']::public.admin_role[]));
-create policy "admins manage gallery" on public.events_gallery for all to authenticated using(public.is_admin(array['owner','editor']::public.admin_role[])) with check(public.is_admin(array['owner','editor']::public.admin_role[]));
-create policy "admins manage testimonials" on public.testimonials for all to authenticated using(public.is_admin(array['owner','editor']::public.admin_role[])) with check(public.is_admin(array['owner','editor']::public.admin_role[]));
-create policy "admins manage team" on public.team_members for all to authenticated using(public.is_admin(array['owner','editor']::public.admin_role[])) with check(public.is_admin(array['owner','editor']::public.admin_role[]));
-create policy "admins manage faqs" on public.faqs for all to authenticated using(public.is_admin(array['owner','editor']::public.admin_role[])) with check(public.is_admin(array['owner','editor']::public.admin_role[]));
-create policy "admins manage leads" on public.leads for all to authenticated using(public.is_admin(array['owner','editor']::public.admin_role[])) with check(public.is_admin(array['owner','editor']::public.admin_role[]));
-create policy "admins manage settings" on public.site_settings for all to authenticated using(public.is_admin(array['owner','editor']::public.admin_role[])) with check(public.is_admin(array['owner','editor']::public.admin_role[]));
-create policy "admins manage legal" on public.legal_pages for all to authenticated using(public.is_admin(array['owner','editor']::public.admin_role[])) with check(public.is_admin(array['owner','editor']::public.admin_role[]));
+create policy "admins read styles" on public.beer_styles for select to authenticated using(public.is_admin());
+create policy "editors manage styles" on public.beer_styles for all to authenticated using(public.is_admin(array['owner','editor']::public.admin_role[])) with check(public.is_admin(array['owner','editor']::public.admin_role[]));
+create policy "admins read products" on public.products for select to authenticated using(public.is_admin());
+create policy "editors manage products" on public.products for all to authenticated using(public.is_admin(array['owner','editor']::public.admin_role[])) with check(public.is_admin(array['owner','editor']::public.admin_role[]));
+create policy "admins read product images" on public.product_images for select to authenticated using(public.is_admin());
+create policy "editors manage product images" on public.product_images for all to authenticated using(public.is_admin(array['owner','editor']::public.admin_role[])) with check(public.is_admin(array['owner','editor']::public.admin_role[]));
+create policy "admins read keg sizes" on public.keg_sizes for select to authenticated using(public.is_admin());
+create policy "editors manage keg sizes" on public.keg_sizes for all to authenticated using(public.is_admin(array['owner','editor']::public.admin_role[])) with check(public.is_admin(array['owner','editor']::public.admin_role[]));
+create policy "admins read event packages" on public.event_packages for select to authenticated using(public.is_admin());
+create policy "editors manage event packages" on public.event_packages for all to authenticated using(public.is_admin(array['owner','editor']::public.admin_role[])) with check(public.is_admin(array['owner','editor']::public.admin_role[]));
+create policy "admins read gallery" on public.events_gallery for select to authenticated using(public.is_admin());
+create policy "editors manage gallery" on public.events_gallery for all to authenticated using(public.is_admin(array['owner','editor']::public.admin_role[])) with check(public.is_admin(array['owner','editor']::public.admin_role[]));
+create policy "admins read testimonials" on public.testimonials for select to authenticated using(public.is_admin());
+create policy "editors manage testimonials" on public.testimonials for all to authenticated using(public.is_admin(array['owner','editor']::public.admin_role[])) with check(public.is_admin(array['owner','editor']::public.admin_role[]));
+create policy "admins read team" on public.team_members for select to authenticated using(public.is_admin());
+create policy "editors manage team" on public.team_members for all to authenticated using(public.is_admin(array['owner','editor']::public.admin_role[])) with check(public.is_admin(array['owner','editor']::public.admin_role[]));
+create policy "admins read faqs" on public.faqs for select to authenticated using(public.is_admin());
+create policy "editors manage faqs" on public.faqs for all to authenticated using(public.is_admin(array['owner','editor']::public.admin_role[])) with check(public.is_admin(array['owner','editor']::public.admin_role[]));
+create policy "admins read leads" on public.leads for select to authenticated using(public.is_admin());
+create policy "editors manage leads" on public.leads for all to authenticated using(public.is_admin(array['owner','editor']::public.admin_role[])) with check(public.is_admin(array['owner','editor']::public.admin_role[]));
+create policy "admins read settings" on public.site_settings for select to authenticated using(public.is_admin());
+create policy "editors manage settings" on public.site_settings for all to authenticated using(public.is_admin(array['owner','editor']::public.admin_role[])) with check(public.is_admin(array['owner','editor']::public.admin_role[]));
+create policy "admins read legal" on public.legal_pages for select to authenticated using(public.is_admin());
+create policy "editors manage legal" on public.legal_pages for all to authenticated using(public.is_admin(array['owner','editor']::public.admin_role[])) with check(public.is_admin(array['owner','editor']::public.admin_role[]));
