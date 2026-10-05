@@ -119,3 +119,84 @@ Uploads do admin devem validar tipo/tamanho, exigir alt e gerar versões otimiza
 ## Critério de qualidade
 
 Nunca registrar como aprovado algo que não tenha sido executado. Build, testes, E2E, Lighthouse, segurança e acessibilidade precisam de resultado real antes de release.
+
+
+## Admin — fatia 1: autenticação e permissões
+
+Implementado na branch `feat/admin`:
+
+- autenticação por e-mail/senha via Supabase Auth;
+- sessão protegida no servidor com `proxy.ts` do Next.js 16;
+- cookies de autenticação reforçados com `HttpOnly`, `Secure` em produção, `SameSite=Lax` e `Path=/`;
+- papéis `owner`, `editor` e `viewer`, com autorização validada no servidor;
+- owner obrigado a concluir MFA/TOTP antes de acessar o painel;
+- recuperação de senha por e-mail e definição de nova senha;
+- logout global;
+- bloqueio de login após 5 falhas em 15 minutos por combinação anonimizada de e-mail/IP;
+- convites sem cadastro público;
+- tela de usuários exclusiva para owner, com troca de papel e desativação;
+- auditoria de login, logout, convite, alteração de papel e desativação;
+- RLS ajustado para viewer ler, editor editar conteúdo e owner administrar usuários;
+- `noindex/nofollow` no admin.
+
+As mutações usam Server Actions. O Next.js valida a origem das Server Actions contra o Host por padrão; não foram adicionadas origens cross-site extras.
+
+### Variáveis do projeto Vercel do admin
+
+No projeto Vercel cuja **Root Directory é `apps/admin`**, configure:
+
+```text
+NEXT_PUBLIC_SUPABASE_URL=...
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=...
+SUPABASE_SECRET_KEY=...
+ADMIN_APP_URL=https://admin.cervejariarodada.com.br
+SITE_REVALIDATE_URL=...
+REVALIDATE_SECRET=...
+```
+
+`SUPABASE_SECRET_KEY` é segredo exclusivamente server-side. Não configure essa chave no projeto Vercel do site público e não use prefixo `NEXT_PUBLIC_`.
+
+### Aplicar o schema no Supabase da Rodada
+
+O arquivo `packages/db/schema.sql` contém as estruturas exigidas por esta fatia, incluindo `admin_profiles.active` e `admin_login_attempts`. Aplique **somente no projeto Supabase da Cervejaria Rodada**.
+
+Para um projeto novo, revise e execute o schema canônico no SQL Editor ou converta-o em migration via Supabase CLI antes do deploy.
+
+### Criar o primeiro owner sem senha no código
+
+1. No Supabase da Rodada, abra **Authentication → Users → Add user**.
+2. Crie o usuário owner manualmente e defina a senha diretamente no Supabase.
+3. Copie o UUID desse usuário.
+4. No SQL Editor do mesmo projeto, execute substituindo apenas o UUID e o nome:
+
+```sql
+insert into public.admin_profiles (user_id, role, display_name, active)
+values ('UUID_DO_USUARIO', 'owner', 'Nome do owner', true)
+on conflict (user_id) do update
+set role='owner', display_name=excluded.display_name, active=true;
+```
+
+5. Em **Authentication → URL Configuration**, adicione `https://admin.cervejariarodada.com.br/auth/callback` às Redirect URLs.
+6. Entre no admin. O fluxo exigirá o cadastro do TOTP antes de liberar o dashboard.
+
+### Configuração recomendada do Supabase Auth
+
+No projeto da Rodada:
+
+- desative qualquer cadastro público pela aplicação;
+- mantenha e-mail/senha habilitado;
+- configure SMTP para convites e recuperação de senha em produção;
+- defina expiração de JWT/sessão conforme a política da empresa;
+- mantenha TOTP habilitado.
+
+### Como testar a fatia 1
+
+1. **Owner + MFA:** crie o owner como acima, entre com e-mail/senha, escaneie o QR TOTP e confirme o código. O dashboard deve abrir apenas após AAL2.
+2. **Editor convidado:** como owner, abra `/users`, convide um editor, abra o link recebido, defina a senha e entre. O editor não deve acessar `/users`.
+3. **Viewer:** convide um viewer e confirme que consegue autenticar, mas não recebe permissão de edição pelas políticas do banco.
+4. **Logout:** clique em Sair e tente abrir `/` novamente; deve redirecionar para `/login`.
+5. **Proteção direta:** sem sessão, abra `/users`; deve redirecionar para login. Logado como editor/viewer, `/users` deve bloquear no servidor.
+6. **Recuperação:** use `/recover`, abra o e-mail recebido e defina uma senha nova.
+7. **Força bruta:** após 5 falhas em 15 minutos para a mesma combinação de e-mail/IP, o login deve responder com bloqueio temporário.
+
+A integração real com Auth, envio de e-mail e RLS só pode ser validada depois que as variáveis e o schema forem aplicados no Supabase da Rodada.
