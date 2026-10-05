@@ -8,12 +8,12 @@ on conflict (slug) do nothing;
 insert into public.products (name,slug,category,beer_style_id,packaging,volume_ml,short_description,sort_order,published)
 select v.name,v.slug,'chope'::public.product_category,s.id,v.packaging,v.volume_ml,null,v.sort_order,true
 from (values
- ('Chopp Lager','chope-lager-1500','Lager','PET',1500,1),
- ('Chopp Pilsen','chope-pilsen-1500','Pilsen','PET',1500,2),
- ('Chopp Session IPA','chope-session-ipa-1500','Session IPA','PET',1500,3),
- ('Chopp Lager','chope-lager-700','Lager','PET',700,4),
- ('Chopp Pilsen','chope-pilsen-700','Pilsen','PET',700,5),
- ('Chopp Session IPA','chope-session-ipa-700','Session IPA','PET',700,6)
+ ('Chopp Lager','chopp-lager-15-l','Lager','PET',1500,1),
+ ('Chopp Pilsen','chopp-pilsen-15-l','Pilsen','PET',1500,2),
+ ('Chopp Session IPA','chopp-session-ipa-15-l','Session IPA','PET',1500,3),
+ ('Chopp Lager','chopp-lager-700-ml','Lager','PET',700,4),
+ ('Chopp Pilsen','chopp-pilsen-700-ml','Pilsen','PET',700,5),
+ ('Chopp Session IPA','chopp-session-ipa-700-ml','Session IPA','PET',700,6)
 ) as v(name,slug,style,packaging,volume_ml,sort_order)
 join public.beer_styles s on s.name=v.style
 on conflict (slug) do nothing;
