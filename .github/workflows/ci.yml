@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [main]
+    branches: [main, feat/admin]
   pull_request:
     branches: [main]
 
@@ -38,6 +38,8 @@ jobs:
           node-version: 22
       - name: Install admin dependencies
         run: npm install --prefix apps/admin --no-audit --no-fund
+      - name: Lint admin
+        run: npm --prefix apps/admin run lint
       - name: Typecheck admin
         run: npm --prefix apps/admin run typecheck
       - name: Build admin
