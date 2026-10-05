@@ -1,4 +1,5 @@
 import type {Metadata} from 'next';
+import Link from 'next/link';
 import {notFound} from 'next/navigation';
 import {fallbackSiteData,formatVolume} from '@/lib/fallback-data';
 import {getPublicProductBySlug,getPublicSiteData} from '@/lib/site-data';
@@ -52,7 +53,7 @@ export default async function ProductPage({params}:{params:Promise<{slug:string}
 
  return <main className="productPage">
   <script type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify(jsonLd)}}/>
-  <a className="productBack" href="/produtos">← VOLTAR AOS PRODUTOS</a>
+  <Link className="productBack" href="/produtos">← VOLTAR AOS PRODUTOS</Link>
   <section className="productHero">
    <div className="productHeroCopy">
     <p className="eyebrow">{product.category==='chope'?'CHOPE':'CERVEJA'} RODADA</p>
@@ -63,7 +64,7 @@ export default async function ProductPage({params}:{params:Promise<{slug:string}
     {product.availabilityStatus&&<p className="productAvailability">{product.availabilityStatus}</p>}
     <div className="productActions">
      {whatsapp&&<a className="primary" href={`https://wa.me/${whatsapp}?text=${message}`} target="_blank" rel="noreferrer">PEDIR ESTE PRODUTO ↗</a>}
-     <a className="secondary" href="/produtos">VER OUTROS PRODUTOS</a>
+     <Link className="secondary" href="/produtos">VER OUTROS PRODUTOS</Link>
     </div>
    </div>
    <div className="productHeroVisual">
