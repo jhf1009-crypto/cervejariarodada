@@ -808,3 +808,18 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
   .heroPioneer strong{font-size:31px}
   .heroPioneer small{font-size:10px}
 }
+
+/* Ajustes no destaque de pioneirismo */
+.heroPioneer strong em{
+  font-style:normal;
+  color:var(--gold);
+}
+.heroPioneer small{
+  font-size:13px;
+}
+.heroFoot{
+  justify-content:flex-end;
+}
+@media(max-width:760px){
+  .heroPioneer small{font-size:12px}
+}
