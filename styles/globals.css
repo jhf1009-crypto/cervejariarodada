@@ -823,3 +823,36 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
 @media(max-width:760px){
   .heroPioneer small{font-size:12px}
 }
+
+/* Calculadora de evento — controles ampliados e leitura mais precisa */
+.eventCalcControls fieldset button{
+  display:grid;
+  gap:3px;
+  text-align:left;
+  min-width:112px;
+}
+.eventCalcControls fieldset button b{
+  font-size:11px;
+  line-height:1;
+}
+.eventCalcControls fieldset button small{
+  font-size:8px;
+  opacity:.72;
+  text-transform:none;
+}
+.eventCalcBreakdown{
+  display:grid;
+  gap:4px;
+  margin:4px 0 2px;
+  padding:12px 0;
+  border-top:1px solid #08284222;
+  border-bottom:1px solid #08284222;
+}
+.eventCalcBreakdown b{
+  font-size:12px;
+}
+.eventCalcBreakdown span{
+  font-size:10px;
+  line-height:1.5;
+  opacity:.72;
+}
