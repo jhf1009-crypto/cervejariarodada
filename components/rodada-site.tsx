@@ -54,7 +54,6 @@ export default function RodadaSite(){
  const [eventHours,setEventHours]=useState(4);
  const [eventProfile,setEventProfile]=useState<'leve'|'moderado'|'alto'>('moderado');
  const [eventBeerShare,setEventBeerShare]=useState(70);
- const [eventReserve,setEventReserve]=useState(10);
  const [orderOpen,setOrderOpen]=useState(false);
  const [selectedOrders,setSelectedOrders]=useState<string[]>([]);
  const [orderQuantities,setOrderQuantities]=useState<Record<string,number>>({});
@@ -128,7 +127,7 @@ export default function RodadaSite(){
  const effectiveHours=Math.min(eventHours,4)+Math.max(0,Math.min(eventHours,8)-4)*.55+Math.max(0,eventHours-8)*.25;
  const estimatedDrinkers=Math.max(1,Math.round(eventGuests*(eventBeerShare/100)));
  const baseLiters=estimatedDrinkers*profileRate*effectiveHours;
- const estimatedLiters=Math.max(10,Math.ceil((baseLiters*(1+eventReserve/100))/5)*5);
+ const estimatedLiters=Math.max(10,Math.ceil(baseLiters/5)*5);
  const kegOptions=(()=>{
    let best:{count:number;capacity:number;k30:number;k50:number}|null=null;
    for(let k30=0;k30<=40;k30++){
@@ -276,7 +275,6 @@ export default function RodadaSite(){
         <label>Convidados <strong>{eventGuests}</strong><input type="range" min="10" max="1000" step="10" value={eventGuests} onChange={e=>setEventGuests(Number(e.target.value))}/></label>
         <label>Duração do evento <strong>{eventHours} h</strong><input type="range" min="2" max="24" step="1" value={eventHours} onChange={e=>setEventHours(Number(e.target.value))}/></label>
         <label>Convidados que vão beber chope <strong>{eventBeerShare}% · ~{estimatedDrinkers} pessoas</strong><input type="range" min="10" max="100" step="5" value={eventBeerShare} onChange={e=>setEventBeerShare(Number(e.target.value))}/></label>
-        <label>Margem de segurança <strong>{eventReserve}%</strong><input type="range" min="0" max="80" step="5" value={eventReserve} onChange={e=>setEventReserve(Number(e.target.value))}/></label>
         <fieldset>
           <legend>Perfil de consumo</legend>
           {([
@@ -293,8 +291,8 @@ export default function RodadaSite(){
           <b>~{estimatedDrinkers} consumidores de chope</b>
           <span>{kegOptions.capacity} L de capacidade sugerida{estimatedWaste>0?' · '+estimatedWaste+' L de folga operacional':''}</span>
         </div>
-        <p>O cálculo considera apenas quem deve beber chope, reduz o ritmo de consumo em eventos longos e aplica uma margem ajustável. Assim, a duração não multiplica o consumo de forma linear e evita estimativas exageradas.</p>
-        <a className="primary" href={wa('Olá! Usei a calculadora do site para um evento com '+eventGuests+' convidados, duração de '+eventHours+' horas, cerca de '+estimatedDrinkers+' consumidores de chope, perfil '+eventProfile+' e margem de '+eventReserve+'%. A estimativa foi de '+estimatedLiters+' L, com sugestão de '+suggestedKegs+'. Quero confirmar a quantidade e pedir um orçamento.')} target="_blank" rel="noreferrer">CONFIRMAR COM A RODADA <Arrow/></a>
+        <p>O cálculo considera apenas quem deve beber chope e reduz o ritmo de consumo em eventos longos. Assim, a duração não multiplica o consumo de forma linear e evita estimativas exageradas.</p>
+        <a className="primary" href={wa('Olá! Usei a calculadora do site para um evento com '+eventGuests+' convidados, duração de '+eventHours+' horas, cerca de '+estimatedDrinkers+' consumidores de chope, perfil '+eventProfile+' A estimativa foi de '+estimatedLiters+' L, com sugestão de '+suggestedKegs+'. Quero confirmar a quantidade e pedir um orçamento.')} target="_blank" rel="noreferrer">CONFIRMAR COM A RODADA <Arrow/></a>
       </div>
     </Reveal>
    </section>
