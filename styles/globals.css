@@ -737,3 +737,32 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
 .beerLineupCard.beer-pilsen .beerLineupVisual span{
   color:#bdd0dd;
 }
+
+/* Destaque institucional discreto no hero */
+.heroPioneer{
+  margin-top:24px;
+  max-width:470px;
+  padding:14px 0 14px 18px;
+  border-left:2px solid var(--gold);
+  display:grid;
+  gap:5px;
+}
+.heroPioneer span{
+  font-size:8px;
+  font-weight:900;
+  letter-spacing:1.7px;
+  color:#9fc0d7;
+}
+.heroPioneer strong{
+  font-family:var(--display);
+  font-size:clamp(22px,2vw,30px);
+  line-height:1.02;
+  letter-spacing:-.02em;
+  font-weight:800;
+  color:#f2efe7;
+  max-width:430px;
+}
+@media(max-width:760px){
+  .heroPioneer{margin-top:20px;max-width:330px;padding-left:14px}
+  .heroPioneer strong{font-size:24px}
+}
