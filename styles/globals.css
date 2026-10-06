@@ -1432,3 +1432,127 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
   .productHeroVisual img{width:84%!important;height:80%!important}
   .catalogCard img{height:190px!important}
 }
+
+
+/* Mobile hero refresh — cleaner hierarchy without changing desktop layout */
+.heroTitleMobile{display:none}
+
+@media(max-width:760px){
+  .heroCopy{
+    display:block;
+    width:100%;
+    max-width:100%;
+  }
+
+  .heroEyebrow{
+    display:none!important;
+  }
+
+  .heroTitleDesktop{
+    display:none!important;
+  }
+
+  .heroTitleMobile{
+    display:block!important;
+    margin:0!important;
+    max-width:100%;
+    font-size:clamp(54px,16vw,72px)!important;
+    line-height:.88!important;
+    letter-spacing:-.035em!important;
+  }
+
+  .heroTitleMobile span{
+    color:var(--gold);
+  }
+
+  .heroCopy .lead{
+    max-width:330px!important;
+    margin-top:18px!important;
+    font-size:13px!important;
+    line-height:1.65!important;
+    color:#d2e2ed!important;
+  }
+
+  .heroPioneer{
+    margin-top:24px!important;
+    padding:18px 0 0!important;
+    border-left:0!important;
+    border-top:1px solid #ffffff2b!important;
+    background:none!important;
+    gap:10px!important;
+    max-width:100%!important;
+  }
+
+  .heroPioneerLabel{
+    display:none!important;
+  }
+
+  .heroPioneer strong{
+    max-width:345px!important;
+    font-size:clamp(25px,7.8vw,30px)!important;
+    line-height:1.02!important;
+    letter-spacing:-.025em!important;
+    color:#f7f3e9!important;
+  }
+
+  .heroPioneer strong em{
+    color:inherit!important;
+    font-family:var(--body)!important;
+    font-size:.83em!important;
+    font-style:italic!important;
+    font-weight:800!important;
+    letter-spacing:-.045em!important;
+  }
+
+  .heroPioneer small{
+    display:block;
+    max-width:320px!important;
+    margin-top:2px!important;
+    font-size:10px!important;
+    line-height:1.55!important;
+    color:#9fb8c9!important;
+  }
+
+  .heroActions{
+    display:grid!important;
+    grid-template-columns:1fr 1fr!important;
+    gap:12px 14px!important;
+    margin-top:24px!important;
+    align-items:stretch!important;
+  }
+
+  .heroActions .primary{
+    grid-column:1/-1;
+    width:100%!important;
+    min-width:0!important;
+    min-height:52px;
+    padding:16px 18px!important;
+    font-size:11px!important;
+  }
+
+  .heroActions .secondary{
+    display:flex;
+    align-items:center;
+    min-height:38px;
+    padding:8px 0!important;
+    border-bottom:1px solid #ffffff35!important;
+    font-size:9px!important;
+    line-height:1.35!important;
+  }
+}
+
+@media(max-width:390px){
+  .heroTitleMobile{
+    font-size:clamp(50px,15.4vw,62px)!important;
+  }
+  .heroPioneer strong{
+    font-size:25px!important;
+    max-width:315px!important;
+  }
+  .heroActions{
+    grid-template-columns:1fr!important;
+  }
+  .heroActions .primary{
+    grid-column:auto;
+  }
+}
