@@ -169,6 +169,10 @@ export default function RodadaSite(){
      <p className="eyebrow">NATURALMENTE BAIANA</p>
      <h1>A SUA FESTA.<br/>A NOSSA<br/><span>RODADA.</span></h1>
      <p className="lead">Chopp puro malte do Oeste da Bahia, feito para transformar bons encontros em grandes momentos.</p>
+     <div className="heroPioneer" aria-label="Pioneirismo da Cervejaria Rodada">
+       <span>PIONEIRISMO BAIANO</span>
+       <strong>A primeira cervejaria baiana a criar uma cerveja sem glúten.</strong>
+     </div>
      <div className="actions heroActions"><a href="#chopes" className="primary">VER CHOPES <Arrow/></a><a href="#cervejas" className="secondary">Ver cervejas ↓</a><a href="#eventos" className="secondary">Quero chope para meu evento ↓</a></div>
     </div>
     <div className="heroStage">
