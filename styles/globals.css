@@ -766,3 +766,45 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
   .heroPioneer{margin-top:20px;max-width:330px;padding-left:14px}
   .heroPioneer strong{font-size:24px}
 }
+
+/* Reforço visual do marco sem glúten no topo */
+.heroPioneer{
+  margin-top:30px;
+  max-width:620px;
+  padding:22px 24px 22px 26px;
+  border-left:4px solid var(--gold);
+  background:linear-gradient(90deg,#ffffff10,transparent);
+  display:grid;
+  gap:8px;
+}
+.heroPioneer span{
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:2px;
+  color:var(--gold);
+  text-transform:uppercase;
+}
+.heroPioneer strong{
+  font-family:var(--display);
+  font-size:clamp(32px,3.2vw,50px);
+  line-height:.96;
+  letter-spacing:-.03em;
+  font-weight:900;
+  color:#f7f3e9;
+  max-width:590px;
+}
+.heroPioneer small{
+  font-size:11px;
+  line-height:1.6;
+  color:#bcd3e4;
+  max-width:520px;
+}
+@media(max-width:760px){
+  .heroPioneer{
+    margin-top:24px;
+    max-width:100%;
+    padding:18px 18px 18px 20px;
+  }
+  .heroPioneer strong{font-size:31px}
+  .heroPioneer small{font-size:10px}
+}
