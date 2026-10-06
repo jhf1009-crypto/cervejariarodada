@@ -27,9 +27,9 @@ const choppProducts=[
 ];
 
 const beerProducts=[
- {name:'Cerveja Rodada Long Neck',meta:'LONG NECK',image:'/garrafa%20cerveja%20generica%20sem%20fundo.png',tone:'beer-pilsen'},
  {name:'Cerveja Rodada Lata',meta:'LATA',image:'/events/image.png',tone:'beer-lager'},
- {name:'Cerveja Lager Rodada',meta:'LAGER · 600 ML',image:'/products/cerveja-lager-rodada.svg',tone:'beer-lager'}
+ {name:'Cerveja Lager Rodada',meta:'LAGER · 600 ML',image:'/events/Garrafa%20Gelada%20de%20Cervejaria%20Rodada.png',tone:'beer-lager'},
+ {name:'Cerveja Pilsen Rodada',meta:'PILSEN · 600 ML',image:'/events/Garrafa%20de%20Cerveja%20Dourada%20com%20Condensa%C3%A7%C3%A3o.png',tone:'beer-pilsen'}
 ];
 
 const orderProducts=[
@@ -206,7 +206,7 @@ export default function RodadaSite(){
    <section className="beerSection section" id="cervejas" aria-labelledby="cervejas-title">
     <Reveal className="sectionTitle commerceTitle">
       <div><p className="eyebrow dark">02 / CERVEJAS RODADA</p><h2 id="cervejas-title">A RODADA<br/><em>TAMBÉM EM CERVEJA.</em></h2></div>
-      <div className="sectionIntro"><p>Long neck, lata ou Lager 600 ml: escolha o formato e consulte a disponibilidade atual diretamente com a Rodada.</p><a href={wa('Olá! Gostaria de saber quais cervejas Rodada estão disponíveis.')} target="_blank" rel="noreferrer">Ver disponibilidade <Arrow/></a></div>
+      <div className="sectionIntro"><p>Lata, Lager 600 ml ou Pilsen 600 ml: escolha o formato e consulte a disponibilidade atual diretamente com a Rodada.</p><a href={wa('Olá! Gostaria de saber quais cervejas Rodada estão disponíveis.')} target="_blank" rel="noreferrer">Ver disponibilidade <Arrow/></a></div>
     </Reveal>
     <div className="beerGrid">
       {beerProducts.map((item,index)=>(
