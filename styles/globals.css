@@ -1003,3 +1003,18 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
 .faqPublicItem>div p{max-width:760px;color:#5b7181;line-height:1.75}
 @media(max-width:800px){.faqPublicHead{grid-template-columns:1fr}.faqPublicItem summary{grid-template-columns:1fr auto}.faqPublicItem summary span{grid-column:1/-1}.faqPublicItem>div{padding-left:0}}
 @media(max-width:600px){.faqPublicHead h2{font-size:52px}.faqPublicItem summary strong{font-size:28px}}
+
+/* Páginas legais */
+.legalPublicPage{min-height:100vh;background:#f7f3e9;color:#082842;padding:72px 24px}
+.legalPublicWrap{max-width:980px;margin:0 auto}
+.legalPublicWrap>small{display:block;margin-top:42px;font-size:9px;font-weight:900;letter-spacing:.2em;color:#7890a0}
+.legalPublicWrap h1{font-family:var(--display);font-size:clamp(56px,8vw,110px);line-height:.86;letter-spacing:-.05em;margin:10px 0 24px}
+.legalBack{color:#082842;text-decoration:none;font-size:12px;font-weight:800}
+.legalIntro,.legalUpdated{color:#667d8c;line-height:1.7;max-width:720px}
+.legalList{display:grid;margin-top:36px;border-top:1px solid #08284222}
+.legalList>a{display:grid;grid-template-columns:1fr auto auto;gap:18px;align-items:center;padding:20px 0;border-bottom:1px solid #08284222;color:#082842;text-decoration:none}
+.legalList>a span{font-family:var(--display);font-size:30px}.legalList>a small{color:#7890a0}.legalList>a b{font-size:20px}
+.legalArticle h1{max-width:900px}.legalUpdated{margin-bottom:36px}
+.legalBody{border-top:1px solid #08284222;padding-top:28px}
+.legalBody p{white-space:pre-line;font-size:16px;line-height:1.85;color:#334f63;margin:0 0 22px;max-width:860px}
+@media(max-width:600px){.legalPublicPage{padding:42px 16px}.legalList>a{grid-template-columns:1fr auto}.legalList>a small{grid-column:1/-1;grid-row:2}.legalList>a span{font-size:26px}.legalBody p{font-size:15px}}
