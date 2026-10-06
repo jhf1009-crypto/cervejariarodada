@@ -100,7 +100,7 @@ export default function RodadaSite(){
  const changeOrderQuantity=(product:string,delta:number)=>{
   setOrderQuantities(current=>({...current,[product]:Math.min(99,Math.max(1,(current[product]||1)+delta))}));
  };
- const isBeerOrder=(product:string)=>beerProducts.some(item=>item.name===product);
+ const isBeerOrder=(product:string)=>beerProducts.some(item=>product.startsWith(item.name));
  const selectCity=(city:string)=>{
   setOrderCity(city);
   if(city!=='Outra cidade'){setOrderCep('');setCepCity('');setCepStatus('idle')}
@@ -201,7 +201,6 @@ export default function RodadaSite(){
         </Reveal>
       ))}
     </div>
-   </section>
 
     <div className="beerLineup" id="cervejas" aria-labelledby="cervejas-title">
       <Reveal className="beerLineupHead">
