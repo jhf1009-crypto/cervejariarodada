@@ -570,3 +570,80 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
 .beerLineupCopy>div{display:flex;align-items:center;justify-content:space-between;gap:14px}
 @media(max-width:900px){.beerLineupHead{grid-template-columns:1fr}.beerLineupGrid{grid-template-columns:1fr 1fr}}
 @media(max-width:620px){.beerLineup{margin-top:54px;padding-top:40px}.beerLineupGrid{grid-template-columns:1fr}.beerLineupCard{min-height:0}.beerLineupVisual{min-height:250px}.beerLineupCopy h3{font-size:38px}.glutenFreeBadge{font-size:21px}}
+
+/* Repaginacao do painel de chopes — cards maiores e linguagem alinhada ao novo lineup de cervejas */
+#chopes .commerceTitle{margin-bottom:34px}
+#chopes .variationGrid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:20px;
+  overflow:visible;
+  margin:0;
+  padding:0;
+  scroll-snap-type:none;
+}
+#chopes .variationCard{
+  min-height:540px;
+  padding:22px;
+  border-radius:0;
+  border:1px solid #08284212;
+  box-shadow:none;
+}
+#chopes .variationTop{
+  font-size:8px;
+  letter-spacing:1.3px;
+}
+#chopes .variationVisual{
+  min-height:350px;
+  margin:10px 0 14px;
+}
+#chopes .variationFlavor{
+  font-size:clamp(64px,6vw,104px);
+  opacity:.9;
+}
+#chopes .mockBottle{
+  height:340px;
+}
+#chopes .variationBottom{
+  padding-top:20px;
+}
+#chopes .variationBottom h3{
+  max-width:280px;
+  font-size:clamp(30px,2.7vw,42px);
+  line-height:.92;
+  letter-spacing:-.035em;
+}
+#chopes .variationBottom p{
+  font-size:12px;
+  margin-top:9px;
+}
+#chopes .cardAction{
+  font-size:9px;
+  padding:11px 13px;
+}
+#chopes .productDetailLink{
+  display:inline-block;
+  margin-top:12px;
+}
+
+@media(max-width:1100px){
+  #chopes .variationGrid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+
+@media(max-width:700px){
+  #chopes .variationGrid{
+    grid-template-columns:1fr;
+    overflow:visible;
+    margin:0;
+    padding:0;
+    gap:14px;
+  }
+  #chopes .variationCard{
+    min-height:0;
+    padding:18px;
+    scroll-snap-align:none;
+  }
+  #chopes .variationVisual{min-height:300px}
+  #chopes .mockBottle{height:290px}
+  #chopes .variationBottom h3{font-size:36px}
+}
