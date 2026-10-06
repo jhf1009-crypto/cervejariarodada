@@ -1556,3 +1556,25 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
     grid-column:auto;
   }
 }
+
+
+/* Hero emphasis correction */
+.heroPioneer strong em{
+  color:var(--gold)!important;
+  font-family:var(--display)!important;
+  font-size:1em!important;
+  font-style:normal!important;
+  font-weight:900!important;
+  letter-spacing:inherit!important;
+}
+
+@media(max-width:760px){
+  .heroPioneer strong em{
+    color:var(--gold)!important;
+    font-family:var(--display)!important;
+    font-size:1em!important;
+    font-style:normal!important;
+    font-weight:900!important;
+    letter-spacing:inherit!important;
+  }
+}
