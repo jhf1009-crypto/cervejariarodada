@@ -28,7 +28,8 @@ const choppProducts=[
 
 const beerProducts=[
  {name:'Cerveja Rodada Long Neck',meta:'LONG NECK',image:'/garrafa%20cerveja%20generica%20sem%20fundo.png',tone:'beer-pilsen'},
- {name:'Cerveja Rodada Lata',meta:'LATA',image:'/events/image.png',tone:'beer-lager'}
+ {name:'Cerveja Rodada Lata',meta:'LATA',image:'/events/image.png',tone:'beer-lager'},
+ {name:'Cerveja Lager Rodada',meta:'LAGER · 600 ML',image:'/products/cerveja-lager-rodada.svg',tone:'beer-lager'}
 ];
 
 const orderProducts=[
@@ -205,12 +206,12 @@ export default function RodadaSite(){
    <section className="beerSection section" id="cervejas" aria-labelledby="cervejas-title">
     <Reveal className="sectionTitle commerceTitle">
       <div><p className="eyebrow dark">02 / CERVEJAS RODADA</p><h2 id="cervejas-title">A RODADA<br/><em>TAMBÉM EM CERVEJA.</em></h2></div>
-      <div className="sectionIntro"><p>Long neck ou lata: escolha o formato e consulte a disponibilidade atual diretamente com a Rodada.</p><a href={wa('Olá! Gostaria de saber quais cervejas Rodada estão disponíveis.')} target="_blank" rel="noreferrer">Ver disponibilidade <Arrow/></a></div>
+      <div className="sectionIntro"><p>Long neck, lata ou Lager 600 ml: escolha o formato e consulte a disponibilidade atual diretamente com a Rodada.</p><a href={wa('Olá! Gostaria de saber quais cervejas Rodada estão disponíveis.')} target="_blank" rel="noreferrer">Ver disponibilidade <Arrow/></a></div>
     </Reveal>
     <div className="beerGrid">
       {beerProducts.map((item,index)=>(
         <Reveal key={item.name} className={'beerCard '+item.tone}>
-          <div className="beerCopy"><span>0{index+1} / 02 · {item.meta}</span><h3>{item.name}</h3><p>Uma nova forma de levar a identidade Rodada para diferentes momentos.</p><a className="productDetailLink" href={'/produtos/'+item.name.toLowerCase().replaceAll(' ','-')}>VER DETALHES <Arrow/></a><button type="button" className="beerOrderButton" onClick={()=>openOrder(item.name)}>PEDIR PELO WHATSAPP <Arrow/></button></div>
+          <div className="beerCopy"><span>0{index+1} / 03 · {item.meta}</span><h3>{item.name}</h3><p>Uma nova forma de levar a identidade Rodada para diferentes momentos.</p><a className="productDetailLink" href={'/produtos/'+item.name.toLowerCase().replaceAll(' ','-')}>VER DETALHES <Arrow/></a><button type="button" className="beerOrderButton" onClick={()=>openOrder(item.name)}>PEDIR PELO WHATSAPP <Arrow/></button></div>
           <div className="beerVisual"><span aria-hidden="true">{item.meta}</span>{item.image&&<img src={item.image} alt={item.name} loading="lazy" decoding="async"/>}</div>
         </Reveal>
       ))}
