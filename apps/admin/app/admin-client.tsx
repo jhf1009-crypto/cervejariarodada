@@ -7,6 +7,7 @@ import GalleryManager from './gallery-manager';
 import FaqManager from './faq-manager';
 import LegalManager from './legal-manager';
 import UsersManager from './users-manager';
+import AuditManager from './audit-manager';
 
 type Product={id:string;name:string;slug:string;category:'chope'|'cerveja';packaging:string|null;volume_ml:number|null;short_description:string|null;price:number|null;promotional_price:number|null;availability_status:string|null;sort_order:number;featured:boolean;published:boolean};
 type Keg={id:string;liters:number;estimated_cups:number|null;rental_price:number|null;sale_price:number|null;active:boolean};
@@ -156,7 +157,7 @@ export default function AdminClient({name,role,email}:{name:string;role:string;e
    {active==='faq'&&<FaqManager/>}
    {active==='legal'&&<LegalManager/>}
    {active==='users'&&<UsersManager/>}
-   {active!=='dashboard'&&active!=='products'&&active!=='kegs'&&active!=='leads'&&active!=='settings'&&active!=='gallery'&&active!=='faq'&&active!=='legal'&&active!=='users'&&<p>Este módulo será implementado na próxima etapa, sem alterar o que já está funcionando.</p>}
+   {active==='audit'&&<AuditManager/>}
   </section>
  </main>
 }
