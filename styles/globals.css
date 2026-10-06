@@ -675,3 +675,39 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
 .beerLineupCard.beer-gluten-free .glutenFreeBadge{
   color:#467553;
 }
+
+/* Ajuste solicitado: cards Lager no azul escuro principal da identidade Rodada */
+#chopes .variationCard.lager,
+.beerLineupCard.beer-lager,
+.beerLineupCard.beer-gluten-free{
+  background:#082842;
+  color:#f5f2ea;
+  border-color:#ffffff1f;
+}
+#chopes .variationCard.lager .variationTop,
+#chopes .variationCard.lager .variationBottom p,
+.beerLineupCard.beer-lager .beerLineupTop,
+.beerLineupCard.beer-lager .beerLineupCopy>small,
+.beerLineupCard.beer-lager .beerLineupCopy>p,
+.beerLineupCard.beer-gluten-free .beerLineupTop,
+.beerLineupCard.beer-gluten-free .beerLineupCopy>small,
+.beerLineupCard.beer-gluten-free .beerLineupCopy>p{
+  color:#c8d7e2;
+}
+#chopes .variationCard.lager .variationBottom,
+.beerLineupCard.beer-lager .beerLineupCopy,
+.beerLineupCard.beer-gluten-free .beerLineupCopy{
+  border-color:#ffffff22;
+}
+.beerLineupCard.beer-gluten-free .glutenFreeBadge{
+  color:#d9eadf;
+}
+.beerLineupCard.beer-lager .beerLineupVisual,
+.beerLineupCard.beer-gluten-free .beerLineupVisual{
+  border-color:#ffffff28;
+  background:linear-gradient(145deg,#ffffff12,#ffffff05);
+}
+.beerLineupCard.beer-lager .beerLineupVisual span,
+.beerLineupCard.beer-gluten-free .beerLineupVisual span{
+  color:#bdd0dd;
+}
