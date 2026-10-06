@@ -960,5 +960,3 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
   }
 }
 
-/* Enquadramento específico do Chopp Lager 1,5 L: mostra o rótulo completo */
-.variationCard.lagerRaised .mockBottle.photoAsset>img{transform:translateY(-78px) scale(.92)}
