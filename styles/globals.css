@@ -927,3 +927,35 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
     height:44%!important;
   }
 }
+
+
+/* Três garrafas Rodada — lado esquerdo do barril no hero */
+.heroStage .heroBottles{
+  display:block;
+  opacity:1;
+  position:absolute;
+  left:-8%;
+  top:20%;
+  width:40%;
+  height:58%;
+  object-fit:contain;
+  z-index:6;
+  filter:drop-shadow(14px 28px 20px #00152c70);
+  animation:float 6s ease-in-out infinite;
+}
+@media(max-width:760px){
+  .heroStage .heroBottles{
+    left:-5%;
+    top:27%;
+    width:36%;
+    height:48%;
+  }
+}
+@media(max-width:390px){
+  .heroStage .heroBottles{
+    left:-6%;
+    top:29%;
+    width:36%;
+    height:44%;
+  }
+}
