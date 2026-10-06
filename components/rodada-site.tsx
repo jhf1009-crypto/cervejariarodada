@@ -13,18 +13,17 @@ const img={
 
 // Imagens demonstrativas temporárias: substituir pelos arquivos oficiais quando forem disponibilizados.
 const choppProducts=[
- {name:'Chopp Lager',size:'1,5 L',meta:'PET 1,5 L',flavor:'LAGER',image:'/products/image.png',tone:'lager',photo:true},
- {name:'Chopp Pilsen',size:'1,5 L',meta:'PET 1,5 L',flavor:'PILSEN',image:'/events/chopp 1,5l pilsen.png',tone:'pilsen',photo:true},
- {name:'Chopp Session IPA',size:'1,5 L',meta:'PET 1,5 L',flavor:'SESSION IPA',image:'/events/chopp 1,5l ipa.png',tone:'ipa',photo:true},
- {name:'Chopp Lager',size:'700 ml',meta:'PET 700 ML',flavor:'LAGER',image:'/events/rodada chopp lager 700ml.png',tone:'lager',photo:true},
- {name:'Chopp Pilsen',size:'700 ml',meta:'PET 700 ML',flavor:'PILSEN',image:'/events/rodada chopp pilsen 700ml.png',tone:'pilsen',photo:true},
-
+ {name:'Chopp Lager',size:'1,5 L',meta:'PET 1,5 L',flavor:'LAGER',image:'/products/image.png',tone:'lager',photo:true,width:941,height:1672},
+ {name:'Chopp Pilsen',size:'1,5 L',meta:'PET 1,5 L',flavor:'PILSEN',image:'/events/chopp 1,5l pilsen.png',tone:'pilsen',photo:true,width:941,height:1672},
+ {name:'Chopp Session IPA',size:'1,5 L',meta:'PET 1,5 L',flavor:'SESSION IPA',image:'/events/chopp 1,5l ipa.png',tone:'ipa',photo:true,width:936,height:1680},
+ {name:'Chopp Lager',size:'700 ml',meta:'PET 700 ML',flavor:'LAGER',image:'/events/rodada chopp lager 700ml.png',tone:'lager',photo:true,width:1024,height:1536},
+ {name:'Chopp Pilsen',size:'700 ml',meta:'PET 700 ML',flavor:'PILSEN',image:'/events/rodada chopp pilsen 700ml.png',tone:'pilsen',photo:true,width:1086,height:1448}
 ];
 
 const beerProducts=[
- {name:'Cerveja Rodada Lager',meta:'600 ML',style:'LAGER',image:'/events/cerveja rodada lager.png',tone:'beer-lager'},
- {name:'Cerveja Rodada Pilsen',meta:'600 ML',style:'PILSEN',image:'/events/cerveja rodada pilsen.png',tone:'beer-pilsen'},
- {name:'Cerveja Rodada Lager',meta:'600 ML',style:'LAGER',badge:'SEM GLÚTEN',image:'/events/cerveja rodada lager sem glúten.png',tone:'beer-gluten-free'}
+ {name:'Cerveja Rodada Lager',meta:'600 ML',style:'LAGER',image:'/events/cerveja rodada lager.png',tone:'beer-lager',width:1650,height:953},
+ {name:'Cerveja Rodada Pilsen',meta:'600 ML',style:'PILSEN',image:'/events/cerveja rodada pilsen.png',tone:'beer-pilsen',width:1506,height:1044},
+ {name:'Cerveja Rodada Lager',meta:'600 ML',style:'LAGER',badge:'SEM GLÚTEN',image:'/events/cerveja rodada lager sem glúten.png',tone:'beer-gluten-free',width:1419,height:1109}
 ];
 
 const orderProducts=[
@@ -239,7 +238,7 @@ export default function RodadaSite(){
           <div className="variationVisual">
             <span className="variationFlavor" aria-hidden="true">{item.flavor}</span>
             <div className={item.photo?'mockBottle photoAsset':'mockBottle'}>
-              {item.image&&<Image src={item.image} alt={item.name+' '+item.size} width={941} height={1672} quality={60} loading="lazy" sizes="(max-width: 700px) 88vw, (max-width: 1100px) 46vw, 30vw"/>}
+              {item.image&&<Image src={item.image} alt={item.name+' '+item.size} width={item.width} height={item.height} quality={60} loading="lazy" sizes="(max-width: 700px) 88vw, (max-width: 1100px) 46vw, 30vw"/>}
               {item.photo?null:<div className="mockLabel"><b>RODADA</b><small>{item.flavor}</small><em>{item.size}</em></div>}
             </div>
           </div>
@@ -261,7 +260,7 @@ export default function RodadaSite(){
           <Reveal key={item.name+(item.badge||'')} className={'beerLineupCard '+item.tone}>
             <div className="beerLineupTop"><span>{String(index+1).padStart(2,'0')} / 03</span><span>{item.meta}</span></div>
             <div className="beerLineupVisual" aria-label={'Foto de '+item.name+(item.badge?' '+item.badge:'')}>
-              {item.image?<Image src={item.image} alt={item.name+(item.badge?' '+item.badge:'')} width={1500} height={1100} quality={60} loading="lazy" sizes="(max-width: 700px) 88vw, (max-width: 1100px) 46vw, 30vw"/>:<span>FOTO<br/>EM BREVE</span>}
+              {item.image?<Image src={item.image} alt={item.name+(item.badge?' '+item.badge:'')} width={item.width} height={item.height} quality={60} loading="lazy" sizes="(max-width: 700px) 88vw, (max-width: 1100px) 46vw, 30vw"/>:<span>FOTO<br/>EM BREVE</span>}
             </div>
             <div className="beerLineupCopy">
               <small>{item.style}</small>
