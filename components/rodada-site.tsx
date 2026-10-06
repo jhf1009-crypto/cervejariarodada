@@ -18,18 +18,18 @@ const canData='data:image/webp;base64,UklGRrwLAABXRUJQVlA4ILALAADwMQCdASqXAG4APk
 
 // Imagens demonstrativas temporárias: substituir pelos arquivos oficiais quando forem disponibilizados.
 const choppProducts=[
- {name:'Chopp Lager',size:'1,5 L',meta:'PET 1,5 L',flavor:'LAGER',image:'',tone:'lager',photo:false},
- {name:'Chopp Pilsen',size:'1,5 L',meta:'PET 1,5 L',flavor:'PILSEN',image:'',tone:'pilsen',photo:false},
- {name:'Chopp Session IPA',size:'1,5 L',meta:'PET 1,5 L',flavor:'SESSION IPA',image:'',tone:'ipa',photo:false},
+ {name:'Chopp Lager',size:'1,5 L',meta:'PET 1,5 L',flavor:'LAGER',image:'/events/chopp 1,5l lager.png',tone:'lager',photo:true},
+ {name:'Chopp Pilsen',size:'1,5 L',meta:'PET 1,5 L',flavor:'PILSEN',image:'/events/chopp 1,5l pilsen.png',tone:'pilsen',photo:true},
+ {name:'Chopp Session IPA',size:'1,5 L',meta:'PET 1,5 L',flavor:'SESSION IPA',image:'/events/chopp 1,5l ipa.png',tone:'ipa',photo:true},
  {name:'Chopp Lager',size:'700 ml',meta:'PET 700 ML',flavor:'LAGER',image:'',tone:'lager',photo:false},
  {name:'Chopp Pilsen',size:'700 ml',meta:'PET 700 ML',flavor:'PILSEN',image:'',tone:'pilsen',photo:false},
  {name:'Chopp Session IPA',size:'700 ml',meta:'PET 700 ML',flavor:'SESSION IPA',image:'',tone:'ipa',photo:false}
 ];
 
 const beerProducts=[
- {name:'Cerveja Rodada Lager',meta:'600 ML',style:'LAGER',image:'',tone:'beer-lager'},
- {name:'Cerveja Rodada Pilsen',meta:'600 ML',style:'PILSEN',image:'',tone:'beer-pilsen'},
- {name:'Cerveja Rodada Lager',meta:'600 ML',style:'LAGER',badge:'SEM GLÚTEN',image:'',tone:'beer-gluten-free'}
+ {name:'Cerveja Rodada Lager',meta:'600 ML',style:'LAGER',image:'/events/cerveja rodada lager.png',tone:'beer-lager'},
+ {name:'Cerveja Rodada Pilsen',meta:'600 ML',style:'PILSEN',image:'/events/cerveja rodada pilsen.png',tone:'beer-pilsen'},
+ {name:'Cerveja Rodada Lager',meta:'600 ML',style:'LAGER',badge:'SEM GLÚTEN',image:'/events/cerveja rodada lager sem glúten.png',tone:'beer-gluten-free'}
 ];
 
 const orderProducts=[
@@ -237,8 +237,8 @@ export default function RodadaSite(){
         {beerProducts.map((item,index)=>(
           <Reveal key={item.name+(item.badge||'')} className={'beerLineupCard '+item.tone}>
             <div className="beerLineupTop"><span>{String(index+1).padStart(2,'0')} / 03</span><span>{item.meta}</span></div>
-            <div className="beerLineupVisual" aria-label={'Espaço reservado para foto de '+item.name+(item.badge?' '+item.badge:'')}>
-              <span>FOTO<br/>EM BREVE</span>
+            <div className="beerLineupVisual" aria-label={'Foto de '+item.name+(item.badge?' '+item.badge:'')}>
+              {item.image?<img src={item.image} alt={item.name+(item.badge?' '+item.badge:'')} loading="lazy" decoding="async"/>:<span>FOTO<br/>EM BREVE</span>}
             </div>
             <div className="beerLineupCopy">
               <small>{item.style}</small>
