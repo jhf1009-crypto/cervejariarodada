@@ -196,6 +196,7 @@ export default function RodadaSite(){
     <div className="heroStage">
       <div className="orbit"/>
       <span className="ghost">PURO<br/>MALTE</span>
+      <img src="/events/image.png?v=412bad9" alt="Três garrafas de Chopp Rodada" className="heroBottles" loading="eager" decoding="async" fetchPriority="high"/>
       <img src={img.barril} alt="Barril de Chopp Rodada" className="heroKeg" loading="eager" decoding="async" fetchPriority="high"/>
       <img src="/events/image.png" alt="Chopeira Rodada" className="heroTap" loading="eager" decoding="async" fetchPriority="high"/>
 
