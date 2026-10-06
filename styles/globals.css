@@ -647,3 +647,31 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
   #chopes .mockBottle{height:290px}
   #chopes .variationBottom h3{font-size:36px}
 }
+
+/* Paleta por estilo — Lager verde, Pilsen azul, IPA grafite e Lager sem glúten verde light */
+#chopes .variationCard.lager{
+  background:linear-gradient(145deg,#d9e3d4,#b9c9b1);
+  color:var(--ink);
+}
+#chopes .variationCard.pilsen{
+  background:linear-gradient(145deg,#dbeaf4,#bdd7e8);
+  color:var(--ink);
+}
+#chopes .variationCard.ipa{
+  background:linear-gradient(145deg,#272a26,#1c1f1c);
+  color:#f2e2c3;
+}
+
+.beerLineupCard.beer-lager{
+  background:linear-gradient(145deg,#d9e3d4,#b9c9b1);
+}
+.beerLineupCard.beer-pilsen{
+  background:linear-gradient(145deg,#dbeaf4,#bdd7e8);
+}
+.beerLineupCard.beer-gluten-free{
+  background:linear-gradient(145deg,#edf4ea,#d7e8d1);
+  border-color:#8fb49a66;
+}
+.beerLineupCard.beer-gluten-free .glutenFreeBadge{
+  color:#467553;
+}
