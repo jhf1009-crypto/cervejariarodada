@@ -892,11 +892,11 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
   display:block!important;
   opacity:1!important;
   position:absolute!important;
-  right:5%!important;
-  top:27%!important;
+  right:-3%!important;
+  top:20%!important;
   bottom:auto!important;
-  width:30%!important;
-  height:50%!important;
+  width:34%!important;
+  height:55%!important;
   object-fit:contain!important;
   z-index:7!important;
   filter:drop-shadow(20px 32px 22px #00152c85);
@@ -913,17 +913,17 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
     width:58%!important;
   }
   .heroStage .heroTap{
-    right:3%!important;
-    top:28%!important;
-    width:31%!important;
-    height:46%!important;
+    right:-1%!important;
+    top:25%!important;
+    width:34%!important;
+    height:48%!important;
   }
 }
 @media(max-width:390px){
   .heroStage .heroTap{
-    right:2%!important;
-    top:30%!important;
-    width:32%!important;
-    height:42%!important;
+    right:-2%!important;
+    top:27%!important;
+    width:36%!important;
+    height:44%!important;
   }
 }
