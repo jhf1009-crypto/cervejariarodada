@@ -298,7 +298,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
 }
 
 .mockBottle.photoAsset{width:88%;height:330px;filter:none;transform:none!important}
-.mockBottle.photoAsset>img{width:100%;height:100%;object-fit:contain;border-radius:18px}
+.mockBottle.photoAsset>img{width:100%;height:100%;object-fit:contain;border-radius:18px;transform:translateY(-34px) scale(1.08);transform-origin:center center}
 .variationCard:hover .mockBottle.photoAsset{transform:none!important}
 @media(max-width:760px){
  .mockBottle.photoAsset{width:92%;height:300px}
