@@ -27,14 +27,14 @@ const choppProducts=[
 ];
 
 const beerProducts=[
- {name:'Cerveja Rodada Lata',meta:'LATA',image:'/events/image.png',tone:'beer-lager'},
- {name:'Cerveja Lager Rodada',meta:'LAGER · 600 ML',image:'/events/Garrafa%20Gelada%20de%20Cervejaria%20Rodada.png',tone:'beer-lager'},
- {name:'Cerveja Pilsen Rodada',meta:'PILSEN · 600 ML',image:'/events/Garrafa%20de%20Cerveja%20Dourada%20com%20Condensa%C3%A7%C3%A3o.png',tone:'beer-pilsen'}
+ {name:'Cerveja Rodada Lager',meta:'600 ML',style:'LAGER',image:'',tone:'beer-lager'},
+ {name:'Cerveja Rodada Pilsen',meta:'600 ML',style:'PILSEN',image:'',tone:'beer-pilsen'},
+ {name:'Cerveja Rodada Lager',meta:'600 ML',style:'LAGER',badge:'SEM GLÚTEN',image:'',tone:'beer-gluten-free'}
 ];
 
 const orderProducts=[
  ...choppProducts.map(item=>({id:item.name+' '+item.size,name:item.name+' '+item.size,meta:item.flavor+' · '+item.size,image:item.image,group:'Chopes'})),
- ...beerProducts.map(item=>({id:item.name,name:item.name,meta:item.meta,image:item.image,group:'Cervejas'})),
+ ...beerProducts.map(item=>({id:item.name+(item.badge?' '+item.badge:''),name:item.name+(item.badge?' · '+item.badge:''),meta:item.style+' · '+item.meta,image:item.image,group:'Cervejas'})),
  {id:'Barril de Chopp Rodada 30 L',name:'Barril de Chopp Rodada 30 L',meta:'BARRIL 30 L',image:img.barril,group:'Barril + Chopeira'},
  {id:'Barril de Chopp Rodada 50 L',name:'Barril de Chopp Rodada 50 L',meta:'BARRIL 50 L',image:img.barril,group:'Barril + Chopeira'},
  {id:'Chopeira Rodada',name:'Chopeira Rodada',meta:'CHOPEIRA PARA EVENTOS',image:img.chopeira,group:'Barril + Chopeira'}
@@ -203,18 +203,31 @@ export default function RodadaSite(){
     </div>
    </section>
 
-   <section className="beerSection section" id="cervejas" aria-labelledby="cervejas-title">
-    <Reveal className="sectionTitle commerceTitle">
-      <div><p className="eyebrow dark">02 / CERVEJAS RODADA</p><h2 id="cervejas-title">A RODADA<br/><em>TAMBÉM EM CERVEJA.</em></h2></div>
-      <div className="sectionIntro"><p>Lata, Lager 600 ml ou Pilsen 600 ml: escolha o formato e consulte a disponibilidade atual diretamente com a Rodada.</p><a href={wa('Olá! Gostaria de saber quais cervejas Rodada estão disponíveis.')} target="_blank" rel="noreferrer">Ver disponibilidade <Arrow/></a></div>
-    </Reveal>
-    <div className="beerGrid">
-      {beerProducts.map((item,index)=>(
-        <Reveal key={item.name} className={'beerCard '+item.tone}>
-          <div className="beerCopy"><span>0{index+1} / 03 · {item.meta}</span><h3>{item.name}</h3><p>Uma nova forma de levar a identidade Rodada para diferentes momentos.</p><a className="productDetailLink" href={'/produtos/'+item.name.toLowerCase().replaceAll(' ','-')}>VER DETALHES <Arrow/></a><button type="button" className="beerOrderButton" onClick={()=>openOrder(item.name)}>PEDIR PELO WHATSAPP <Arrow/></button></div>
-          <div className="beerVisual"><span aria-hidden="true">{item.meta}</span>{item.image&&<img src={item.image} alt={item.name} loading="lazy" decoding="async"/>}</div>
-        </Reveal>
-      ))}
+    <div className="beerLineup" id="cervejas" aria-labelledby="cervejas-title">
+      <Reveal className="beerLineupHead">
+        <div>
+          <p className="eyebrow dark">02 / CERVEJAS RODADA</p>
+          <h2 id="cervejas-title">CERVEJAS<br/><em>RODADA 600 ML.</em></h2>
+        </div>
+        <p>Três versões da Rodada em garrafa de 600 ml. As fotos oficiais serão adicionadas depois, sem usar imagens genéricas.</p>
+      </Reveal>
+      <div className="beerLineupGrid">
+        {beerProducts.map((item,index)=>(
+          <Reveal key={item.name+(item.badge||'')} className={'beerLineupCard '+item.tone}>
+            <div className="beerLineupTop"><span>{String(index+1).padStart(2,'0')} / 03</span><span>{item.meta}</span></div>
+            <div className="beerLineupVisual" aria-label={'Espaço reservado para foto de '+item.name+(item.badge?' '+item.badge:'')}>
+              <span>FOTO<br/>EM BREVE</span>
+            </div>
+            <div className="beerLineupCopy">
+              <small>{item.style}</small>
+              <h3>{item.name}</h3>
+              {item.badge&&<strong className="glutenFreeBadge">{item.badge}</strong>}
+              <p>Garrafa 600 ml · consulte disponibilidade</p>
+              <div><a className="productDetailLink" href={'/produtos/'+(item.badge?'cerveja-rodada-lager-sem-gluten':item.style==='PILSEN'?'cerveja-rodada-pilsen':'cerveja-rodada-lager')}>VER DETALHES <Arrow/></a><button type="button" className="cardAction" onClick={()=>openOrder(item.name+(item.badge?' '+item.badge:''))}>PEDIR <Arrow/></button></div>
+            </div>
+          </Reveal>
+        ))}
+      </div>
     </div>
    </section>
 
