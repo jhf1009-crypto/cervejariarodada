@@ -886,3 +886,44 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
     width:42%;
   }
 }
+
+/* Correção de enquadramento: chopeira visível ao lado do barril no primeiro hero */
+.heroStage .heroTap{
+  display:block!important;
+  opacity:1!important;
+  position:absolute!important;
+  right:-3%!important;
+  top:20%!important;
+  bottom:auto!important;
+  width:34%!important;
+  height:55%!important;
+  object-fit:contain!important;
+  z-index:7!important;
+  filter:drop-shadow(20px 32px 22px #00152c85);
+  animation:float 6s ease-in-out infinite!important;
+}
+.heroStage .heroKeg{
+  left:14%!important;
+  width:58%!important;
+  z-index:5!important;
+}
+@media(max-width:760px){
+  .heroStage .heroKeg{
+    left:12%!important;
+    width:58%!important;
+  }
+  .heroStage .heroTap{
+    right:-1%!important;
+    top:25%!important;
+    width:34%!important;
+    height:48%!important;
+  }
+}
+@media(max-width:390px){
+  .heroStage .heroTap{
+    right:-2%!important;
+    top:27%!important;
+    width:36%!important;
+    height:44%!important;
+  }
+}
