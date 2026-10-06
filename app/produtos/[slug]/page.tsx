@@ -1,4 +1,5 @@
 import type {Metadata} from 'next';
+import Image from 'next/image';
 import {notFound} from 'next/navigation';
 import {catalog,WHATSAPP} from '@/lib/catalog';
 
@@ -46,7 +47,7 @@ export default async function ProductPage({params}:{params:Promise<{slug:string}
     </div>
     <p className="productDisclosure">Preço, ABV, IBU e demais informações técnicas não são exibidos enquanto não estiverem oficialmente confirmados pela Cervejaria Rodada.</p>
    </div>
-   <div className="productHeroVisual"><span aria-hidden>{product.style||product.packaging}</span><img src={product.image} alt={`${product.name}${product.volume?' '+product.volume:''}`}/></div>
+   <div className="productHeroVisual"><span aria-hidden>{product.style||product.packaging}</span><Image src={product.image} alt={`${product.name}${product.volume?' '+product.volume:''}`} width={1200} height={1500} quality={65} priority sizes="(max-width: 760px) 84vw, 42vw"/></div>
   </section>
   <section className="productResponsible"><strong>+18 · BEBA COM MODERAÇÃO.</strong><p>Consulte a equipe Rodada para confirmar disponibilidade, entrega e condições comerciais.</p></section>
  </main>;
