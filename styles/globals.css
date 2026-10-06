@@ -1018,3 +1018,225 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
 .legalBody{border-top:1px solid #08284222;padding-top:28px}
 .legalBody p{white-space:pre-line;font-size:16px;line-height:1.85;color:#334f63;margin:0 0 22px;max-width:860px}
 @media(max-width:600px){.legalPublicPage{padding:42px 16px}.legalList>a{grid-template-columns:1fr auto}.legalList>a small{grid-column:1/-1;grid-row:2}.legalList>a span{font-size:26px}.legalBody p{font-size:15px}}
+
+
+/* Mobile layout stabilization — final overrides */
+@media (max-width:760px){
+  html,body{max-width:100%;overflow-x:hidden}
+  .site{width:100%;max-width:100%;overflow-x:clip}
+
+  .nav{width:100%;max-width:100%}
+  .nav .brand{min-width:0}
+  .nav nav.open{max-height:calc(100dvh - 68px);overflow-y:auto}
+
+  .hero{
+    display:flex!important;
+    flex-direction:column;
+    width:100%;
+    min-height:0!important;
+    height:auto!important;
+    max-height:none!important;
+    padding:88px 18px 34px!important;
+    overflow:hidden!important;
+    position:relative;
+  }
+  .heroCopy{
+    width:100%;
+    padding-top:0!important;
+    z-index:4;
+  }
+  .heroCopy h1{
+    max-width:100%;
+    font-size:clamp(54px,17vw,78px)!important;
+    overflow-wrap:normal;
+  }
+  .heroPioneer{
+    padding:16px 16px 16px 18px!important;
+    margin-top:20px!important;
+  }
+  .heroPioneer strong{font-size:clamp(26px,8.3vw,31px)!important}
+  .heroPioneer small{font-size:12px!important;line-height:1.5}
+  .heroActions{margin-top:22px!important}
+
+  .heroStage{
+    order:2;
+    position:relative!important;
+    width:100%!important;
+    height:350px!important;
+    min-height:350px!important;
+    max-height:350px!important;
+    margin:24px 0 0!important;
+    overflow:hidden!important;
+    isolation:isolate;
+    z-index:2!important;
+    transform:none!important;
+  }
+  .heroStage .orbit{
+    width:82%!important;
+    height:82%!important;
+    left:9%!important;
+    top:8%!important;
+    opacity:.28!important;
+  }
+  .heroStage .heroKeg{
+    display:block!important;
+    position:absolute!important;
+    left:5%!important;
+    top:8%!important;
+    width:62%!important;
+    height:80%!important;
+    max-height:none!important;
+    object-fit:contain!important;
+    z-index:3!important;
+    filter:none!important;
+    animation:none!important;
+    transform:none!important;
+  }
+  .heroStage .heroTap{
+    display:block!important;
+    position:absolute!important;
+    right:0!important;
+    left:auto!important;
+    top:18%!important;
+    bottom:auto!important;
+    width:42%!important;
+    height:66%!important;
+    object-fit:contain!important;
+    z-index:4!important;
+    filter:none!important;
+    animation:none!important;
+    transform:none!important;
+  }
+  .heroStage .heroBottles{display:none!important}
+  .heroStage .seal{
+    right:4px!important;
+    top:4px!important;
+    bottom:auto!important;
+    width:68px!important;
+    height:68px!important;
+    font-size:6px!important;
+    z-index:5;
+  }
+  .heroFoot{
+    order:3;
+    position:relative!important;
+    width:100%;
+    margin:4px 0 0!important;
+    padding-top:14px!important;
+    z-index:3;
+  }
+
+  .products{
+    position:relative;
+    z-index:3;
+    margin:0!important;
+    padding-top:72px!important;
+    overflow:visible!important;
+  }
+  .commerceTitle,.sectionTitle,.beerLineupHead,.socialProofHead,.faqPublicHead{
+    display:grid!important;
+    grid-template-columns:1fr!important;
+    gap:18px!important;
+    width:100%;
+  }
+  .commerceTitle h2,.beerLineupHead h2,.socialProofHead h2,.faqPublicHead h2{
+    max-width:100%;
+    overflow-wrap:break-word;
+  }
+
+  #chopes .variationGrid{
+    display:grid!important;
+    grid-template-columns:1fr!important;
+    width:100%!important;
+    overflow:visible!important;
+    padding:0!important;
+    margin:0!important;
+    gap:16px!important;
+  }
+  #chopes .variationCard{
+    width:100%!important;
+    min-width:0!important;
+    max-width:100%!important;
+    min-height:0!important;
+    overflow:hidden!important;
+  }
+  #chopes .variationVisual{min-height:280px!important}
+  #chopes .mockBottle{height:275px!important}
+  #chopes .variationBottom{
+    display:grid!important;
+    grid-template-columns:1fr auto;
+    gap:12px;
+    align-items:end;
+    padding:18px 0 0!important;
+  }
+
+  .beerLineup{margin-top:52px!important;padding-top:42px!important}
+  .beerLineupGrid{
+    display:grid!important;
+    grid-template-columns:1fr!important;
+    gap:16px!important;
+  }
+  .beerLineupCard{
+    width:100%;
+    min-width:0;
+    min-height:0!important;
+    overflow:hidden;
+  }
+  .beerLineupVisual{min-height:260px!important}
+  .beerLineupCopy>div{align-items:flex-end;gap:10px;flex-wrap:wrap}
+
+  .eventSolutions,.socialProof,.faqPublic,.contact,.footer{overflow:hidden}
+  .eventQuoteFlow,.eventCalculator,.eventSolutionsGrid,.socialProofGrid,.contact{
+    grid-template-columns:1fr!important;
+  }
+  .eventCalculator{gap:20px!important}
+  .eventCalcControls fieldset{grid-template-columns:1fr!important}
+  .eventCalcResult{min-width:0}
+  .eventSteps{grid-template-columns:1fr!important}
+
+  .socialProofGrid{display:grid!important;gap:16px!important}
+  .eventGalleryPublic,.testimonialsPublic{width:100%;min-width:0}
+  .eventGalleryCard{grid-template-columns:42px 1fr!important}
+  .testimonialCard>p{font-size:28px!important}
+
+  .faqPublicItem summary{grid-template-columns:1fr auto!important;gap:10px!important}
+  .faqPublicItem summary span{grid-column:1/-1}
+  .faqPublicItem>div{padding-left:0!important}
+
+  .contactBox{width:100%;min-width:0}
+  .contactBox strong,.contactBox a{overflow-wrap:anywhere}
+
+  .footerTop{grid-template-columns:1fr!important;gap:28px!important}
+  .footerTop>div:first-child{grid-column:auto!important}
+  .footerWord{font-size:14vw!important;line-height:.88}
+  .footerBottom{display:grid!important;grid-template-columns:1fr!important;gap:10px}
+
+  .orderOverlay{align-items:flex-end!important}
+  .orderPanel{
+    width:100%!important;
+    max-width:100%!important;
+    max-height:96dvh!important;
+    overflow-y:auto!important;
+    border-radius:22px 22px 0 0!important;
+  }
+  .orderPanelTop h2{font-size:clamp(40px,12vw,58px)!important}
+  .orderGrid,.orderCityGrid{grid-template-columns:1fr!important}
+  .orderFooter{
+    display:grid!important;
+    grid-template-columns:1fr!important;
+    gap:12px!important;
+  }
+  .orderContinue{width:100%!important}
+
+  img{max-width:100%}
+}
+
+@media (max-width:390px){
+  .hero{padding-left:14px!important;padding-right:14px!important}
+  .heroStage{height:320px!important;min-height:320px!important;max-height:320px!important}
+  .heroStage .heroKeg{left:3%!important;width:64%!important;height:78%!important}
+  .heroStage .heroTap{right:-1%!important;top:20%!important;width:43%!important;height:62%!important}
+  .products{padding-top:62px!important}
+  #chopes .variationVisual{min-height:250px!important}
+  #chopes .mockBottle{height:245px!important}
+}
