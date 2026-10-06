@@ -550,3 +550,23 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
 @media (min-width:1100px){
   body{zoom:.70}
 }
+
+/* Cervejas Rodada — painel integrado à seção de chopes */
+.beerLineup{margin-top:72px;padding-top:54px;border-top:1px solid #0b355018}
+.beerLineupHead{display:grid;grid-template-columns:1.25fr .75fr;gap:36px;align-items:end;margin-bottom:28px}
+.beerLineupHead h2{font-size:clamp(52px,6vw,96px);line-height:.88;letter-spacing:-.045em}
+.beerLineupHead>p{max-width:520px;color:#5d7484;line-height:1.65}
+.beerLineupGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.beerLineupCard{min-height:500px;padding:20px;background:#dfe8df;border:1px solid #08284212;display:flex;flex-direction:column;position:relative;overflow:hidden}
+.beerLineupCard.beer-pilsen{background:#e7ecef}.beerLineupCard.beer-gluten-free{background:#d7e7df;border-color:#6d9a7a66}
+.beerLineupTop{display:flex;justify-content:space-between;gap:16px;font-size:8px;font-weight:900;letter-spacing:1.2px;color:#4d6c82}
+.beerLineupVisual{min-height:280px;display:grid;place-items:center;margin:18px 0;border:1px dashed #0b36552c;background:linear-gradient(145deg,#ffffff55,#ffffff16)}
+.beerLineupVisual span{font-size:11px;font-weight:900;letter-spacing:.18em;text-align:center;color:#7890a0}
+.beerLineupCopy{border-top:1px solid #0b355020;padding-top:18px}
+.beerLineupCopy>small{display:block;font-size:9px;letter-spacing:.18em;font-weight:900;color:#5b7485;margin-bottom:7px}
+.beerLineupCopy h3{font-size:clamp(31px,3vw,44px);line-height:.92;letter-spacing:-.035em;max-width:310px}
+.glutenFreeBadge{display:inline-block;margin-top:10px;font-size:clamp(18px,1.7vw,24px);line-height:1;font-weight:900;letter-spacing:.035em;color:#24583a}
+.beerLineupCopy>p{font-size:11px;line-height:1.6;color:#60798b;margin:11px 0 16px}
+.beerLineupCopy>div{display:flex;align-items:center;justify-content:space-between;gap:14px}
+@media(max-width:900px){.beerLineupHead{grid-template-columns:1fr}.beerLineupGrid{grid-template-columns:1fr 1fr}}
+@media(max-width:620px){.beerLineup{margin-top:54px;padding-top:40px}.beerLineupGrid{grid-template-columns:1fr}.beerLineupCard{min-height:0}.beerLineupVisual{min-height:250px}.beerLineupCopy h3{font-size:38px}.glutenFreeBadge{font-size:21px}}
