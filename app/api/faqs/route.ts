@@ -15,5 +15,5 @@ export async function GET(){
   .order('created_at');
 
  if(error)return NextResponse.json({faqs:[]},{status:200});
- return NextResponse.json({faqs:data||[]});
+ return NextResponse.json({faqs:data||[]},{headers:{'Cache-Control':'public, s-maxage=300, stale-while-revalidate=86400'}});
 }
