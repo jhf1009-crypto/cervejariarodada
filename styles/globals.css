@@ -1399,3 +1399,36 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
     box-shadow:none!important;
   }
 }
+
+/* Preserve original proportions for every product photo */
+.beerLineupVisual img,
+.mockBottle>img,
+.catalogCard img,
+.productHeroVisual img,
+.orderThumb img{
+  object-fit:contain!important;
+  object-position:center!important;
+}
+
+.beerLineupVisual img{
+  width:100%!important;
+  height:100%!important;
+  max-width:100%!important;
+  max-height:320px!important;
+}
+
+.productHeroVisual img{
+  width:78%!important;
+  height:82%!important;
+}
+
+.catalogCard img{
+  width:100%!important;
+  height:230px!important;
+}
+
+@media(max-width:760px){
+  .beerLineupVisual img{max-height:280px!important}
+  .productHeroVisual img{width:84%!important;height:80%!important}
+  .catalogCard img{height:190px!important}
+}
