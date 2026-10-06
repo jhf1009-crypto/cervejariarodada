@@ -23,5 +23,5 @@ export async function GET(){
  return NextResponse.json({
   gallery:galleryResult.data||[],
   testimonials:testimonialsResult.data||[]
- });
+ },{headers:{'Cache-Control':'public, s-maxage=300, stale-while-revalidate=86400'}});
 }
