@@ -1679,3 +1679,46 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
     font-size:15px!important;
   }
 }
+
+
+/* Hero clipping fix — keep CTAs fully inside the opening section */
+@media (min-width:761px){
+  .hero{
+    height:auto!important;
+    min-height:860px!important;
+    max-height:none!important;
+    padding-bottom:64px!important;
+  }
+
+  .heroCopy{
+    align-self:center!important;
+    padding-bottom:24px!important;
+  }
+
+  .heroActions{
+    position:relative!important;
+    z-index:8!important;
+    margin-bottom:18px!important;
+  }
+
+  .products{
+    position:relative;
+    z-index:1;
+  }
+}
+
+@media (max-width:760px){
+  .heroCopy{
+    overflow:visible!important;
+  }
+
+  .heroActions{
+    position:relative!important;
+    z-index:8!important;
+    margin-bottom:18px!important;
+  }
+
+  .hero{
+    padding-bottom:46px!important;
+  }
+}
