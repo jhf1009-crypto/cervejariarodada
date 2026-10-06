@@ -53,6 +53,8 @@ export default function RodadaSite(){
  const [eventGuests,setEventGuests]=useState(50);
  const [eventHours,setEventHours]=useState(4);
  const [eventProfile,setEventProfile]=useState<'leve'|'moderado'|'alto'>('moderado');
+ const [eventBeerShare,setEventBeerShare]=useState(70);
+ const [eventReserve,setEventReserve]=useState(10);
  const [orderOpen,setOrderOpen]=useState(false);
  const [selectedOrders,setSelectedOrders]=useState<string[]>([]);
  const [orderQuantities,setOrderQuantities]=useState<Record<string,number>>({});
@@ -122,9 +124,25 @@ export default function RodadaSite(){
  };
  const chosenCity=orderCity==='Outra cidade'?cepCity:orderCity;
  const canContinueOrder=selectedOrders.length>0&&Boolean(chosenCity);
- const litersPerPersonHour=eventProfile==='leve'?.45:eventProfile==='alto'?.8:.6;
- const estimatedLiters=Math.max(10,Math.ceil((eventGuests*eventHours*litersPerPersonHour)/10)*10);
- const suggestedKegs=estimatedLiters<=30?'1 barril de 30 L':estimatedLiters<=50?'1 barril de 50 L':Math.ceil(estimatedLiters/50)+' barris de 50 L';
+ const profileRate=eventProfile==='leve'?.18:eventProfile==='alto'?.33:.25;
+ const effectiveHours=Math.min(eventHours,4)+Math.max(0,Math.min(eventHours,8)-4)*.55+Math.max(0,eventHours-8)*.25;
+ const estimatedDrinkers=Math.max(1,Math.round(eventGuests*(eventBeerShare/100)));
+ const baseLiters=estimatedDrinkers*profileRate*effectiveHours;
+ const estimatedLiters=Math.max(10,Math.ceil((baseLiters*(1+eventReserve/100))/5)*5);
+ const kegOptions=(()=>{
+   let best:{count:number;capacity:number;k30:number;k50:number}|null=null;
+   for(let k30=0;k30<=40;k30++){
+     for(let k50=0;k50<=40;k50++){
+       const count=k30+k50;
+       const capacity=k30*30+k50*50;
+       if(!count||capacity<estimatedLiters)continue;
+       if(!best||count<best.count||(count===best.count&&capacity<best.capacity))best={count,capacity,k30,k50};
+     }
+   }
+   return best||{count:1,capacity:50,k30:0,k50:1};
+ })();
+ const suggestedKegs=[kegOptions.k50?((kegOptions.k50)+' '+(kegOptions.k50===1?'barril':'barris')+' de 50 L'):'',kegOptions.k30?((kegOptions.k30)+' '+(kegOptions.k30===1?'barril':'barris')+' de 30 L'):''].filter(Boolean).join(' + ');
+ const estimatedWaste=kegOptions.capacity-estimatedLiters;
  const continueOrder=()=>{
   if(!canContinueOrder)return;
   const custom=selectedOrders.includes('Pedido personalizado');
@@ -255,14 +273,28 @@ export default function RodadaSite(){
         <p>Faça uma estimativa inicial. O resultado é apenas uma referência de planejamento; a equipe Rodada confirma a quantidade ideal no orçamento.</p>
       </div>
       <div className="eventCalcControls">
-        <label>Convidados <strong>{eventGuests}</strong><input type="range" min="10" max="300" step="10" value={eventGuests} onChange={e=>setEventGuests(Number(e.target.value))}/></label>
-        <label>Duração <strong>{eventHours} h</strong><input type="range" min="2" max="12" step="1" value={eventHours} onChange={e=>setEventHours(Number(e.target.value))}/></label>
-        <fieldset><legend>Perfil de consumo</legend>{(['leve','moderado','alto'] as const).map(profile=><button key={profile} type="button" className={eventProfile===profile?'active':''} onClick={()=>setEventProfile(profile)}>{profile}</button>)}</fieldset>
+        <label>Convidados <strong>{eventGuests}</strong><input type="range" min="10" max="1000" step="10" value={eventGuests} onChange={e=>setEventGuests(Number(e.target.value))}/></label>
+        <label>Duração do evento <strong>{eventHours} h</strong><input type="range" min="2" max="24" step="1" value={eventHours} onChange={e=>setEventHours(Number(e.target.value))}/></label>
+        <label>Convidados que vão beber chope <strong>{eventBeerShare}% · ~{estimatedDrinkers} pessoas</strong><input type="range" min="10" max="100" step="5" value={eventBeerShare} onChange={e=>setEventBeerShare(Number(e.target.value))}/></label>
+        <label>Margem de segurança <strong>{eventReserve}%</strong><input type="range" min="0" max="20" step="5" value={eventReserve} onChange={e=>setEventReserve(Number(e.target.value))}/></label>
+        <fieldset>
+          <legend>Perfil de consumo</legend>
+          {([
+            ['leve','Leve','~180 ml/h'],
+            ['moderado','Moderado','~250 ml/h'],
+            ['alto','Alto','~330 ml/h']
+          ] as const).map(([profile,label,rate])=><button key={profile} type="button" className={eventProfile===profile?'active':''} onClick={()=>setEventProfile(profile)}><b>{label}</b><small>{rate}</small></button>)}
+        </fieldset>
       </div>
       <div className="eventCalcResult">
-        <small>ESTIMATIVA</small><strong>{estimatedLiters} L</strong><span>{suggestedKegs}</span>
-        <p>Cálculo: convidados × horas × fator de consumo ({litersPerPersonHour.toFixed(2).replace('.',',')} L/pessoa/h), arredondado para cima em blocos de 10 L.</p>
-        <a className="primary" href={wa('Olá! Usei a calculadora do site para um evento com '+eventGuests+' convidados por '+eventHours+' horas. A estimativa foi de '+estimatedLiters+' L. Quero confirmar a quantidade e pedir um orçamento.')} target="_blank" rel="noreferrer">CONFIRMAR COM A RODADA <Arrow/></a>
+        <small>ESTIMATIVA MAIS REALISTA</small><strong>{estimatedLiters} L</strong>
+        <span>{suggestedKegs}</span>
+        <div className="eventCalcBreakdown">
+          <b>~{estimatedDrinkers} consumidores de chope</b>
+          <span>{kegOptions.capacity} L de capacidade sugerida{estimatedWaste>0?' · '+estimatedWaste+' L de folga operacional':''}</span>
+        </div>
+        <p>O cálculo considera apenas quem deve beber chope, reduz o ritmo de consumo em eventos longos e aplica uma margem ajustável. Assim, a duração não multiplica o consumo de forma linear e evita estimativas exageradas.</p>
+        <a className="primary" href={wa('Olá! Usei a calculadora do site para um evento com '+eventGuests+' convidados, duração de '+eventHours+' horas, cerca de '+estimatedDrinkers+' consumidores de chope, perfil '+eventProfile+' e margem de '+eventReserve+'%. A estimativa foi de '+estimatedLiters+' L, com sugestão de '+suggestedKegs+'. Quero confirmar a quantidade e pedir um orçamento.')} target="_blank" rel="noreferrer">CONFIRMAR COM A RODADA <Arrow/></a>
       </div>
     </Reveal>
    </section>
