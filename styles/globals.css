@@ -960,3 +960,28 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
   }
 }
 
+
+/* Galeria de eventos e depoimentos publicados pelo painel */
+.socialProof{background:#eef0ea;color:#082842;border-top:1px solid #08284214}
+.socialProofHead{display:grid;grid-template-columns:1.2fr .8fr;gap:36px;align-items:end;margin-bottom:34px}
+.socialProofHead h2{font-size:clamp(54px,7vw,108px);line-height:.86;letter-spacing:-.045em}
+.socialProofHead>p{max-width:520px;color:#5f7483;line-height:1.7}
+.socialProofGrid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.eventGalleryPublic,.testimonialsPublic{background:#fff;border:1px solid #08284216;padding:22px;min-width:0}
+.socialSubhead{display:flex;justify-content:space-between;gap:16px;align-items:end;padding-bottom:16px;border-bottom:1px solid #08284216}
+.socialSubhead small{font-size:8px;font-weight:900;letter-spacing:.18em;color:#718596}
+.socialSubhead strong{font-size:12px;text-align:right}
+.eventGalleryCards,.testimonialCards{display:grid;gap:0}
+.eventGalleryCard{display:grid;grid-template-columns:52px 1fr;gap:14px;padding:20px 0;border-bottom:1px solid #08284216}
+.eventGalleryCard>span{font-family:var(--display);font-size:28px;color:#b18b3a}
+.eventGalleryCard small{font-size:8px;font-weight:900;letter-spacing:.16em;color:#7890a0}
+.eventGalleryCard h3{font-family:var(--display);font-size:32px;line-height:.95;margin:5px 0}
+.eventGalleryCard p{font-size:11px;color:#667d8c}
+.testimonialCard{margin:0;padding:22px 0;border-bottom:1px solid #08284216}
+.testimonialStars{color:#b18b3a;letter-spacing:.18em;font-size:12px}
+.testimonialCard>p{font-family:var(--display);font-size:clamp(24px,2.4vw,36px);line-height:1.08;letter-spacing:-.02em;margin:14px 0 18px;color:#15364d}
+.testimonialCard footer{display:flex;justify-content:space-between;gap:12px;font-size:10px}
+.testimonialCard footer span{color:#718596}
+.socialEmpty{padding:28px 0;color:#718596;line-height:1.7}
+@media(max-width:900px){.socialProofHead,.socialProofGrid{grid-template-columns:1fr}}
+@media(max-width:600px){.eventGalleryPublic,.testimonialsPublic{padding:16px}.socialProofHead h2{font-size:54px}.eventGalleryCard h3{font-size:28px}}
