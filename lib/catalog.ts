@@ -10,7 +10,8 @@ export const catalog:CatalogProduct[]=[
  {slug:'chopp-pilsen-700-ml',name:'Chopp Pilsen',category:'Chope',style:'Pilsen',packaging:'PET',volume:'700 ml',image:'/events/imagem%20generica%20chopp%20700ml.jpg',description:'Chopp Pilsen Rodada em PET de 700 ml. Consulte disponibilidade e condições diretamente com a equipe Rodada.'},
  {slug:'chopp-session-ipa-700-ml',name:'Chopp Session IPA',category:'Chope',style:'Session IPA',packaging:'PET',volume:'700 ml',image:'/events/imagem%20generica%20chopp%20700ml.jpg',description:'Chopp Session IPA Rodada em PET de 700 ml. Consulte disponibilidade e condições diretamente com a equipe Rodada.'},
  {slug:'cerveja-rodada-long-neck',name:'Cerveja Rodada Long Neck',category:'Cerveja',packaging:'Long neck',image:'/garrafa%20cerveja%20generica%20sem%20fundo.png',description:'Cerveja Rodada em formato long neck. Consulte disponibilidade e condições diretamente com a equipe Rodada.'},
- {slug:'cerveja-rodada-lata',name:'Cerveja Rodada Lata',category:'Cerveja',packaging:'Lata',image:'/events/image.png',description:'Cerveja Rodada em lata. Consulte disponibilidade e condições diretamente com a equipe Rodada.'}
+ {slug:'cerveja-rodada-lata',name:'Cerveja Rodada Lata',category:'Cerveja',packaging:'Lata',image:'/events/image.png',description:'Cerveja Rodada em lata. Consulte disponibilidade e condições diretamente com a equipe Rodada.'},
+ {slug:'cerveja-lager-rodada',name:'Cerveja Lager Rodada',category:'Cerveja',style:'Lager',packaging:'Garrafa',volume:'600 ml',image:'/products/cerveja-lager-rodada.svg',description:'Cerveja Lager Rodada em garrafa de 600 ml. Consulte disponibilidade e condições diretamente com a equipe Rodada.'}
 ];
 
 export const WHATSAPP='557798140440';
