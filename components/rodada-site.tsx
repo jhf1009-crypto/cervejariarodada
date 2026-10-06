@@ -48,6 +48,7 @@ function Reveal({children,className='',...props}:React.HTMLAttributes<HTMLDivEle
 
 type PublicGalleryItem={id:string;title:string|null;event_date:string|null;city:string|null;event_type:string|null;sort_order:number};
 type PublicTestimonial={id:string;name:string|null;city:string|null;body:string;rating:number|null};
+type PublicFaq={id:string;question:string;answer:string;category:string|null;sort_order:number};
 
 export default function RodadaSite(){
  const [menu,setMenu]=useState(false);
@@ -67,6 +68,8 @@ export default function RodadaSite(){
  const [publicGallery,setPublicGallery]=useState<PublicGalleryItem[]>([]);
  const [publicTestimonials,setPublicTestimonials]=useState<PublicTestimonial[]>([]);
  const [socialProofLoaded,setSocialProofLoaded]=useState(false);
+ const [publicFaqs,setPublicFaqs]=useState<PublicFaq[]>([]);
+ const [faqLoaded,setFaqLoaded]=useState(false);
 
  useEffect(()=>{
   const age=window.localStorage.getItem('rodada_age_verified');
@@ -84,6 +87,12 @@ export default function RodadaSite(){
    })
    .catch(()=>{})
    .finally(()=>setSocialProofLoaded(true));
+
+  fetch('/api/faqs')
+   .then(response=>response.ok?response.json():Promise.reject())
+   .then(data=>setPublicFaqs(Array.isArray(data.faqs)?data.faqs:[]))
+   .catch(()=>{})
+   .finally(()=>setFaqLoaded(true));
  },[]);
 
 
@@ -347,8 +356,22 @@ export default function RodadaSite(){
    </section>
 
 
+   <section className="faqPublic section" id="faq" aria-labelledby="faq-title">
+    <Reveal className="faqPublicHead">
+     <div><p className="eyebrow dark">07 / DÚVIDAS FREQUENTES</p><h2 id="faq-title">ANTES DA RODADA,<br/><em>TIRE SUAS DÚVIDAS.</em></h2></div>
+     <p>As respostas abaixo são controladas pelo painel administrativo e exibem somente as perguntas publicadas.</p>
+    </Reveal>
+    {publicFaqs.length>0?<div className="faqPublicList">
+     {publicFaqs.map(item=><details className="faqPublicItem" key={item.id}>
+      <summary><span>{item.category||'GERAL'}</span><strong>{item.question}</strong><i aria-hidden>+</i></summary>
+      <div><p>{item.answer}</p></div>
+     </details>)}
+    </div>:faqLoaded&&<p className="socialEmpty">As perguntas frequentes serão publicadas aqui.</p>}
+   </section>
+
+
    <section className="contact section" id="contato">
-    <Reveal><p className="eyebrow dark">07 / FALE COM A RODADA</p><h2>BORA TOMAR<br/>UMA <em>RODADA?</em></h2><p>Fale com a Cervejaria Rodada para consultar produtos, barris, eventos e disponibilidade na sua região.</p></Reveal>
+    <Reveal><p className="eyebrow dark">08 / FALE COM A RODADA</p><h2>BORA TOMAR<br/>UMA <em>RODADA?</em></h2><p>Fale com a Cervejaria Rodada para consultar produtos, barris, eventos e disponibilidade na sua região.</p></Reveal>
     <Reveal className="contactBox"><div><small>COMERCIAL</small><strong>(77) 9814-0440</strong></div><button type="button" className="contactOrderButton" onClick={()=>openOrder()}>PEDIR PELO WHATSAPP <Arrow/></button><a href="mailto:contato@cervejariarodada.com.br">contato@cervejariarodada.com.br <Arrow/></a></Reveal>
    </section>
   </main>
