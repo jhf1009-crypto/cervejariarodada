@@ -197,7 +197,7 @@ export default function RodadaSite(){
   </div>}
   <a className="skipLink" href="#conteudo">Pular para o conteúdo</a>
   <header className="nav">
-   <a href="#inicio" className="brand" aria-label="Cervejaria Rodada — início"><b>RODADA</b><small>PURO MALTE</small></a>
+   <a href="#inicio" className="brand" aria-label="Cervejaria Rodada — início"><b>RODADA</b></a>
    <nav id="menu-principal" className={menu?'open':''} aria-label="Navegação principal">
     <a href="#chopes" onClick={()=>setMenu(false)}>Chopps</a><a href="#cervejas" onClick={()=>setMenu(false)}>Cervejas</a><a href="#eventos" onClick={()=>setMenu(false)}>Eventos</a><a href="#contato" onClick={()=>setMenu(false)}>Contato</a>
    </nav>
@@ -211,7 +211,7 @@ export default function RodadaSite(){
     <div className="heroCopy">
      <p className="eyebrow">NATURALMENTE BAIANA</p>
      <h1>A SUA FESTA.<br/>A NOSSA<br/><span>RODADA.</span></h1>
-     <p className="lead">Chopp puro malte do Oeste da Bahia, feito para transformar bons encontros em grandes momentos.</p>
+     <p className="lead">Chopp do Oeste da Bahia, feito para transformar bons encontros em grandes momentos.</p>
      <div className="heroPioneer" aria-label="Pioneirismo da Cervejaria Rodada">
        <span>UM MARCO NA CERVEJA BAIANA</span>
        <strong>Somos a <em>primeira</em> cervejaria baiana a criar uma cerveja <em>sem glúten</em>.</strong>
@@ -221,7 +221,6 @@ export default function RodadaSite(){
     </div>
     <div className="heroStage">
       <div className="orbit"/>
-      <span className="ghost">PURO<br/>MALTE</span>
       <img src={img.barril} alt="Barril de Chopp Rodada" className="heroKeg" loading="eager" decoding="async" fetchPriority="high"/>
       <img src="/events/image.png?v=d0c3820" alt="Chopeira Rodada" className="heroTap" loading="eager" decoding="async" fetchPriority="high"/>
 
@@ -441,7 +440,7 @@ export default function RodadaSite(){
   <a className="whatsappFloat" href={wa('Olá! Gostaria de fazer um pedido ou tirar uma dúvida sobre a Cervejaria Rodada.')} target="_blank" rel="noreferrer" aria-label="Falar com a Cervejaria Rodada pelo WhatsApp"><span>WhatsApp</span><b>↗</b></a>
 
   <footer className="footer section">
-   <div className="footerTop"><div><div className="brand big"><b>RODADA</b><small>PURO MALTE</small></div><p>Naturalmente baiana.<br/>Orgulhosamente do Oeste da Bahia.</p></div><div><b>EXPLORE</b><a href="#chopes">Chopps</a><a href="#cervejas">Cervejas</a><a href="#eventos">Eventos</a></div><div><b>CONTATO</b><a href="mailto:contato@cervejariarodada.com.br">E-mail</a><a href="https://www.instagram.com/cervejariarodada/" target="_blank" rel="noreferrer">Instagram ↗</a><a href="/legal">Políticas e termos</a></div></div>
+   <div className="footerTop"><div><div className="brand big"><b>RODADA</b></div><p>Naturalmente baiana.<br/>Orgulhosamente do Oeste da Bahia.</p></div><div><b>EXPLORE</b><a href="#chopes">Chopps</a><a href="#cervejas">Cervejas</a><a href="#eventos">Eventos</a></div><div><b>CONTATO</b><a href="mailto:contato@cervejariarodada.com.br">E-mail</a><a href="https://www.instagram.com/cervejariarodada/" target="_blank" rel="noreferrer">Instagram ↗</a><a href="/legal">Políticas e termos</a></div></div>
    <div className="footerWord">A VIDA PEDE RODADA.</div>
    <div className="footerBottom"><span>© {new Date().getFullYear()} Cervejaria Rodada Ltda.</span><b>BEBA COM MODERAÇÃO.</b><span>Conteúdo destinado a maiores de 18 anos.</span></div>
   </footer>
