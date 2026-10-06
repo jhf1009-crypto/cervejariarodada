@@ -711,3 +711,29 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
 .beerLineupCard.beer-gluten-free .beerLineupVisual span{
   color:#bdd0dd;
 }
+
+/* Ajuste solicitado: Pilsen também usa o azul escuro principal da identidade Rodada */
+#chopes .variationCard.pilsen,
+.beerLineupCard.beer-pilsen{
+  background:#082842;
+  color:#f5f2ea;
+  border-color:#ffffff1f;
+}
+#chopes .variationCard.pilsen .variationTop,
+#chopes .variationCard.pilsen .variationBottom p,
+.beerLineupCard.beer-pilsen .beerLineupTop,
+.beerLineupCard.beer-pilsen .beerLineupCopy>small,
+.beerLineupCard.beer-pilsen .beerLineupCopy>p{
+  color:#c8d7e2;
+}
+#chopes .variationCard.pilsen .variationBottom,
+.beerLineupCard.beer-pilsen .beerLineupCopy{
+  border-color:#ffffff22;
+}
+.beerLineupCard.beer-pilsen .beerLineupVisual{
+  border-color:#ffffff28;
+  background:linear-gradient(145deg,#ffffff12,#ffffff05);
+}
+.beerLineupCard.beer-pilsen .beerLineupVisual span{
+  color:#bdd0dd;
+}
