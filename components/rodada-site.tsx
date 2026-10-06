@@ -197,6 +197,7 @@ export default function RodadaSite(){
       <div className="orbit"/>
       <span className="ghost">PURO<br/>MALTE</span>
       <img src={img.barril} alt="Barril de Chopp Rodada" className="heroKeg" loading="eager" decoding="async" fetchPriority="high"/>
+      <img src="/events/chopeira-rodada.webp" alt="Chopeira Rodada" className="heroTap" loading="eager" decoding="async" fetchPriority="high"/>
 
       <div className="seal">DO OESTE<br/><b>DA BAHIA</b></div>
     </div>
