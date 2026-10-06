@@ -2,6 +2,7 @@
 import {FormEvent,useEffect,useMemo,useState} from 'react';
 import {createClient} from '../lib/supabase/client';
 import LeadsManager from './leads-manager';
+import SettingsManager from './settings-manager';
 
 type Product={id:string;name:string;slug:string;category:'chope'|'cerveja';packaging:string|null;volume_ml:number|null;short_description:string|null;price:number|null;promotional_price:number|null;availability_status:string|null;sort_order:number;featured:boolean;published:boolean};
 type Keg={id:string;liters:number;estimated_cups:number|null;rental_price:number|null;sale_price:number|null;active:boolean};
@@ -147,7 +148,8 @@ export default function AdminClient({name,role,email}:{name:string;role:string;e
    </div>}
 
    {active==='leads'&&<LeadsManager/>}
-   {active!=='dashboard'&&active!=='products'&&active!=='kegs'&&active!=='leads'&&<p>Este módulo será implementado na próxima etapa, sem alterar o que já está funcionando.</p>}
+   {active==='settings'&&<SettingsManager/>}
+   {active!=='dashboard'&&active!=='products'&&active!=='kegs'&&active!=='leads'&&active!=='settings'&&<p>Este módulo será implementado na próxima etapa, sem alterar o que já está funcionando.</p>}
   </section>
  </main>
 }
