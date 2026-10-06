@@ -1240,3 +1240,111 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
   #chopes .variationVisual{min-height:250px!important}
   #chopes .mockBottle{height:245px!important}
 }
+
+
+/* Mobile visual fixes — iOS form field + hero product framing */
+@media (max-width:760px){
+  /* Keep every lead-form control inside its card on Safari/iPhone */
+  .leadFormSection{
+    width:100%!important;
+    max-width:100%!important;
+    min-width:0!important;
+    overflow:hidden!important;
+    box-sizing:border-box!important;
+  }
+  .leadForm{
+    width:100%!important;
+    max-width:100%!important;
+    min-width:0!important;
+    grid-template-columns:minmax(0,1fr)!important;
+    box-sizing:border-box!important;
+  }
+  .leadForm label,
+  .leadForm .wide{
+    width:100%!important;
+    max-width:100%!important;
+    min-width:0!important;
+    box-sizing:border-box!important;
+  }
+  .leadForm input,
+  .leadForm select,
+  .leadForm textarea{
+    display:block!important;
+    width:100%!important;
+    max-width:100%!important;
+    min-width:0!important;
+    box-sizing:border-box!important;
+  }
+  .leadForm input[type="date"]{
+    width:100%!important;
+    max-width:100%!important;
+    min-width:0!important;
+    -webkit-appearance:none!important;
+    appearance:none!important;
+    padding-right:16px!important;
+    overflow:hidden!important;
+  }
+
+  /* Give the opening hero enough vertical space so keg/tap are fully visible */
+  .heroStage{
+    height:420px!important;
+    min-height:420px!important;
+    max-height:420px!important;
+    margin-top:26px!important;
+    overflow:hidden!important;
+  }
+  .heroStage .heroKeg{
+    left:7%!important;
+    top:5%!important;
+    width:54%!important;
+    height:84%!important;
+    max-height:none!important;
+    object-fit:contain!important;
+  }
+  .heroStage .heroTap{
+    right:2%!important;
+    top:34%!important;
+    width:28%!important;
+    height:44%!important;
+    max-height:none!important;
+    object-fit:contain!important;
+    z-index:4!important;
+  }
+  .heroStage .seal{
+    right:4%!important;
+    top:5%!important;
+    width:82px!important;
+    height:82px!important;
+    z-index:6!important;
+  }
+  .products{
+    padding-top:76px!important;
+    clear:both!important;
+  }
+}
+
+@media (max-width:390px){
+  .heroStage{
+    height:380px!important;
+    min-height:380px!important;
+    max-height:380px!important;
+  }
+  .heroStage .heroKeg{
+    left:5%!important;
+    top:6%!important;
+    width:56%!important;
+    height:82%!important;
+  }
+  .heroStage .heroTap{
+    right:1%!important;
+    top:35%!important;
+    width:29%!important;
+    height:42%!important;
+  }
+  .heroStage .seal{
+    right:3%!important;
+    top:5%!important;
+    width:74px!important;
+    height:74px!important;
+  }
+}
