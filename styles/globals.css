@@ -856,3 +856,33 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
   line-height:1.5;
   opacity:.72;
 }
+
+/* Chopeira Rodada ao lado do barril no hero */
+.heroTap{
+  position:absolute;
+  right:1%;
+  bottom:5%;
+  height:58%;
+  width:38%;
+  object-fit:contain;
+  filter:drop-shadow(20px 32px 22px #00152c85);
+  animation:float 6s ease-in-out infinite;
+  z-index:3;
+}
+.heroKeg{z-index:4}
+@media(max-width:760px){
+  .heroTap{
+    right:-2%;
+    bottom:4%;
+    height:48%;
+    width:40%;
+  }
+}
+@media(max-width:390px){
+  .heroTap{
+    right:-4%;
+    bottom:3%;
+    height:44%;
+    width:42%;
+  }
+}
