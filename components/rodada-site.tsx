@@ -276,7 +276,7 @@ export default function RodadaSite(){
         <label>Convidados <strong>{eventGuests}</strong><input type="range" min="10" max="1000" step="10" value={eventGuests} onChange={e=>setEventGuests(Number(e.target.value))}/></label>
         <label>Duração do evento <strong>{eventHours} h</strong><input type="range" min="2" max="24" step="1" value={eventHours} onChange={e=>setEventHours(Number(e.target.value))}/></label>
         <label>Convidados que vão beber chope <strong>{eventBeerShare}% · ~{estimatedDrinkers} pessoas</strong><input type="range" min="10" max="100" step="5" value={eventBeerShare} onChange={e=>setEventBeerShare(Number(e.target.value))}/></label>
-        <label>Margem de segurança <strong>{eventReserve}%</strong><input type="range" min="0" max="20" step="5" value={eventReserve} onChange={e=>setEventReserve(Number(e.target.value))}/></label>
+        <label>Margem de segurança <strong>{eventReserve}%</strong><input type="range" min="0" max="80" step="5" value={eventReserve} onChange={e=>setEventReserve(Number(e.target.value))}/></label>
         <fieldset>
           <legend>Perfil de consumo</legend>
           {([
