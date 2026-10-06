@@ -46,6 +46,9 @@ const wa=(message:string)=>'https://wa.me/'+WHATSAPP+'?text='+encodeURIComponent
 function Arrow(){return <span aria-hidden>↗</span>}
 function Reveal({children,className='',...props}:React.HTMLAttributes<HTMLDivElement>){return <div className={className} {...props}>{children}</div>}
 
+type PublicGalleryItem={id:string;title:string|null;event_date:string|null;city:string|null;event_type:string|null;sort_order:number};
+type PublicTestimonial={id:string;name:string|null;city:string|null;body:string;rating:number|null};
+
 export default function RodadaSite(){
  const [menu,setMenu]=useState(false);
  const [ageVerified,setAgeVerified]=useState<boolean|null>(null);
@@ -61,12 +64,26 @@ export default function RodadaSite(){
  const [orderCep,setOrderCep]=useState('');
  const [cepCity,setCepCity]=useState('');
  const [cepStatus,setCepStatus]=useState<'idle'|'loading'|'success'|'error'>('idle');
+ const [publicGallery,setPublicGallery]=useState<PublicGalleryItem[]>([]);
+ const [publicTestimonials,setPublicTestimonials]=useState<PublicTestimonial[]>([]);
+ const [socialProofLoaded,setSocialProofLoaded]=useState(false);
 
  useEffect(()=>{
   const age=window.localStorage.getItem('rodada_age_verified');
   setAgeVerified(age==='yes');
   const cookie=window.localStorage.getItem('rodada_cookie_choice');
   if(cookie==='accepted'||cookie==='rejected')setCookieChoice(cookie);
+ },[]);
+
+ useEffect(()=>{
+  fetch('/api/social-proof')
+   .then(response=>response.ok?response.json():Promise.reject())
+   .then(data=>{
+    setPublicGallery(Array.isArray(data.gallery)?data.gallery:[]);
+    setPublicTestimonials(Array.isArray(data.testimonials)?data.testimonials:[]);
+   })
+   .catch(()=>{})
+   .finally(()=>setSocialProofLoaded(true));
  },[]);
 
 
@@ -296,6 +313,37 @@ export default function RodadaSite(){
         <a className="primary" href={wa('Olá! Usei a calculadora do site para um evento com '+eventGuests+' convidados, duração de '+eventHours+' horas, cerca de '+estimatedDrinkers+' consumidores de chopp, perfil '+eventProfile+' A estimativa foi de '+estimatedLiters+' L, com sugestão de '+suggestedKegs+'. Quero confirmar a quantidade e pedir um orçamento.')} target="_blank" rel="noreferrer">CONFIRMAR COM A RODADA <Arrow/></a>
       </div>
     </Reveal>
+   </section>
+
+
+   <section className="socialProof section" id="galeria" aria-labelledby="social-proof-title">
+    <Reveal className="socialProofHead">
+     <div><p className="eyebrow dark">06 / MOMENTOS RODADA</p><h2 id="social-proof-title">EVENTOS QUE<br/><em>PEDEM RODADA.</em></h2></div>
+     <p>Registros publicados pelo painel administrativo e experiências compartilhadas por clientes da Cervejaria Rodada.</p>
+    </Reveal>
+
+    <div className="socialProofGrid">
+     <div className="eventGalleryPublic">
+      <div className="socialSubhead"><small>GALERIA DE EVENTOS</small><strong>{publicGallery.length?publicGallery.length+' registros publicados':'Novos registros em breve'}</strong></div>
+      {publicGallery.length>0?<div className="eventGalleryCards">
+       {publicGallery.map((item,index)=><article className="eventGalleryCard" key={item.id}>
+        <span>{String(index+1).padStart(2,'0')}</span>
+        <div><small>{item.event_type||'EVENTO RODADA'}</small><h3>{item.title||'Momento Rodada'}</h3><p>{item.city||'Oeste da Bahia'}{item.event_date?' · '+new Date(item.event_date+'T12:00:00').toLocaleDateString('pt-BR'):''}</p></div>
+       </article>)}
+      </div>:socialProofLoaded&&<p className="socialEmpty">Novos eventos e registros da Rodada serão publicados aqui.</p>}
+     </div>
+
+     <div className="testimonialsPublic">
+      <div className="socialSubhead"><small>DEPOIMENTOS</small><strong>{publicTestimonials.length?publicTestimonials.length+' avaliações aprovadas':'Experiências de clientes'}</strong></div>
+      {publicTestimonials.length>0?<div className="testimonialCards">
+       {publicTestimonials.map(item=><blockquote className="testimonialCard" key={item.id}>
+        <div className="testimonialStars" aria-label={(item.rating||5)+' de 5 estrelas'}>{'★'.repeat(Math.max(1,Math.min(5,item.rating||5)))}</div>
+        <p>“{item.body}”</p>
+        <footer><strong>{item.name||'Cliente Rodada'}</strong><span>{item.city||'Bahia'}</span></footer>
+       </blockquote>)}
+      </div>:socialProofLoaded&&<p className="socialEmpty">Os depoimentos aprovados no painel administrativo aparecerão nesta seção.</p>}
+     </div>
+    </div>
    </section>
 
 
