@@ -171,7 +171,7 @@ export default function RodadaSite(){
      <p className="lead">Chopp puro malte do Oeste da Bahia, feito para transformar bons encontros em grandes momentos.</p>
      <div className="heroPioneer" aria-label="Pioneirismo da Cervejaria Rodada">
        <span>UM MARCO NA CERVEJA BAIANA</span>
-       <strong>Somos a primeira cervejaria baiana a criar uma cerveja sem glúten.</strong>
+       <strong>Somos a <em>primeira</em> cervejaria baiana a criar uma cerveja <em>sem glúten</em>.</strong>
        <small>Inovação feita na Bahia, com a identidade da Rodada.</small>
      </div>
      <div className="actions heroActions"><a href="#chopes" className="primary">VER CHOPES <Arrow/></a><a href="#cervejas" className="secondary">Ver cervejas ↓</a><a href="#eventos" className="secondary">Quero chope para meu evento ↓</a></div>
@@ -183,7 +183,7 @@ export default function RodadaSite(){
 
       <div className="seal">DO OESTE<br/><b>DA BAHIA</b></div>
     </div>
-    <div className="heroFoot"><span>↓ A próxima Rodada começa aqui</span><span>BEBA COM MODERAÇÃO.</span></div>
+    <div className="heroFoot"><span>BEBA COM MODERAÇÃO.</span></div>
    </section>
 
    <section className="products section" id="chopes" aria-labelledby="chopes-title">
