@@ -1578,3 +1578,104 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
     letter-spacing:inherit!important;
   }
 }
+
+
+/* Legibility pass — only the small copy called out in review */
+.heroCopy .lead{
+  font-size:15px!important;
+  line-height:1.75!important;
+}
+
+.heroPioneer small{
+  font-size:14px!important;
+  line-height:1.65!important;
+}
+
+.sectionIntro p{
+  font-size:14px!important;
+  line-height:1.75!important;
+}
+
+.socialProofHead>p,
+.faqPublicHead>p{
+  font-size:15px!important;
+  line-height:1.7!important;
+}
+
+.socialSubhead small{
+  font-size:10px!important;
+  letter-spacing:.15em!important;
+}
+
+.socialSubhead strong{
+  font-size:13px!important;
+}
+
+.eventGalleryCard small{
+  font-size:10px!important;
+}
+
+.eventGalleryCard p{
+  font-size:13px!important;
+  line-height:1.55!important;
+}
+
+.testimonialCard footer{
+  font-size:12px!important;
+}
+
+.socialEmpty{
+  font-size:15px!important;
+  line-height:1.7!important;
+}
+
+.faqPublicItem summary span{
+  font-size:10px!important;
+}
+
+.faqPublicItem>div p{
+  font-size:15px!important;
+}
+
+@media(max-width:760px){
+  .heroCopy .lead{
+    font-size:15px!important;
+  }
+
+  .heroPioneer small{
+    font-size:13px!important;
+  }
+
+  .sectionIntro p{
+    font-size:14px!important;
+  }
+
+  .socialProofHead>p,
+  .faqPublicHead>p{
+    font-size:14px!important;
+  }
+
+  .socialSubhead small{
+    font-size:10px!important;
+  }
+
+  .socialSubhead strong{
+    font-size:13px!important;
+  }
+
+  .eventGalleryCard p{
+    font-size:13px!important;
+  }
+
+  .testimonialCard footer{
+    font-size:12px!important;
+  }
+
+  .socialEmpty{
+    font-size:15px!important;
+  }
+
+  .faqPublicItem>div p{
+    font-size:15px!important;
+  }
+}
