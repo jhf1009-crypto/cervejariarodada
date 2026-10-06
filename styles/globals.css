@@ -1348,3 +1348,55 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
     height:74px!important;
   }
 }
+
+
+/* Final mobile performance pass */
+@media (max-width:760px){
+  .beerLineup,
+  .eventSolutions,
+  .leadFormSection,
+  .socialProof,
+  .faqPublic,
+  .contact,
+  .footer{
+    content-visibility:auto;
+    contain-intrinsic-size:800px;
+    contain:layout paint style;
+  }
+
+  .variationCard,
+  .beerLineupCard,
+  .eventSolutionCard,
+  .eventGalleryPublic,
+  .testimonialsPublic,
+  .faqPublicItem{
+    contain:layout paint;
+  }
+
+  .variationVisual img,
+  .beerLineupVisual img,
+  .orderThumb img,
+  .productHeroVisual img,
+  .catalogCard img{
+    filter:none!important;
+    box-shadow:none!important;
+  }
+
+  .heroStage .heroKeg,
+  .heroStage .heroTap,
+  .heroStage .orbit,
+  .variationCard,
+  .beerLineupCard,
+  .eventSolutionCard{
+    will-change:auto!important;
+  }
+
+  .orderOverlay{
+    backdrop-filter:none!important;
+    -webkit-backdrop-filter:none!important;
+  }
+
+  .whatsappFloat{
+    box-shadow:none!important;
+  }
+}
