@@ -2236,3 +2236,71 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
     max-height:42px!important;
   }
 }
+
+
+/* Mobile product CTAs — clear contrast and touch-friendly */
+@media(max-width:760px){
+  #chopes .variationBottom{
+    grid-template-columns:1fr!important;
+    gap:14px!important;
+    align-items:stretch!important;
+  }
+
+  #chopes .variationBottom>div{
+    width:100%!important;
+  }
+
+  #chopes .productDetailLink,
+  #chopes .cardAction,
+  .beerLineupCopy .productDetailLink,
+  .beerLineupCopy .cardAction{
+    width:100%!important;
+    min-height:46px!important;
+    display:flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+    gap:8px!important;
+    margin-top:10px!important;
+    padding:12px 14px!important;
+    border-radius:10px!important;
+    font-size:11px!important;
+    font-weight:900!important;
+    letter-spacing:.06em!important;
+    text-align:center!important;
+    text-decoration:none!important;
+  }
+
+  #chopes .productDetailLink,
+  .beerLineupCopy .productDetailLink{
+    background:#f5f2ea!important;
+    color:#082842!important;
+    border:1px solid rgba(8,40,66,.16)!important;
+  }
+
+  #chopes .cardAction,
+  .beerLineupCopy .cardAction{
+    background:#c9a227!important;
+    color:#0b0b0b!important;
+    border:1px solid #c9a227!important;
+  }
+
+  #chopes .variationCard.ipa .productDetailLink{
+    background:#f5f2ea!important;
+    color:#171717!important;
+    border-color:#f5f2ea!important;
+  }
+
+  #chopes .variationCard.ipa .cardAction{
+    background:#e0c15a!important;
+    color:#171717!important;
+    border-color:#e0c15a!important;
+  }
+
+  .beerLineupCopy>div{
+    display:grid!important;
+    grid-template-columns:1fr!important;
+    gap:10px!important;
+    width:100%!important;
+    align-items:stretch!important;
+  }
+}
