@@ -217,7 +217,8 @@ export default function RodadaSite(){
     </div>
     <div className="heroStage">
       <div className="orbit"/>
-      <Image src={img.barril} alt="Barril de Chopp Rodada" className="heroKeg" width={549} height={605} quality={70} priority sizes="(max-width: 760px) 56vw, 32vw"/>
+      <Image src={img.barril} alt="Barril de Chopp Rodada" className="heroKeg heroKegMobile" width={549} height={605} quality={70} priority sizes="(max-width: 760px) 56vw, 32vw"/>
+      <Image src="/events/cerveja rodada lager sem glúten.png" alt="Cerveja Rodada Lager sem glúten" className="desktopFollowBeer" width={1419} height={1109} quality={72} priority sizes="32vw"/>
       <Image src="/events/image.png" alt="Chopeira Rodada" className="heroTap" width={1254} height={1254} quality={65} priority sizes="(max-width: 760px) 30vw, 34vw"/>
 
       <div className="seal">DO OESTE<br/><b>DA BAHIA</b></div>
@@ -271,40 +272,6 @@ export default function RodadaSite(){
           </Reveal>
         ))}
       </div>
-    </div>
-   </section>
-
-   <section className="desktopScrollStory" aria-labelledby="scroll-story-title">
-    <div className="scrollStorySticky" aria-hidden="true">
-      <div className="scrollStoryGlow"/>
-      <div className="scrollStoryWord">SEM GLÚTEN</div>
-      <Image
-        src="/events/cerveja rodada lager sem glúten.png"
-        alt=""
-        className="scrollStoryBottle"
-        width={1419}
-        height={1109}
-        quality={72}
-        loading="lazy"
-        sizes="38vw"
-      />
-    </div>
-    <div className="scrollStoryTrack">
-      <article className="scrollStoryBeat isLeft">
-        <small>CERVEJA RODADA</small>
-        <h2 id="scroll-story-title">LAGER<br/><em>SEM GLÚTEN.</em></h2>
-        <p>Uma Rodada feita para acompanhar novos momentos sem abrir mão da identidade da cervejaria.</p>
-      </article>
-      <article className="scrollStoryBeat isRight">
-        <small>PIONEIRISMO BAIANO</small>
-        <h3>A PRIMEIRA<br/>DA BAHIA.</h3>
-        <p>Somos a primeira cervejaria da Bahia a criar uma cerveja sem glúten.</p>
-      </article>
-      <article className="scrollStoryBeat isLeft">
-        <small>RODADA 600 ML</small>
-        <h3>FEITA PARA<br/><em>ENTRAR NA RODADA.</em></h3>
-        <p>Role a página e a garrafa acompanha a experiência até a próxima seção.</p>
-      </article>
     </div>
    </section>
 
