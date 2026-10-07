@@ -2144,3 +2144,37 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
     background:#082842!important;
   }
 }
+
+
+/* Official Rodada logo in header */
+.navBrandLogo{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  width:156px!important;
+  min-width:156px!important;
+  height:64px!important;
+  line-height:1!important;
+}
+
+.navBrandLogo img{
+  display:block!important;
+  width:156px!important;
+  height:auto!important;
+  max-width:100%!important;
+  object-fit:contain!important;
+  object-position:left center!important;
+}
+
+@media(max-width:760px){
+  .navBrandLogo{
+    width:132px!important;
+    min-width:132px!important;
+    height:54px!important;
+  }
+
+  .navBrandLogo img{
+    width:132px!important;
+    height:auto!important;
+  }
+}
