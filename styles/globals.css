@@ -2047,3 +2047,26 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
     transform-origin:center 58%!important;
   }
 }
+
+
+/* Chopp cards — 40% zoom, label kept in frame */
+#chopes .mockBottle>img{
+  transform:scale(1.40)!important;
+  transform-origin:center 58%!important;
+  object-position:center 58%!important;
+}
+
+@media(max-width:760px){
+  #chopes .mockBottle>img{
+    transform:scale(1.40)!important;
+    transform-origin:center 58%!important;
+    object-position:center 58%!important;
+  }
+}
+
+@media(max-width:390px){
+  #chopes .mockBottle>img{
+    transform:scale(1.40)!important;
+    transform-origin:center 58%!important;
+  }
+}
