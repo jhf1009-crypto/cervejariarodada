@@ -227,13 +227,13 @@ export default function RodadaSite(){
 
    <section className="products section" id="chopes" aria-labelledby="chopes-title">
     <Reveal className="sectionTitle commerceTitle">
-      <div><p className="eyebrow dark">01 / CHOPPS RODADA</p><h2 id="chopes-title">ESCOLHA SEU<br/><em>CHOPP RODADA.</em></h2></div>
+      <div><p className="eyebrow dark">CHOPPS RODADA</p><h2 id="chopes-title">ESCOLHA SEU<br/><em>CHOPP RODADA.</em></h2></div>
       <div className="sectionIntro"><p>Lager, Pilsen e Session IPA em formatos práticos para levar para casa ou reunir a turma.</p><a href={wa('Olá! Gostaria de saber quais chopps Rodada estão disponíveis hoje.')} target="_blank" rel="noreferrer">Consultar disponibilidade <Arrow/></a></div>
     </Reveal>
     <div className="variationGrid" aria-label="Chopps Rodada">
       {choppProducts.map((item,index)=>(
         <Reveal key={item.name+item.size} className={'variationCard '+item.tone}>
-          <div className="variationTop"><span>{String(index+1).padStart(2,'0')} / 06</span><span>{item.meta}</span></div>
+          <div className="variationTop"><span>{item.meta}</span></div>
           <div className="variationVisual">
             <span className="variationFlavor" aria-hidden="true">{item.flavor}</span>
             <div className={item.photo?'mockBottle photoAsset':'mockBottle'}>
@@ -249,7 +249,7 @@ export default function RodadaSite(){
     <div className="beerLineup" id="cervejas" aria-labelledby="cervejas-title">
       <Reveal className="beerLineupHead">
         <div>
-          <p className="eyebrow dark">02 / CERVEJAS RODADA</p>
+          <p className="eyebrow dark">CERVEJAS RODADA</p>
           <h2 id="cervejas-title">CERVEJAS<br/><em>RODADA 600 ML.</em></h2>
         </div>
         <p>Três versões da Rodada em garrafa de 600 ml. As fotos oficiais serão adicionadas depois, sem usar imagens genéricas.</p>
@@ -257,7 +257,7 @@ export default function RodadaSite(){
       <div className="beerLineupGrid">
         {beerProducts.map((item,index)=>(
           <Reveal key={item.name+(item.badge||'')} className={'beerLineupCard '+item.tone}>
-            <div className="beerLineupTop"><span>{String(index+1).padStart(2,'0')} / 03</span><span>{item.meta}</span></div>
+            <div className="beerLineupTop"><span>{item.meta}</span></div>
             <div className="beerLineupVisual" aria-label={'Foto de '+item.name+(item.badge?' '+item.badge:'')}>
               {item.image?<Image src={item.image} alt={item.name+(item.badge?' '+item.badge:'')} width={item.width} height={item.height} quality={60} loading="lazy" sizes="(max-width: 700px) 88vw, (max-width: 1100px) 46vw, 30vw"/>:<span>FOTO<br/>EM BREVE</span>}
             </div>
@@ -322,7 +322,7 @@ export default function RodadaSite(){
 
    <section className="socialProof section" id="galeria" aria-labelledby="social-proof-title">
     <Reveal className="socialProofHead">
-     <div><p className="eyebrow dark">06 / MOMENTOS RODADA</p><h2 id="social-proof-title">EVENTOS QUE<br/><em>PEDEM RODADA.</em></h2></div>
+     <div><p className="eyebrow dark">MOMENTOS RODADA</p><h2 id="social-proof-title">EVENTOS QUE<br/><em>PEDEM RODADA.</em></h2></div>
      <p>Registros publicados pelo painel administrativo e experiências compartilhadas por clientes da Cervejaria Rodada.</p>
     </Reveal>
 
@@ -353,7 +353,7 @@ export default function RodadaSite(){
 
    <section className="faqPublic section" id="faq" aria-labelledby="faq-title">
     <Reveal className="faqPublicHead">
-     <div><p className="eyebrow dark">07 / DÚVIDAS FREQUENTES</p><h2 id="faq-title">ANTES DA RODADA,<br/><em>TIRE SUAS DÚVIDAS.</em></h2></div>
+     <div><p className="eyebrow dark">DÚVIDAS FREQUENTES</p><h2 id="faq-title">ANTES DA RODADA,<br/><em>TIRE SUAS DÚVIDAS.</em></h2></div>
      <p>As respostas abaixo são controladas pelo painel administrativo e exibem somente as perguntas publicadas.</p>
     </Reveal>
     {publicFaqs.length>0?<div className="faqPublicList">
@@ -366,7 +366,7 @@ export default function RodadaSite(){
 
 
    <section className="contact section" id="contato">
-    <Reveal><p className="eyebrow dark">08 / FALE COM A RODADA</p><h2>BORA TOMAR<br/>UMA <em>RODADA?</em></h2><p>Fale com a Cervejaria Rodada para consultar produtos, barris, eventos e disponibilidade na sua região.</p></Reveal>
+    <Reveal><p className="eyebrow dark">FALE COM A RODADA</p><h2>BORA TOMAR<br/>UMA <em>RODADA?</em></h2><p>Fale com a Cervejaria Rodada para consultar produtos, barris, eventos e disponibilidade na sua região.</p></Reveal>
     <Reveal className="contactBox"><div><small>COMERCIAL</small><strong>(77) 9814-0440</strong></div><button type="button" className="contactOrderButton" onClick={()=>openOrder()}>PEDIR PELO WHATSAPP <Arrow/></button><a href="mailto:contato@cervejariarodada.com.br">contato@cervejariarodada.com.br <Arrow/></a></Reveal>
    </section>
   </main>
