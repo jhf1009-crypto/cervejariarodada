@@ -2070,3 +2070,56 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
     transform-origin:center 58%!important;
   }
 }
+
+
+/* Chopp cards — taller rectangular framing to match the portrait product photos */
+#chopes .variationCard{
+  min-height:700px!important;
+}
+
+#chopes .variationVisual{
+  min-height:500px!important;
+  margin:10px 0 14px!important;
+  overflow:hidden!important;
+}
+
+#chopes .mockBottle{
+  height:480px!important;
+  overflow:visible!important;
+}
+
+@media(max-width:1100px){
+  #chopes .variationCard{
+    min-height:650px!important;
+  }
+  #chopes .variationVisual{
+    min-height:450px!important;
+  }
+  #chopes .mockBottle{
+    height:430px!important;
+  }
+}
+
+@media(max-width:760px){
+  #chopes .variationCard{
+    min-height:610px!important;
+  }
+  #chopes .variationVisual{
+    min-height:420px!important;
+  }
+  #chopes .mockBottle{
+    height:405px!important;
+  }
+}
+
+@media(max-width:390px){
+  #chopes .variationCard{
+    min-height:575px!important;
+  }
+  #chopes .variationVisual{
+    min-height:390px!important;
+  }
+  #chopes .mockBottle{
+    height:375px!important;
+  }
+}
