@@ -2208,3 +2208,31 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
     border-radius:999px!important;
   }
 }
+
+
+/* Header logo — slightly smaller so it stays clear of the navbar divider */
+.navBrandLogo{
+  width:138px!important;
+  min-width:138px!important;
+  height:56px!important;
+}
+
+.navBrandLogo img{
+  width:138px!important;
+  height:auto!important;
+  max-height:52px!important;
+}
+
+@media(max-width:760px){
+  .navBrandLogo{
+    width:112px!important;
+    min-width:112px!important;
+    height:46px!important;
+  }
+
+  .navBrandLogo img{
+    width:112px!important;
+    height:auto!important;
+    max-height:42px!important;
+  }
+}
