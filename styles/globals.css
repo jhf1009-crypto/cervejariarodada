@@ -2304,3 +2304,57 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
     align-items:stretch!important;
   }
 }
+
+
+/* Mobile hero — bring keg and tap closer together and add subtle motion */
+@keyframes mobileKegFloat{
+  0%,100%{transform:translate3d(0,0,0) rotate(-1deg)}
+  50%{transform:translate3d(0,-8px,0) rotate(1deg)}
+}
+@keyframes mobileTapFloat{
+  0%,100%{transform:translate3d(0,2px,0) rotate(.7deg)}
+  50%{transform:translate3d(-4px,-7px,0) rotate(-.7deg)}
+}
+
+@media(max-width:760px){
+  .heroStage .heroKeg{
+    left:8%!important;
+    top:6%!important;
+    width:58%!important;
+    height:82%!important;
+    animation:mobileKegFloat 4.8s ease-in-out infinite!important;
+    transform-origin:center bottom!important;
+    will-change:transform!important;
+  }
+
+  .heroStage .heroTap{
+    right:7%!important;
+    top:27%!important;
+    width:34%!important;
+    height:50%!important;
+    animation:mobileTapFloat 5.4s ease-in-out infinite!important;
+    transform-origin:center bottom!important;
+    will-change:transform!important;
+  }
+}
+
+@media(max-width:390px){
+  .heroStage .heroKeg{
+    left:6%!important;
+    width:60%!important;
+  }
+
+  .heroStage .heroTap{
+    right:5%!important;
+    top:29%!important;
+    width:35%!important;
+    height:48%!important;
+  }
+}
+
+@media(prefers-reduced-motion:reduce){
+  .heroStage .heroKeg,
+  .heroStage .heroTap{
+    animation:none!important;
+  }
+}
