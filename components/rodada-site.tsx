@@ -194,7 +194,7 @@ export default function RodadaSite(){
   </div>}
   <a className="skipLink" href="#conteudo">Pular para o conteúdo</a>
   <header className="nav">
-   <a href="#inicio" className="brand" aria-label="Cervejaria Rodada — início"><b>RODADA</b></a>
+   <a href="#inicio" className="brand navBrandLogo" aria-label="Cervejaria Rodada — início"><Image src="/events/CERVEJARIA_RODADA_logo_branca.png" alt="Cervejaria Rodada" width={2610} height={1244} priority sizes="(max-width: 760px) 132px, 156px"/></a>
    <nav id="menu-principal" className={menu?'open':''} aria-label="Navegação principal">
     <a href="#chopes" onClick={()=>setMenu(false)}>Chopps</a><a href="#cervejas" onClick={()=>setMenu(false)}>Cervejas</a><a href="#eventos" onClick={()=>setMenu(false)}>Eventos</a><a href="#contato" onClick={()=>setMenu(false)}>Contato</a>
    </nav>
