@@ -217,8 +217,7 @@ export default function RodadaSite(){
     </div>
     <div className="heroStage">
       <div className="orbit"/>
-      <Image src={img.barril} alt="Barril de Chopp Rodada" className="heroKeg heroKegMobile" width={549} height={605} quality={70} priority sizes="(max-width: 760px) 56vw, 32vw"/>
-      <Image src="/events/cerveja rodada lager sem glúten.png" alt="Cerveja Rodada Lager sem glúten" className="desktopFollowBeer" width={1419} height={1109} quality={72} priority sizes="32vw"/>
+      <Image src={img.barril} alt="Barril de Chopp Rodada" className="heroKeg" width={549} height={605} quality={70} priority sizes="(max-width: 760px) 56vw, 32vw"/>
       <Image src="/events/image.png" alt="Chopeira Rodada" className="heroTap" width={1254} height={1254} quality={65} priority sizes="(max-width: 760px) 30vw, 34vw"/>
 
       <div className="seal">DO OESTE<br/><b>DA BAHIA</b></div>
