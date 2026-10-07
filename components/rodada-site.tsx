@@ -274,6 +274,40 @@ export default function RodadaSite(){
     </div>
    </section>
 
+   <section className="desktopScrollStory" aria-labelledby="scroll-story-title">
+    <div className="scrollStorySticky" aria-hidden="true">
+      <div className="scrollStoryGlow"/>
+      <div className="scrollStoryWord">SEM GLÚTEN</div>
+      <Image
+        src="/events/cerveja rodada lager sem glúten.png"
+        alt=""
+        className="scrollStoryBottle"
+        width={1419}
+        height={1109}
+        quality={72}
+        loading="lazy"
+        sizes="38vw"
+      />
+    </div>
+    <div className="scrollStoryTrack">
+      <article className="scrollStoryBeat isLeft">
+        <small>CERVEJA RODADA</small>
+        <h2 id="scroll-story-title">LAGER<br/><em>SEM GLÚTEN.</em></h2>
+        <p>Uma Rodada feita para acompanhar novos momentos sem abrir mão da identidade da cervejaria.</p>
+      </article>
+      <article className="scrollStoryBeat isRight">
+        <small>PIONEIRISMO BAIANO</small>
+        <h3>A PRIMEIRA<br/>DA BAHIA.</h3>
+        <p>Somos a primeira cervejaria da Bahia a criar uma cerveja sem glúten.</p>
+      </article>
+      <article className="scrollStoryBeat isLeft">
+        <small>RODADA 600 ML</small>
+        <h3>FEITA PARA<br/><em>ENTRAR NA RODADA.</em></h3>
+        <p>Role a página e a garrafa acompanha a experiência até a próxima seção.</p>
+      </article>
+    </div>
+   </section>
+
    <section className="eventSolutions section" id="eventos" aria-labelledby="eventos-title">
     <div className="eventQuoteFlow">
       <Reveal className="eventSteps" aria-label="Como pedir orçamento para evento">
