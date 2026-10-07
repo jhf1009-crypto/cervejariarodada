@@ -2123,3 +2123,9 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
     height:375px!important;
   }
 }
+
+
+/* IPA card only — remove background "SESSION IPA" text */
+#chopes .variationCard.ipa .variationFlavor{
+  display:none!important;
+}
