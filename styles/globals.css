@@ -2021,3 +2021,29 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
     max-height:265px!important;
   }
 }
+
+
+/* Chopp cards — 35% zoom focused on keeping the bottle label visible */
+#chopes .mockBottle>img{
+  transform:scale(1.35)!important;
+  transform-origin:center 58%!important;
+  object-position:center 58%!important;
+}
+
+@media(max-width:760px){
+  #chopes .mockBottle{
+    overflow:visible!important;
+  }
+  #chopes .mockBottle>img{
+    transform:scale(1.35)!important;
+    transform-origin:center 58%!important;
+    object-position:center 58%!important;
+  }
+}
+
+@media(max-width:390px){
+  #chopes .mockBottle>img{
+    transform:scale(1.35)!important;
+    transform-origin:center 58%!important;
+  }
+}
