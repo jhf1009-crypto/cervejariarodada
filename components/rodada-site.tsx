@@ -26,11 +26,10 @@ const initialBeerProducts=[
  {name:'Cerveja Rodada Lager',meta:'600 ML',style:'LAGER',badge:'SEM GLÚTEN',image:'/events/cerveja rodada lager sem glúten.png',tone:'beer-gluten-free',width:1419,height:1109}
 ];
 
-const buildOrderProducts=(choppProducts:typeof initialChoppProducts,beerProducts:typeof initialBeerProducts)=>[
+const buildOrderProducts=(choppProducts:typeof initialChoppProducts,beerProducts:typeof initialBeerProducts,kegs:{liters:number}[])=>[
  ...choppProducts.map(item=>({id:item.name+' '+item.size,name:item.name+' '+item.size,meta:item.flavor+' · '+item.size,image:item.image,group:'Chopps'})),
  ...beerProducts.map(item=>({id:item.name+(item.badge?' '+item.badge:''),name:item.name+(item.badge?' · '+item.badge:''),meta:item.style+' · '+item.meta,image:item.image,group:'Cervejas'})),
- {id:'Barril de Chopp Rodada 30 L',name:'Barril de Chopp Rodada 30 L',meta:'BARRIL 30 L',image:img.barril,group:'Barril + Chopeira'},
- {id:'Barril de Chopp Rodada 50 L',name:'Barril de Chopp Rodada 50 L',meta:'BARRIL 50 L',image:img.barril,group:'Barril + Chopeira'},
+ ...kegs.map(k=>({id:'Barril de Chopp Rodada '+k.liters+' L',name:'Barril de Chopp Rodada '+k.liters+' L',meta:'BARRIL '+k.liters+' L',image:img.barril,group:'Barril + Chopeira'})),
  {id:'Chopeira Rodada',name:'Chopeira Rodada',meta:'CHOPEIRA PARA EVENTOS',image:img.chopeira,group:'Barril + Chopeira'}
 ];
 
@@ -45,7 +44,9 @@ export default function RodadaSite(){
  const [menu,setMenu]=useState(false);
  const [choppProducts,setChoppProducts]=useState(initialChoppProducts);
  const [beerProducts,setBeerProducts]=useState(initialBeerProducts);
- const orderProducts=buildOrderProducts(choppProducts,beerProducts);
+ const [kegs,setKegs]=useState([{liters:30},{liters:50}]);
+ const [publicContent,setPublicContent]=useState<any>({});
+ const orderProducts=buildOrderProducts(choppProducts,beerProducts,kegs);
  useEffect(()=>{
   let active=true;
   const load=async()=>{
@@ -65,6 +66,8 @@ export default function RodadaSite(){
      return {...(original||{tone:'beer-lager',width:1000,height:1000,image:''}),name:p.name,meta:p.volume_ml+' ML',style:gluten?'LAGER':p.name.toUpperCase().includes('PILSEN')?'PILSEN':'LAGER',badge:gluten?'SEM GLÚTEN':undefined,image:p.image_url||original?.image||''};
     });
     setChoppProducts(chopps);setBeerProducts(beers);
+    if(Array.isArray(data.kegs))setKegs(data.kegs);
+    setPublicContent(data);
    }catch(error){console.error('Falha ao carregar catálogo:',error)}
   };
   load();return()=>{active=false};
@@ -392,6 +395,10 @@ export default function RodadaSite(){
 
   <footer className="footer section">
    <div className="footerTop"><div><div className="brand big"><b>RODADA</b></div><p>Naturalmente baiana.<br/>Orgulhosamente do Oeste da Bahia.</p></div><div><b>EXPLORE</b><a href="#chopes">Chopps</a><a href="#cervejas">Cervejas</a><a href="#eventos">Eventos</a></div><div><b>CONTATO</b><a href="mailto:contato@cervejariarodada.com.br">E-mail</a><a href="https://www.instagram.com/cervejariarodada/" target="_blank" rel="noreferrer">Instagram ↗</a><a href="/legal">Políticas e termos</a></div></div>
+   {Array.isArray(publicContent.packages)&&publicContent.packages.length>0&&<section aria-label="Pacotes para eventos" style={{padding:'3rem 6%'}}><h2>Pacotes para eventos</h2>{publicContent.packages.map((p:any)=><article key={p.slug} style={{marginTop:'1rem'}}><h3>{p.name}</h3><p>{p.description}</p>{Array.isArray(p.included_items)&&<p>{p.included_items.join(' · ')}</p>}</article>)}</section>}
+   {Array.isArray(publicContent.gallery)&&publicContent.gallery.length>0&&<section aria-label="Galeria de eventos" style={{padding:'3rem 6%'}}><h2>Eventos Rodada</h2>{publicContent.gallery.map((g:any,i:number)=><article key={i}><h3>{g.title}</h3><p>{[g.city,g.event_type].filter(Boolean).join(' · ')}</p></article>)}</section>}
+   {Array.isArray(publicContent.testimonials)&&publicContent.testimonials.length>0&&<section aria-label="Depoimentos" style={{padding:'3rem 6%'}}><h2>O que dizem nossos clientes</h2>{publicContent.testimonials.map((t:any,i:number)=><blockquote key={i}><p>{t.body}</p><cite>{t.name}{t.city?' · '+t.city:''}</cite></blockquote>)}</section>}
+   {Array.isArray(publicContent.faqs)&&publicContent.faqs.length>0&&<section aria-label="Perguntas frequentes" style={{padding:'3rem 6%'}}><h2>Perguntas frequentes</h2>{publicContent.faqs.map((q:any,i:number)=><details key={i}><summary>{q.question}</summary><p>{q.answer}</p></details>)}</section>}
    <div className="footerWord">A VIDA PEDE RODADA.</div>
    <div className="footerBottom"><span>© {new Date().getFullYear()} Cervejaria Rodada Ltda.</span><b>BEBA COM MODERAÇÃO.</b><span>Conteúdo destinado a maiores de 18 anos.</span></div>
   </footer>
