@@ -57,12 +57,12 @@ export default function RodadaSite(){
     const chopps=data.products.filter((p:any)=>p.category==='chope').map((p:any)=>{
      const original=initialChoppProducts.find(x=>x.name===p.name&&(x.size==='1,5 L'?1500:parseInt(x.size,10))===p.volume_ml);
      const size=p.volume_ml===1500?'1,5 L':p.volume_ml+' ml';
-     return {...(original||{tone:'lager',photo:false,width:941,height:1672,image:''}),name:p.name,size,meta:p.packaging+' '+size,flavor:p.name.replace(/^Chopp /,'').toUpperCase(),image:original?.image||'',photo:!!original?.image};
+     return {...(original||{tone:'lager',photo:false,width:941,height:1672,image:''}),name:p.name,size,meta:p.packaging+' '+size,flavor:p.name.replace(/^Chopp /,'').toUpperCase(),image:p.image_url||original?.image||'',photo:!!(p.image_url||original?.image)};
     });
     const beers=data.products.filter((p:any)=>p.category==='cerveja').map((p:any)=>{
      const original=initialBeerProducts.find(x=>((p.slug||'').includes('sem-gluten')?!!x.badge:!x.badge&&x.name===p.name));
      const gluten=(p.slug||'').includes('sem-gluten');
-     return {...(original||{tone:'beer-lager',width:1000,height:1000,image:''}),name:p.name,meta:p.volume_ml+' ML',style:gluten?'LAGER':p.name.toUpperCase().includes('PILSEN')?'PILSEN':'LAGER',badge:gluten?'SEM GLÚTEN':undefined,image:original?.image||''};
+     return {...(original||{tone:'beer-lager',width:1000,height:1000,image:''}),name:p.name,meta:p.volume_ml+' ML',style:gluten?'LAGER':p.name.toUpperCase().includes('PILSEN')?'PILSEN':'LAGER',badge:gluten?'SEM GLÚTEN':undefined,image:p.image_url||original?.image||''};
     });
     setChoppProducts(chopps);setBeerProducts(beers);
    }catch(error){console.error('Falha ao carregar catálogo:',error)}
@@ -237,7 +237,7 @@ export default function RodadaSite(){
           <div className="variationVisual">
             <span className="variationFlavor" aria-hidden="true">{item.flavor}</span>
             <div className={item.photo?'mockBottle photoAsset':'mockBottle'}>
-              {item.image&&<Image src={item.image} alt={item.name+' '+item.size} width={item.width} height={item.height} quality={60} loading="lazy" sizes="(max-width: 700px) 88vw, (max-width: 1100px) 46vw, 30vw"/>}
+              {item.image&&<Image unoptimized={item.image.startsWith('http')} src={item.image} alt={item.name+' '+item.size} width={item.width} height={item.height} quality={60} loading="lazy" sizes="(max-width: 700px) 88vw, (max-width: 1100px) 46vw, 30vw"/>}
               {item.photo?null:<div className="mockLabel"><b>RODADA</b><small>{item.flavor}</small><em>{item.size}</em></div>}
             </div>
           </div>
@@ -259,7 +259,7 @@ export default function RodadaSite(){
           <Reveal key={item.name+(item.badge||'')} className={'beerLineupCard '+item.tone}>
             <div className="beerLineupTop"><span>{item.meta}</span></div>
             <div className="beerLineupVisual" aria-label={'Foto de '+item.name+(item.badge?' '+item.badge:'')}>
-              {item.image?<Image src={item.image} alt={item.name+(item.badge?' '+item.badge:'')} width={item.width} height={item.height} quality={60} loading="lazy" sizes="(max-width: 700px) 88vw, (max-width: 1100px) 46vw, 30vw"/>:<span>FOTO<br/>EM BREVE</span>}
+              {item.image?<Image unoptimized={item.image.startsWith('http')} src={item.image} alt={item.name+(item.badge?' '+item.badge:'')} width={item.width} height={item.height} quality={60} loading="lazy" sizes="(max-width: 700px) 88vw, (max-width: 1100px) 46vw, 30vw"/>:<span>FOTO<br/>EM BREVE</span>}
             </div>
             <div className="beerLineupCopy">
               <small>{item.style}</small>
@@ -340,7 +340,7 @@ export default function RodadaSite(){
               const beer=isBeerOrder(product.id);
               return <div className={'orderProductChoice '+(selected?'selected':'')} key={product.id}>
                 <button type="button" className={'orderOption '+(selected?'selected':'')} onClick={()=>toggleOrder(product.id)} aria-pressed={selected}>
-                  {product.image&&<span className="orderThumb"><Image src={product.image} alt="" width={120} height={160} quality={50} loading="lazy" sizes="64px"/></span>}
+                  {product.image&&<span className="orderThumb"><Image unoptimized={product.image.startsWith('http')} src={product.image} alt="" width={120} height={160} quality={50} loading="lazy" sizes="64px"/></span>}
                   <span className="orderOptionCopy"><b>{product.name}</b><small>{product.meta}</small></span>
                   <i aria-hidden>{selected?'✓':'+'}</i>
                 </button>
