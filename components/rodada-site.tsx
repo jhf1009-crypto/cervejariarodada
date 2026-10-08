@@ -327,7 +327,7 @@ export default function RodadaSite(){
 
    <section className="contact section" id="contato">
     <Reveal><p className="eyebrow dark">FALE COM A RODADA</p><h2>BORA TOMAR<br/>UMA <em>RODADA?</em></h2><p>Fale com a Cervejaria Rodada para consultar produtos, barris, eventos e disponibilidade na sua região.</p></Reveal>
-    <Reveal className="contactBox"><div><small>COMERCIAL</small><strong>(77) 9814-0440</strong></div><button type="button" className="contactOrderButton" onClick={()=>openOrder()}>PEDIR PELO WHATSAPP <Arrow/></button><a href="mailto:contato@cervejariarodada.com.br">contato@cervejariarodada.com.br <Arrow/></a></Reveal>
+    <Reveal className="contactBox"><div><small>COMERCIAL</small><strong>(77) 9814-0440</strong></div><button type="button" className="contactOrderButton" onClick={()=>openOrder()}>PEDIR PELO WHATSAPP <Arrow/></button><a href={'mailto:'+(settings?.email||'contato@cervejariarodada.com.br')}>{settings?.email||'contato@cervejariarodada.com.br'} <Arrow/></a></Reveal>
    </section>
   </main>
 
