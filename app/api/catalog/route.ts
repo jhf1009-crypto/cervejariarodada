@@ -16,6 +16,19 @@ export async function GET(){
    for(const img of images){const slug=img.products?.slug;if(slug&&!bySlug.has(slug)&&img.storage_path)bySlug.set(slug,url+'/storage/v1/object/public/public-media/'+img.storage_path.split('/').map(encodeURIComponent).join('/'));}
    for(const product of products)product.image_url=bySlug.get(product.slug)||null;
   }
-  return NextResponse.json({products},{headers:{'Cache-Control':'no-store'}});
+  const publicTables=[
+   ['kegs','keg_sizes','liters,estimated_cups,sale_price,rental_price','active=eq.true','liters.asc'],
+   ['packages','event_packages','name,slug,description,included_items,sort_order','active=eq.true','sort_order.asc'],
+   ['faqs','faqs','question,answer,category,sort_order','published=eq.true','sort_order.asc'],
+   ['testimonials','testimonials','name,city,body,rating','approved=eq.true','created_at.desc'],
+   ['gallery','events_gallery','title,event_date,city,event_type,sort_order','published=eq.true','sort_order.asc'],
+   ['legal','legal_pages','slug,title,body','published=eq.true','title.asc'],
+   ['settings','site_settings','phone,whatsapp,email,address,story,opening_hours,social_links','id=eq.true','updated_at.desc']
+  ];
+  const extras:Record<string,unknown>={};
+  await Promise.all(publicTables.map(async ([label,table,columns,filter,order])=>{
+   try{const res=await fetch(url+'/rest/v1/'+table+'?select='+encodeURIComponent(columns)+'&'+filter+'&order='+order,{headers:{apikey:key,Authorization:'Bearer '+key},cache:'no-store'});if(res.ok)extras[label]=await res.json();else console.error('Public catalog '+table+' HTTP '+res.status)}catch(error){console.error('Public catalog '+table,error)}
+  }));
+  return NextResponse.json({products,...extras},{headers:{'Cache-Control':'no-store'}});
  }catch{return NextResponse.json({error:'Catálogo temporariamente indisponível'},{status:503})}
 }
