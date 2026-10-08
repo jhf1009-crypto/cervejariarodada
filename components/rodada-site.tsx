@@ -33,8 +33,7 @@ const buildOrderProducts=(choppProducts:typeof initialChoppProducts,beerProducts
  {id:'Chopeira Rodada',name:'Chopeira Rodada',meta:'CHOPEIRA PARA EVENTOS',image:img.chopeira,group:'Barril + Chopeira'}
 ];
 
-const WHATSAPP='557798140440';
-const wa=(message:string)=>'https://wa.me/'+WHATSAPP+'?text='+encodeURIComponent(message);
+const DEFAULT_WHATSAPP='557798140440';
 
 function Arrow(){return <span aria-hidden>↗</span>}
 function Reveal({children,className='',...props}:React.HTMLAttributes<HTMLDivElement>){return <div className={className} {...props}>{children}</div>}
@@ -46,6 +45,9 @@ export default function RodadaSite(){
  const [beerProducts,setBeerProducts]=useState(initialBeerProducts);
  const [kegs,setKegs]=useState([{liters:30},{liters:50}]);
  const [publicContent,setPublicContent]=useState<any>({});
+ const settings=publicContent.settings?.[0];
+ const whatsapp=String(settings?.whatsapp||DEFAULT_WHATSAPP).replace(/\D/g,'')||DEFAULT_WHATSAPP;
+ const wa=(message:string)=>'https://wa.me/'+whatsapp+'?text='+encodeURIComponent(message);
  const orderProducts=buildOrderProducts(choppProducts,beerProducts,kegs);
  useEffect(()=>{
   let active=true;
@@ -393,12 +395,12 @@ export default function RodadaSite(){
 
   <a className="whatsappFloat" href={wa('Olá! Gostaria de fazer um pedido ou tirar uma dúvida sobre a Cervejaria Rodada.')} target="_blank" rel="noreferrer" aria-label="Falar com a Cervejaria Rodada pelo WhatsApp"><span>WhatsApp</span><b>↗</b></a>
 
-  <footer className="footer section">
-   <div className="footerTop"><div><div className="brand big"><b>RODADA</b></div><p>Naturalmente baiana.<br/>Orgulhosamente do Oeste da Bahia.</p></div><div><b>EXPLORE</b><a href="#chopes">Chopps</a><a href="#cervejas">Cervejas</a><a href="#eventos">Eventos</a></div><div><b>CONTATO</b><a href="mailto:contato@cervejariarodada.com.br">E-mail</a><a href="https://www.instagram.com/cervejariarodada/" target="_blank" rel="noreferrer">Instagram ↗</a><a href="/legal">Políticas e termos</a></div></div>
    {Array.isArray(publicContent.packages)&&publicContent.packages.length>0&&<section aria-label="Pacotes para eventos" style={{padding:'3rem 6%'}}><h2>Pacotes para eventos</h2>{publicContent.packages.map((p:any)=><article key={p.slug} style={{marginTop:'1rem'}}><h3>{p.name}</h3><p>{p.description}</p>{Array.isArray(p.included_items)&&<p>{p.included_items.join(' · ')}</p>}</article>)}</section>}
    {Array.isArray(publicContent.gallery)&&publicContent.gallery.length>0&&<section aria-label="Galeria de eventos" style={{padding:'3rem 6%'}}><h2>Eventos Rodada</h2>{publicContent.gallery.map((g:any,i:number)=><article key={i}><h3>{g.title}</h3><p>{[g.city,g.event_type].filter(Boolean).join(' · ')}</p></article>)}</section>}
    {Array.isArray(publicContent.testimonials)&&publicContent.testimonials.length>0&&<section aria-label="Depoimentos" style={{padding:'3rem 6%'}}><h2>O que dizem nossos clientes</h2>{publicContent.testimonials.map((t:any,i:number)=><blockquote key={i}><p>{t.body}</p><cite>{t.name}{t.city?' · '+t.city:''}</cite></blockquote>)}</section>}
    {Array.isArray(publicContent.faqs)&&publicContent.faqs.length>0&&<section aria-label="Perguntas frequentes" style={{padding:'3rem 6%'}}><h2>Perguntas frequentes</h2>{publicContent.faqs.map((q:any,i:number)=><details key={i}><summary>{q.question}</summary><p>{q.answer}</p></details>)}</section>}
+  <footer className="footer section">
+   <div className="footerTop"><div><div className="brand big"><b>RODADA</b></div><p>Naturalmente baiana.<br/>Orgulhosamente do Oeste da Bahia.</p></div><div><b>EXPLORE</b><a href="#chopes">Chopps</a><a href="#cervejas">Cervejas</a><a href="#eventos">Eventos</a></div><div><b>CONTATO</b><a href="mailto:contato@cervejariarodada.com.br">E-mail</a><a href="https://www.instagram.com/cervejariarodada/" target="_blank" rel="noreferrer">Instagram ↗</a><a href="/legal">Políticas e termos</a></div></div>
    <div className="footerWord">A VIDA PEDE RODADA.</div>
    <div className="footerBottom"><span>© {new Date().getFullYear()} Cervejaria Rodada Ltda.</span><b>BEBA COM MODERAÇÃO.</b><span>Conteúdo destinado a maiores de 18 anos.</span></div>
   </footer>
