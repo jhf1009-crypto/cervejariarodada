@@ -174,7 +174,7 @@ export default function RodadaSite(){
   return best||{capacity:0,counts:[] as {liters:number;count:number}[]};
  })();
  const suggestedKegs=kegOptions.counts.filter(k=>k.count>0).map(k=>k.count+' '+(k.count===1?'barril':'barris')+' de '+k.liters+' L').join(' + ');
- const estimatedWaste=kegOptions.capacity-estimatedLiters;
+ const estimatedWaste=Math.max(0,kegOptions.capacity-estimatedLiters);
  const continueOrder=()=>{
   if(!canContinueOrder)return;
   const custom=selectedOrders.includes('Pedido personalizado');
@@ -405,7 +405,7 @@ export default function RodadaSite(){
    {Array.isArray(publicContent.testimonials)&&publicContent.testimonials.length>0&&<section aria-label="Depoimentos" style={{padding:'3rem 6%'}}><h2>O que dizem nossos clientes</h2>{publicContent.testimonials.map((t:any,i:number)=><blockquote key={i}><p>{t.body}</p><cite>{t.name}{t.city?' · '+t.city:''}</cite></blockquote>)}</section>}
    {Array.isArray(publicContent.faqs)&&publicContent.faqs.length>0&&<section aria-label="Perguntas frequentes" style={{padding:'3rem 6%'}}><h2>Perguntas frequentes</h2>{publicContent.faqs.map((q:any,i:number)=><details key={i}><summary>{q.question}</summary><p>{q.answer}</p></details>)}</section>}
   <footer className="footer section">
-   <div className="footerTop"><div><div className="brand big"><b>RODADA</b></div><p>Naturalmente baiana.<br/>Orgulhosamente do Oeste da Bahia.</p></div><div><b>EXPLORE</b><a href="#chopes">Chopps</a><a href="#cervejas">Cervejas</a><a href="#eventos">Eventos</a></div><div><b>CONTATO</b><a href="mailto:contato@cervejariarodada.com.br">E-mail</a><a href="https://www.instagram.com/cervejariarodada/" target="_blank" rel="noreferrer">Instagram ↗</a><a href="/legal">Políticas e termos</a></div></div>
+   <div className="footerTop"><div><div className="brand big"><b>RODADA</b></div><p>Naturalmente baiana.<br/>Orgulhosamente do Oeste da Bahia.</p></div><div><b>EXPLORE</b><a href="#chopes">Chopps</a><a href="#cervejas">Cervejas</a><a href="#eventos">Eventos</a></div><div><b>CONTATO</b><a href={"mailto:"+(settings?.email||"contato@cervejariarodada.com.br")}>E-mail</a><a href={settings?.social_links?.instagram||"https://www.instagram.com/cervejariarodada/"} target="_blank" rel="noreferrer">Instagram ↗</a><a href="/legal">Políticas e termos</a></div></div>
    <div className="footerWord">A VIDA PEDE RODADA.</div>
    <div className="footerBottom"><span>© {new Date().getFullYear()} Cervejaria Rodada Ltda.</span><b>BEBA COM MODERAÇÃO.</b><span>Conteúdo destinado a maiores de 18 anos.</span></div>
   </footer>
