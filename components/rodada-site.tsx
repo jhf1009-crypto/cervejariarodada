@@ -12,7 +12,7 @@ const img={
 };
 
 // Imagens demonstrativas temporárias: substituir pelos arquivos oficiais quando forem disponibilizados.
-const choppProducts=[
+const initialChoppProducts=[
  {name:'Chopp Lager',size:'1,5 L',meta:'PET 1,5 L',flavor:'LAGER',image:'/products/image.png',tone:'lager',photo:true,width:941,height:1672},
  {name:'Chopp Pilsen',size:'1,5 L',meta:'PET 1,5 L',flavor:'PILSEN',image:'/events/chopp 1,5l pilsen.png',tone:'pilsen',photo:true,width:941,height:1672},
  {name:'Chopp Session IPA',size:'1,5 L',meta:'PET 1,5 L',flavor:'SESSION IPA',image:'/events/chopp 1,5l ipa.png',tone:'ipa',photo:true,width:936,height:1680},
@@ -20,13 +20,13 @@ const choppProducts=[
  {name:'Chopp Pilsen',size:'700 ml',meta:'PET 700 ML',flavor:'PILSEN',image:'/events/rodada chopp pilsen 700ml.png',tone:'pilsen',photo:true,width:1086,height:1448}
 ];
 
-const beerProducts=[
+const initialBeerProducts=[
  {name:'Cerveja Rodada Lager',meta:'600 ML',style:'LAGER',image:'/events/cerveja rodada lager.png',tone:'beer-lager',width:1650,height:953},
  {name:'Cerveja Rodada Pilsen',meta:'600 ML',style:'PILSEN',image:'/events/cerveja rodada pilsen.png',tone:'beer-pilsen',width:1506,height:1044},
  {name:'Cerveja Rodada Lager',meta:'600 ML',style:'LAGER',badge:'SEM GLÚTEN',image:'/events/cerveja rodada lager sem glúten.png',tone:'beer-gluten-free',width:1419,height:1109}
 ];
 
-const orderProducts=[
+const buildOrderProducts=(choppProducts:typeof initialChoppProducts,beerProducts:typeof initialBeerProducts)=>[
  ...choppProducts.map(item=>({id:item.name+' '+item.size,name:item.name+' '+item.size,meta:item.flavor+' · '+item.size,image:item.image,group:'Chopps'})),
  ...beerProducts.map(item=>({id:item.name+(item.badge?' '+item.badge:''),name:item.name+(item.badge?' · '+item.badge:''),meta:item.style+' · '+item.meta,image:item.image,group:'Cervejas'})),
  {id:'Barril de Chopp Rodada 30 L',name:'Barril de Chopp Rodada 30 L',meta:'BARRIL 30 L',image:img.barril,group:'Barril + Chopeira'},
@@ -43,6 +43,32 @@ function Reveal({children,className='',...props}:React.HTMLAttributes<HTMLDivEle
 
 export default function RodadaSite(){
  const [menu,setMenu]=useState(false);
+ const [choppProducts,setChoppProducts]=useState(initialChoppProducts);
+ const [beerProducts,setBeerProducts]=useState(initialBeerProducts);
+ const orderProducts=buildOrderProducts(choppProducts,beerProducts);
+ useEffect(()=>{
+  let active=true;
+  const load=async()=>{
+   try{
+    const response=await fetch('/api/catalog',{cache:'no-store'});
+    if(!response.ok)throw new Error('Catálogo indisponível');
+    const data=await response.json();
+    if(!active||!Array.isArray(data.products))return;
+    const chopps=data.products.filter((p:any)=>p.category==='chope').map((p:any)=>{
+     const original=initialChoppProducts.find(x=>x.name===p.name&&parseInt(x.size,10)* (x.size.includes('1,5')?1000:1)===p.volume_ml);
+     const size=p.volume_ml===1500?'1,5 L':p.volume_ml+' ml';
+     return {...(original||{tone:'lager',photo:false,width:941,height:1672,image:''}),name:p.name,size,meta:p.packaging+' '+size,flavor:p.name.replace(/^Chopp /,'').toUpperCase(),image:original?.image||'',photo:!!original?.image};
+    });
+    const beers=data.products.filter((p:any)=>p.category==='cerveja').map((p:any)=>{
+     const original=initialBeerProducts.find(x=>x.name===p.name||((p.slug||'').includes('sem-gluten')&&x.badge));
+     const gluten=(p.slug||'').includes('sem-gluten');
+     return {...(original||{tone:'beer-lager',width:1000,height:1000,image:''}),name:p.name,meta:p.volume_ml+' ML',style:gluten?'LAGER':p.name.toUpperCase().includes('PILSEN')?'PILSEN':'LAGER',badge:gluten?'SEM GLÚTEN':undefined,image:original?.image||''};
+    });
+    setChoppProducts(chopps);setBeerProducts(beers);
+   }catch(error){console.error('Falha ao carregar catálogo:',error)}
+  };
+  load();return()=>{active=false};
+ },[]);
  const [ageVerified,setAgeVerified]=useState<boolean|null>(null);
  const [cookieChoice,setCookieChoice]=useState<'accepted'|'rejected'|null>(null);
  const [eventGuests,setEventGuests]=useState(50);
