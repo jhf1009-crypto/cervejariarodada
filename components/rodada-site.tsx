@@ -157,18 +157,23 @@ export default function RodadaSite(){
  const baseLiters=estimatedDrinkers*profileRate*effectiveHours;
  const estimatedLiters=Math.max(10,Math.ceil(baseLiters/5)*5);
  const kegOptions=(()=>{
-   let best:{count:number;capacity:number;k30:number;k50:number}|null=null;
-   for(let k30=0;k30<=40;k30++){
-     for(let k50=0;k50<=40;k50++){
-       const count=k30+k50;
-       const capacity=k30*30+k50*50;
-       if(!count||capacity<estimatedLiters)continue;
-       if(!best||count<best.count||(count===best.count&&capacity<best.capacity))best={count,capacity,k30,k50};
-     }
+  const sizes=[...new Set(kegs.map(k=>k.liters).filter(l=>Number.isInteger(l)&&l>0))].sort((a,b)=>b-a);
+  if(!sizes.length)return {capacity:0,counts:[] as {liters:number;count:number}[]};
+  let best:{capacity:number;counts:{liters:number;count:number}[];count:number}|null=null;
+  const maxCount=Math.ceil(estimatedLiters/sizes[sizes.length-1])+1;
+  function search(index:number,remaining:number,counts:{liters:number;count:number}[],capacity:number,count:number){
+   if(best&&count>best.count)return;
+   if(index===sizes.length){
+    if(capacity>=estimatedLiters&&(!best||count<best.count||(count===best.count&&capacity<best.capacity)))best={capacity,counts:[...counts],count};
+    return;
    }
-   return best||{count:1,capacity:50,k30:0,k50:1};
+   const liters=sizes[index];
+   for(let n=0;n<=Math.min(maxCount-count,Math.ceil(Math.max(0,remaining)/liters)+1);n++)search(index+1,remaining-n*liters,[...counts,{liters,count:n}],capacity+n*liters,count+n);
+  }
+  search(0,estimatedLiters,[],0,0);
+  return best||{capacity:0,counts:[] as {liters:number;count:number}[]};
  })();
- const suggestedKegs=[kegOptions.k50?((kegOptions.k50)+' '+(kegOptions.k50===1?'barril':'barris')+' de 50 L'):'',kegOptions.k30?((kegOptions.k30)+' '+(kegOptions.k30===1?'barril':'barris')+' de 30 L'):''].filter(Boolean).join(' + ');
+ const suggestedKegs=kegOptions.counts.filter(k=>k.count>0).map(k=>k.count+' '+(k.count===1?'barril':'barris')+' de '+k.liters+' L').join(' + ');
  const estimatedWaste=kegOptions.capacity-estimatedLiters;
  const continueOrder=()=>{
   if(!canContinueOrder)return;
@@ -327,7 +332,7 @@ export default function RodadaSite(){
 
    <section className="contact section" id="contato">
     <Reveal><p className="eyebrow dark">FALE COM A RODADA</p><h2>BORA TOMAR<br/>UMA <em>RODADA?</em></h2><p>Fale com a Cervejaria Rodada para consultar produtos, barris, eventos e disponibilidade na sua região.</p></Reveal>
-    <Reveal className="contactBox"><div><small>COMERCIAL</small><strong>(77) 9814-0440</strong></div><button type="button" className="contactOrderButton" onClick={()=>openOrder()}>PEDIR PELO WHATSAPP <Arrow/></button><a href={'mailto:'+(settings?.email||'contato@cervejariarodada.com.br')}>{settings?.email||'contato@cervejariarodada.com.br'} <Arrow/></a></Reveal>
+    <Reveal className="contactBox"><div><small>COMERCIAL</small><strong>{settings?.phone||settings?.whatsapp||"(77) 9814-0440"}</strong></div><button type="button" className="contactOrderButton" onClick={()=>openOrder()}>PEDIR PELO WHATSAPP <Arrow/></button><a href={'mailto:'+(settings?.email||'contato@cervejariarodada.com.br')}>{settings?.email||'contato@cervejariarodada.com.br'} <Arrow/></a></Reveal>
    </section>
   </main>
 
