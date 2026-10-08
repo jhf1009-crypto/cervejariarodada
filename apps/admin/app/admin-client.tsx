@@ -43,6 +43,7 @@ export default function AdminClient({name,role,email}:{name:string;role:string;e
  const [editKegId,setEditKegId]=useState<string|null>(null);
  const [editPackageId,setEditPackageId]=useState<string|null>(null);
  const [busy,setBusy]=useState(false);
+ const [productPhoto,setProductPhoto]=useState<File|null>(null);
  const [msg,setMsg]=useState('');
 
  function slugify(v:string){return v.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')}
@@ -56,12 +57,26 @@ export default function AdminClient({name,role,email}:{name:string;role:string;e
 
  async function saveProduct(e:FormEvent){
   e.preventDefault();setBusy(true);setMsg('');
-  const payload={name:productForm.name.trim(),slug:(productForm.slug||slugify(productForm.name)).trim(),category:productForm.category,packaging:productForm.packaging||null,volume_ml:productForm.volume_ml?Number(productForm.volume_ml):null,short_description:productForm.short_description||null,price:productForm.price?Number(productForm.price):null,promotional_price:productForm.promotional_price?Number(productForm.promotional_price):null,availability_status:productForm.availability_status||null,sort_order:Number(productForm.sort_order)||0,featured:!!productForm.featured,published:!!productForm.published,updated_at:new Date().toISOString()};
-  const result=editProductId?await supabase.from('products').update(payload).eq('id',editProductId):await supabase.from('products').insert(payload);
-  setBusy(false);if(result.error){setMsg(result.error.message);return}
-  setMsg(editProductId?'Produto atualizado com sucesso.':'Produto cadastrado com sucesso.');setEditProductId(null);setProductForm(emptyProduct);await loadProducts();
+  try{
+   const payload={name:productForm.name.trim(),slug:(productForm.slug||slugify(productForm.name)).trim(),category:productForm.category,packaging:productForm.packaging||null,volume_ml:productForm.volume_ml?Number(productForm.volume_ml):null,short_description:productForm.short_description||null,price:productForm.price?Number(productForm.price):null,promotional_price:productForm.promotional_price?Number(productForm.promotional_price):null,availability_status:productForm.availability_status||null,sort_order:Number(productForm.sort_order)||0,featured:!!productForm.featured,published:!!productForm.published,updated_at:new Date().toISOString()};
+   const result=editProductId?await supabase.from('products').update(payload).eq('id',editProductId).select('id').single():await supabase.from('products').insert(payload).select('id').single();
+   if(result.error)throw result.error;
+   const productId=result.data.id;
+   if(productPhoto){
+    if(!['image/jpeg','image/png','image/webp'].includes(productPhoto.type))throw new Error('Use JPG, PNG ou WebP.');
+    if(productPhoto.size>8*1024*1024)throw new Error('A foto deve ter até 8 MB.');
+    const ext=productPhoto.type==='image/png'?'png':productPhoto.type==='image/webp'?'webp':'jpg';
+    const path='products/'+productId+'/'+crypto.randomUUID()+'.'+ext;
+    const uploaded=await supabase.storage.from('public-media').upload(path,productPhoto,{contentType:productPhoto.type,upsert:false});
+    if(uploaded.error)throw uploaded.error;
+    const saved=await supabase.from('product_images').insert({product_id:productId,storage_path:path,alt_text:payload.name,sort_order:0,published:true});
+    if(saved.error)throw saved.error;
+   }
+   setMsg('Produto salvo'+(productPhoto?' com foto':'')+'.');setEditProductId(null);setProductForm(emptyProduct);setProductPhoto(null);await loadProducts();
+  }catch(error){setMsg(error instanceof Error?error.message:'Não foi possível salvar o produto ou a foto.');}
+  finally{setBusy(false)}
  }
- function editProduct(p:Product){setEditProductId(p.id);setProductForm({...p,volume_ml:p.volume_ml??'',price:p.price??'',promotional_price:p.promotional_price??''});window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'})}
+ function editProduct(p:Product){setEditProductId(p.id);setProductPhoto(null);setProductForm({...p,volume_ml:p.volume_ml??'',price:p.price??'',promotional_price:p.promotional_price??''});window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'})}
  async function deleteProduct(p:Product){if(!confirm('Excluir '+p.name+'?'))return;const {error}=await supabase.from('products').delete().eq('id',p.id);if(error)setMsg(error.message);else{setMsg('Produto excluído.');await loadProducts()}}
  async function toggleProduct(p:Product){const {error}=await supabase.from('products').update({published:!p.published,updated_at:new Date().toISOString()}).eq('id',p.id);if(error)setMsg(error.message);else await loadProducts()}
 
@@ -105,6 +120,8 @@ export default function AdminClient({name,role,email}:{name:string;role:string;e
    {active==='products'&&<div className="productAdmin">
     <form className="adminForm" onSubmit={saveProduct}>
      <div className="formTitle"><h3>{editProductId?'Editar produto':'Novo produto'}</h3>{editProductId&&<button type="button" onClick={()=>{setEditProductId(null);setProductForm(emptyProduct)}}>Cancelar edição</button>}</div>
+     <label className="wide">Foto do produto (JPG, PNG ou WebP, até 8 MB)<input type="file" accept="image/jpeg,image/png,image/webp" onChange={e=>setProductPhoto(e.target.files?.[0]||null)}/></label>
+     {productPhoto&&<p>Foto selecionada: {productPhoto.name}</p>}
      <label>Nome<input required value={productForm.name} onChange={e=>setProductForm({...productForm,name:e.target.value,slug:editProductId?productForm.slug:slugify(e.target.value)})}/></label>
      <label>Slug<input required value={productForm.slug} onChange={e=>setProductForm({...productForm,slug:e.target.value})}/></label>
      <label>Categoria<select value={productForm.category} onChange={e=>setProductForm({...productForm,category:e.target.value})}><option value="chope">Chope</option><option value="cerveja">Cerveja</option></select></label>
