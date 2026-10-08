@@ -9,6 +9,7 @@ type GalleryItem={
  event_date:string|null;
  city:string|null;
  event_type:string|null;
+ image_path:string|null;
  published:boolean;
  sort_order:number;
 };
@@ -36,11 +37,12 @@ export default function GalleryManager(){
  const [testimonialEditId,setTestimonialEditId]=useState<string|null>(null);
  const [busy,setBusy]=useState(false);
  const [message,setMessage]=useState('');
+ const [galleryPhoto,setGalleryPhoto]=useState<File|null>(null);
 
  async function load(){
   setMessage('');
   const [g,t]=await Promise.all([
-   supabase.from('events_gallery').select('id,title,event_date,city,event_type,published,sort_order').order('sort_order'),
+   supabase.from('events_gallery').select('id,title,event_date,city,event_type,image_path,published,sort_order').order('sort_order'),
    supabase.from('testimonials').select('id,name,city,body,rating,source_url,approved').order('created_at',{ascending:false})
   ]);
   if(g.error||t.error){setMessage((g.error||t.error)?.message||'Erro ao carregar dados.');return}
@@ -52,21 +54,22 @@ export default function GalleryManager(){
 
  async function saveGallery(e:FormEvent){
   e.preventDefault();setBusy(true);setMessage('');
-  const payload={
-   title:galleryForm.title.trim()||null,
-   event_date:galleryForm.event_date||null,
-   city:galleryForm.city.trim()||null,
-   event_type:galleryForm.event_type.trim()||null,
-   published:!!galleryForm.published,
-   sort_order:Number(galleryForm.sort_order)||0,
-   updated_at:new Date().toISOString()
-  };
-  const result=galleryEditId
-   ?await supabase.from('events_gallery').update(payload).eq('id',galleryEditId)
-   :await supabase.from('events_gallery').insert(payload);
-  setBusy(false);
-  if(result.error){setMessage(result.error.message);return}
-  setGalleryEditId(null);setGalleryForm(emptyGallery);setMessage('Item da galeria salvo.');await load();
+  try{
+   let imagePath=galleryEditId?gallery.find(g=>g.id===galleryEditId)?.image_path||null:null;
+   if(galleryPhoto){
+    if(!['image/jpeg','image/png','image/webp'].includes(galleryPhoto.type))throw new Error('Use JPG, PNG ou WebP.');
+    if(galleryPhoto.size>8*1024*1024)throw new Error('A imagem deve ter até 8 MB.');
+    const ext=galleryPhoto.type==='image/png'?'png':galleryPhoto.type==='image/webp'?'webp':'jpg';
+    imagePath='events/'+crypto.randomUUID()+'.'+ext;
+    const uploaded=await supabase.storage.from('public-media').upload(imagePath,galleryPhoto,{contentType:galleryPhoto.type,upsert:false});
+    if(uploaded.error)throw uploaded.error;
+   }
+   const payload={title:galleryForm.title.trim()||null,event_date:galleryForm.event_date||null,city:galleryForm.city.trim()||null,event_type:galleryForm.event_type.trim()||null,image_path:imagePath,published:!!galleryForm.published,sort_order:Number(galleryForm.sort_order)||0,updated_at:new Date().toISOString()};
+   const result=galleryEditId?await supabase.from('events_gallery').update(payload).eq('id',galleryEditId):await supabase.from('events_gallery').insert(payload);
+   if(result.error)throw result.error;
+   setGalleryEditId(null);setGalleryForm(emptyGallery);setGalleryPhoto(null);setMessage('Item da galeria salvo.');await load();
+  }catch(error){setMessage(error instanceof Error?error.message:'Erro ao salvar galeria.');}
+  finally{setBusy(false)}
  }
 
  async function saveTestimonial(e:FormEvent){
@@ -90,7 +93,7 @@ export default function GalleryManager(){
 
  function editGallery(item:GalleryItem){
   setGalleryEditId(item.id);
-  setGalleryForm({...item,event_date:item.event_date||'',title:item.title||'',city:item.city||'',event_type:item.event_type||''});
+  setGalleryForm({...item,event_date:item.event_date||'',title:item.title||'',city:item.city||'',event_type:item.event_type||''});setGalleryPhoto(null);
  }
  function editTestimonial(item:Testimonial){
   setTestimonialEditId(item.id);
@@ -123,6 +126,8 @@ export default function GalleryManager(){
   <div className="productAdmin">
    <form className="adminForm" onSubmit={saveGallery}>
     <div className="formTitle"><h3>{galleryEditId?'Editar item da galeria':'Novo item da galeria'}</h3>{galleryEditId&&<button type="button" onClick={()=>{setGalleryEditId(null);setGalleryForm(emptyGallery)}}>Cancelar edição</button>}</div>
+    <label className="wide">Foto do evento (JPG, PNG ou WebP, até 8 MB)<input type="file" accept="image/jpeg,image/png,image/webp" onChange={e=>setGalleryPhoto(e.target.files?.[0]||null)}/></label>
+    {galleryPhoto&&<p>Foto selecionada: {galleryPhoto.name}</p>}
     <label>Título<input value={galleryForm.title} onChange={e=>setGalleryForm({...galleryForm,title:e.target.value})}/></label>
     <label>Tipo de evento<input value={galleryForm.event_type} onChange={e=>setGalleryForm({...galleryForm,event_type:e.target.value})} placeholder="Casamento, aniversário, festival..."/></label>
     <label>Cidade<input value={galleryForm.city} onChange={e=>setGalleryForm({...galleryForm,city:e.target.value})}/></label>
