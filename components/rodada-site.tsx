@@ -55,12 +55,12 @@ export default function RodadaSite(){
     const data=await response.json();
     if(!active||!Array.isArray(data.products))return;
     const chopps=data.products.filter((p:any)=>p.category==='chope').map((p:any)=>{
-     const original=initialChoppProducts.find(x=>x.name===p.name&&parseInt(x.size,10)* (x.size.includes('1,5')?1000:1)===p.volume_ml);
+     const original=initialChoppProducts.find(x=>x.name===p.name&&(x.size==='1,5 L'?1500:parseInt(x.size,10))===p.volume_ml);
      const size=p.volume_ml===1500?'1,5 L':p.volume_ml+' ml';
      return {...(original||{tone:'lager',photo:false,width:941,height:1672,image:''}),name:p.name,size,meta:p.packaging+' '+size,flavor:p.name.replace(/^Chopp /,'').toUpperCase(),image:original?.image||'',photo:!!original?.image};
     });
     const beers=data.products.filter((p:any)=>p.category==='cerveja').map((p:any)=>{
-     const original=initialBeerProducts.find(x=>x.name===p.name||((p.slug||'').includes('sem-gluten')&&x.badge));
+     const original=initialBeerProducts.find(x=>((p.slug||'').includes('sem-gluten')?!!x.badge:!x.badge&&x.name===p.name));
      const gluten=(p.slug||'').includes('sem-gluten');
      return {...(original||{tone:'beer-lager',width:1000,height:1000,image:''}),name:p.name,meta:p.volume_ml+' ML',style:gluten?'LAGER':p.name.toUpperCase().includes('PILSEN')?'PILSEN':'LAGER',badge:gluten?'SEM GLÚTEN':undefined,image:original?.image||''};
     });
