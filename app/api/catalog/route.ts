@@ -9,7 +9,7 @@ export async function GET(){
   const response=await fetch(url+'/rest/v1/products?select=name,slug,category,packaging,volume_ml,short_description,sort_order&published=eq.true&order=sort_order.asc',{headers:{apikey:key,Authorization:'Bearer '+key},cache:'no-store'});
   if(!response.ok)return NextResponse.json({error:'Falha ao consultar produtos'},{status:502});
   const products=await response.json();
-  const imageResponse=await fetch(url+'/rest/v1/product_images?select=product_id,storage_path,sort_order,products!inner(slug,published)&published=eq.true&products.published=eq.true&order=sort_order.asc',{headers:{apikey:key,Authorization:'Bearer '+key},cache:'no-store'});
+  const imageResponse=await fetch(url+'/rest/v1/product_images?select=product_id,storage_path,sort_order,created_at,products!inner(slug,published)&published=eq.true&products.published=eq.true&order=created_at.desc',{headers:{apikey:key,Authorization:'Bearer '+key},cache:'no-store'});
   if(imageResponse.ok){
    const images=await imageResponse.json();
    const bySlug=new Map();
