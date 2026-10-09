@@ -240,9 +240,9 @@ export default function RodadaSite(){
       <Reveal className="beerLineupHead">
         <div>
           <p className="eyebrow dark">NOSSA SELEÇÃO</p>
-          <h2 id="cervejas-title">CERVEJAS<br/><em>& CHOPP RODADA.</em></h2>
+          <h2 id="cervejas-title">CERVEJAS, CHOPP<br/><em>& BARRIS RODADA.</em></h2>
         </div>
-        <p>Cervejas de 600 ml e Chopp Session IPA de 1,5 L, identificados para facilitar sua escolha.</p>
+        <p>Cervejas de 600 ml, Chopp Session IPA de 1,5 L e barris de 30 e 50 litros, com cada categoria identificada.</p>
       </Reveal>
       <div className="beerLineupGrid">
         {choppProducts.filter(item=>item.name.toLowerCase().includes('session ipa')&&item.size==='1,5 L').map(item=>(
@@ -250,6 +250,13 @@ export default function RodadaSite(){
             <div className="beerLineupTop"><span>CHOPP · PET 1,5 L</span></div>
             <div className="beerLineupVisual">{item.image&&<Image unoptimized={item.image.startsWith('http')} src={item.image} alt={item.name+' '+item.size} width={item.width} height={item.height} quality={60} loading="lazy" sizes="(max-width: 700px) 88vw, (max-width: 1100px) 46vw, 30vw"/>}</div>
             <div className="beerLineupCopy"><small>CHOPP · SESSION IPA</small><h3>{item.name}</h3><p>Chopp em garrafa PET de 1,5 L · consulte disponibilidade</p><div><a className="productDetailLink" href="/produtos/chopp-session-ipa-15-l">VER DETALHES <Arrow/></a><button type="button" className="cardAction" onClick={()=>openOrder(item.name+' '+item.size)}>PEDIR <Arrow/></button></div></div>
+          </Reveal>
+        ))}
+        {kegs.filter(k=>k.liters===30||k.liters===50).sort((a,b)=>a.liters-b.liters).map(k=>(
+          <Reveal key={'barril-'+k.liters} className="beerLineupCard">
+            <div className="beerLineupTop"><span>BARRIL DE CHOPP · {k.liters} L</span></div>
+            <div className="beerLineupVisual"><Image unoptimized={img.barril.startsWith('http')} src={img.barril} alt={'Barril de Chopp Rodada '+k.liters+' litros'} width={549} height={605} quality={60} loading="lazy" sizes="(max-width: 700px) 88vw, (max-width: 1100px) 46vw, 30vw"/></div>
+            <div className="beerLineupCopy"><small>BARRIL PARA EVENTOS</small><h3>Barril de Chopp Rodada {k.liters} L</h3><p>{k.liters} litros · consulte disponibilidade</p><div><a className="productDetailLink" href="#eventos">SAIBA MAIS <Arrow/></a><button type="button" className="cardAction" onClick={()=>openOrder('Barril de Chopp Rodada '+k.liters+' L')}>PEDIR <Arrow/></button></div></div>
           </Reveal>
         ))}
         {beerProducts.map((item,index)=>(
