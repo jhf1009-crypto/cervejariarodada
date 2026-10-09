@@ -27,8 +27,8 @@ const initialBeerProducts=[
 ];
 
 const buildOrderProducts=(choppProducts:typeof initialChoppProducts,beerProducts:typeof initialBeerProducts,kegs:{liters:number}[])=>[
- ...choppProducts.map(item=>({id:item.name+' '+item.size,name:item.name+' '+item.size,meta:item.flavor+' · '+item.size,image:item.image,group:'Chopps'})),
- ...beerProducts.map(item=>({id:item.name+(item.badge?' '+item.badge:''),name:item.name+(item.badge?' · '+item.badge:''),meta:item.style+' · '+item.meta,image:item.image,group:'Cervejas'})),
+ ...choppProducts.filter(item=>item.name.toLowerCase().includes('session ipa')&&item.size==='1,5 L').map(item=>({id:item.name+' '+item.size,name:item.name+' '+item.size,meta:'CHOPP · '+item.flavor+' · '+item.size,image:item.image,group:'Cervejas & Chopp'})),
+ ...beerProducts.map(item=>({id:item.name+(item.badge?' '+item.badge:''),name:item.name+(item.badge?' · '+item.badge:''),meta:item.style+' · '+item.meta,image:item.image,group:'Cervejas & Chopp'})),
  ...kegs.map(k=>({id:'Barril de Chopp Rodada '+k.liters+' L',name:'Barril de Chopp Rodada '+k.liters+' L',meta:'BARRIL '+k.liters+' L',image:img.barril,group:'Barril + Chopeira'})),
  {id:'Chopeira Rodada',name:'Chopeira Rodada',meta:'CHOPEIRA PARA EVENTOS',image:img.chopeira,group:'Barril + Chopeira'}
 ];
@@ -206,7 +206,7 @@ export default function RodadaSite(){
   <header className="nav">
    <a href="#inicio" className="brand navBrandLogo" aria-label="Cervejaria Rodada — início"><Image src="/events/CERVEJARIA_RODADA_logo_branca.png" alt="Cervejaria Rodada" width={2610} height={1244} priority sizes="(max-width: 760px) 132px, 156px"/></a>
    <nav id="menu-principal" className={menu?'open':''} aria-label="Navegação principal">
-    <a href="#chopes" onClick={()=>setMenu(false)}>Chopps</a><a href="#cervejas" onClick={()=>setMenu(false)}>Cervejas</a><a href="#eventos" onClick={()=>setMenu(false)}>Eventos</a><a href="#contato" onClick={()=>setMenu(false)}>Contato</a>
+    <a href="#cervejas" onClick={()=>setMenu(false)}>Cervejas & Chopp</a><a href="#eventos" onClick={()=>setMenu(false)}>Eventos</a><a href="#contato" onClick={()=>setMenu(false)}>Contato</a>
    </nav>
    <button type="button" className="navCta" onClick={()=>openOrder()}>PEDIR PELO WHATSAPP <Arrow/></button>
    <button type="button" className="menu" onClick={()=>setMenu(!menu)} aria-label={menu?'Fechar menu':'Abrir menu'} aria-expanded={menu} aria-controls="menu-principal"><i/><i/><i/></button>
@@ -218,61 +218,48 @@ export default function RodadaSite(){
     <div className="heroCopy">
      <h1 className="heroTitleDesktop">A SUA FESTA.<br/>A NOSSA<br/><span>RODADA.</span></h1>
      <h1 className="heroTitleMobile">A SUA FESTA.<br/><span>A NOSSA RODADA.</span></h1>
-     <p className="lead">Chopp do Oeste da Bahia, feito para transformar bons encontros em grandes momentos.</p>
+     <p className="lead">Chopp Rodada, feito para transformar bons encontros em grandes momentos.</p>
      <div className="heroPioneer" aria-label="Pioneirismo da Cervejaria Rodada">
        <strong>Somos a <em>primeira</em> cervejaria da Bahia a criar uma cerveja <em>sem glúten</em>.</strong>
-       <small>Inovação feita na Bahia, com a identidade da Rodada.</small>
+       <small>Inovação com a identidade da Rodada.</small>
      </div>
-     <div className="actions heroActions"><a href="#chopes" className="primary">VER CHOPPS <Arrow/></a><a href="#cervejas" className="secondary">Ver cervejas ↓</a><a href="#eventos" className="secondary">Quero chopp para meu evento ↓</a></div>
+     <div className="actions heroActions"><a href="#cervejas" className="primary">VER CERVEJAS & CHOPP <Arrow/></a><a href="#eventos" className="secondary">Quero chopp para meu evento ↓</a></div>
     </div>
     <div className="heroStage">
       <div className="orbit"/>
       <Image src={img.barril} alt="Barril de Chopp Rodada" className="heroKeg" width={549} height={605} quality={70} priority sizes="(max-width: 760px) 56vw, 32vw"/>
       <Image src="/events/image.png" alt="Chopeira Rodada" className="heroTap" width={1254} height={1254} quality={65} priority sizes="(max-width: 760px) 30vw, 34vw"/>
 
-      <div className="seal">DO OESTE<br/><b>DA BAHIA</b></div>
+      <div className="seal">FEITO COM<br/><b>IDENTIDADE</b></div>
     </div>
     <div className="heroFoot"><span>BEBA COM MODERAÇÃO.</span></div>
    </section>
 
-   <section className="products section" id="chopes" aria-labelledby="chopes-title">
-    <Reveal className="sectionTitle commerceTitle">
-      <div><p className="eyebrow dark">CHOPPS RODADA</p><h2 id="chopes-title">ESCOLHA SEU<br/><em>CHOPP RODADA.</em></h2></div>
-      <div className="sectionIntro"><p>Lager, Pilsen e Session IPA em formatos práticos para levar para casa ou reunir a turma.</p><a href={wa('Olá! Gostaria de saber quais chopps Rodada estão disponíveis hoje.')} target="_blank" rel="noreferrer">Consultar disponibilidade <Arrow/></a></div>
-    </Reveal>
-    <div className="variationGrid" aria-label="Chopps Rodada">
-      {choppProducts.map((item,index)=>(
-        <Reveal key={item.name+item.size} className={'variationCard '+item.tone}>
-          <div className="variationTop"><span>{item.meta}</span></div>
-          <div className="variationVisual">
-            <span className="variationFlavor" aria-hidden="true">{item.flavor}</span>
-            <div className={item.photo?'mockBottle photoAsset':'mockBottle'}>
-              {item.image&&<Image unoptimized={item.image.startsWith('http')} src={item.image} alt={item.name+' '+item.size} width={item.width} height={item.height} quality={60} loading="lazy" sizes="(max-width: 700px) 88vw, (max-width: 1100px) 46vw, 30vw"/>}
-              {item.photo?null:<div className="mockLabel"><b>RODADA</b><small>{item.flavor}</small><em>{item.size}</em></div>}
-            </div>
-          </div>
-          <div className="variationBottom"><div><h3>{item.name}</h3><p>{item.size} · consulte disponibilidade</p><a className="productDetailLink" href={'/produtos/'+(item.name+'-'+item.size).toLowerCase().replaceAll(' ','-').replaceAll(',','').replaceAll('ó','o')}>VER DETALHES <Arrow/></a></div><button type="button" className="cardAction" onClick={()=>openOrder(item.name+' '+item.size)} aria-label={'Pedir '+item.name+' '+item.size}>PEDIR <Arrow/></button></div>
-        </Reveal>
-      ))}
-    </div>
-
+   <section className="products section" id="chopes" aria-labelledby="cervejas-title">
     <div className="beerLineup" id="cervejas" aria-labelledby="cervejas-title">
       <Reveal className="beerLineupHead">
         <div>
-          <p className="eyebrow dark">CERVEJAS RODADA</p>
-          <h2 id="cervejas-title">CERVEJAS<br/><em>RODADA 600 ML.</em></h2>
+          <p className="eyebrow dark">NOSSA SELEÇÃO</p>
+          <h2 id="cervejas-title">CERVEJAS<br/><em>& CHOPP RODADA.</em></h2>
         </div>
-        <p>Três versões da Rodada em garrafa de 600 ml. As fotos oficiais serão adicionadas depois, sem usar imagens genéricas.</p>
+        <p>Cervejas de 600 ml e Chopp Session IPA de 1,5 L, identificados para facilitar sua escolha.</p>
       </Reveal>
       <div className="beerLineupGrid">
+        {choppProducts.filter(item=>item.name.toLowerCase().includes('session ipa')&&item.size==='1,5 L').map(item=>(
+          <Reveal key={item.name+item.size} className={'beerLineupCard '+item.tone}>
+            <div className="beerLineupTop"><span>CHOPP · PET 1,5 L</span></div>
+            <div className="beerLineupVisual">{item.image&&<Image unoptimized={item.image.startsWith('http')} src={item.image} alt={item.name+' '+item.size} width={item.width} height={item.height} quality={60} loading="lazy" sizes="(max-width: 700px) 88vw, (max-width: 1100px) 46vw, 30vw"/>}</div>
+            <div className="beerLineupCopy"><small>CHOPP · SESSION IPA</small><h3>{item.name}</h3><p>Chopp em garrafa PET de 1,5 L · consulte disponibilidade</p><div><a className="productDetailLink" href="/produtos/chopp-session-ipa-15-l">VER DETALHES <Arrow/></a><button type="button" className="cardAction" onClick={()=>openOrder(item.name+' '+item.size)}>PEDIR <Arrow/></button></div></div>
+          </Reveal>
+        ))}
         {beerProducts.map((item,index)=>(
           <Reveal key={item.name+(item.badge||'')} className={'beerLineupCard '+item.tone}>
-            <div className="beerLineupTop"><span>{item.meta}</span></div>
+            <div className="beerLineupTop"><span>CERVEJA · {item.meta}</span></div>
             <div className="beerLineupVisual" aria-label={'Foto de '+item.name+(item.badge?' '+item.badge:'')}>
               {item.image?<Image unoptimized={item.image.startsWith('http')} src={item.image} alt={item.name+(item.badge?' '+item.badge:'')} width={item.width} height={item.height} quality={60} loading="lazy" sizes="(max-width: 700px) 88vw, (max-width: 1100px) 46vw, 30vw"/>:<span>FOTO<br/>EM BREVE</span>}
             </div>
             <div className="beerLineupCopy">
-              <small>{item.style}</small>
+              <small>CERVEJA · {item.style}</small>
               <h3>{item.name}</h3>
               {item.badge&&<strong className="glutenFreeBadge">{item.badge}</strong>}
               <p>Garrafa 600 ml · consulte disponibilidade</p>
@@ -341,7 +328,7 @@ export default function RodadaSite(){
       <div className="orderPanelTop"><div><small>FAÇA SUA ESCOLHA</small><h2 id="order-title">QUAL DAS NOSSAS<br/><em>RODADAS</em> VOCÊ VAI<br/>LEVAR HOJE?</h2></div><button type="button" className="orderClose" onClick={()=>setOrderOpen(false)} aria-label="Fechar painel">×</button></div>
       <p className="orderIntro">Escolha o produto, defina a quantidade e, em seguida, continuamos o atendimento pelo WhatsApp com sua seleção já preenchida. Cervejas podem ser escolhidas em fardos de 6 unidades.</p>
       <div className="orderOptions">
-        {['Chopps','Cervejas','Barril + Chopeira'].map(group=><div className="orderGroup" key={group}>
+        {['Cervejas & Chopp','Barril + Chopeira'].map(group=><div className="orderGroup" key={group}>
           <span>{group}</span>
           <div className="orderGrid">
             {orderProducts.filter(product=>product.group===group).map(product=>{
@@ -405,7 +392,7 @@ export default function RodadaSite(){
    {Array.isArray(publicContent.testimonials)&&publicContent.testimonials.length>0&&<section aria-label="Depoimentos" style={{padding:'3rem 6%'}}><h2>O que dizem nossos clientes</h2>{publicContent.testimonials.map((t:any,i:number)=><blockquote key={i}><p>{t.body}</p><cite>{t.name}{t.city?' · '+t.city:''}</cite></blockquote>)}</section>}
    {Array.isArray(publicContent.faqs)&&publicContent.faqs.length>0&&<section aria-label="Perguntas frequentes" style={{padding:'3rem 6%'}}><h2>Perguntas frequentes</h2>{publicContent.faqs.map((q:any,i:number)=><details key={i}><summary>{q.question}</summary><p>{q.answer}</p></details>)}</section>}
   <footer className="footer section">
-   <div className="footerTop"><div><div className="brand big"><b>RODADA</b></div><p>Naturalmente baiana.<br/>Orgulhosamente do Oeste da Bahia.</p></div><div><b>EXPLORE</b><a href="#chopes">Chopps</a><a href="#cervejas">Cervejas</a><a href="#eventos">Eventos</a></div><div><b>CONTATO</b><a href={"mailto:"+(settings?.email||"contato@cervejariarodada.com.br")}>E-mail</a><a href={settings?.social_links?.instagram||"https://www.instagram.com/cervejariarodada/"} target="_blank" rel="noreferrer">Instagram ↗</a><a href="/legal">Políticas e termos</a></div></div>
+   <div className="footerTop"><div><div className="brand big"><b>RODADA</b></div><p>Naturalmente baiana.<br/>Orgulhosamente Rodada.</p></div><div><b>EXPLORE</b><a href="#cervejas">Cervejas & Chopp</a><a href="#eventos">Eventos</a></div><div><b>CONTATO</b><a href={"mailto:"+(settings?.email||"contato@cervejariarodada.com.br")}>E-mail</a><a href={settings?.social_links?.instagram||"https://www.instagram.com/cervejariarodada/"} target="_blank" rel="noreferrer">Instagram ↗</a><a href="/legal">Políticas e termos</a></div></div>
    <div className="footerWord">A VIDA PEDE RODADA.</div>
    <div className="footerBottom"><span>© {new Date().getFullYear()} Cervejaria Rodada Ltda.</span><b>BEBA COM MODERAÇÃO.</b><span>Conteúdo destinado a maiores de 18 anos.</span></div>
   </footer>
