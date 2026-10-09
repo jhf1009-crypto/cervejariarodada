@@ -255,7 +255,7 @@ export default function RodadaSite(){
         {kegs.filter(k=>k.liters===30||k.liters===50).sort((a,b)=>a.liters-b.liters).map(k=>(
           <Reveal key={'barril-'+k.liters} className="beerLineupCard">
             <div className="beerLineupTop"><span>BARRIL DE CHOPP · {k.liters} L</span></div>
-            <div className="beerLineupVisual"><Image unoptimized={k.liters!==30&&img.barril.startsWith('http')} src={k.liters===30?'/events/barril 30litrs rodada.png':img.barril} alt={'Barril de Chopp Rodada '+k.liters+' litros'} width={549} height={605} quality={60} loading="lazy" sizes="(max-width: 700px) 88vw, (max-width: 1100px) 46vw, 30vw"/></div>
+            <div className="beerLineupVisual"><Image unoptimized={k.liters!==30&&img.barril.startsWith('http')} src={k.liters===30?'/events/image.png':img.barril} alt={'Barril de Chopp Rodada '+k.liters+' litros'} width={549} height={605} quality={60} loading="lazy" sizes="(max-width: 700px) 88vw, (max-width: 1100px) 46vw, 30vw"/></div>
             <div className="beerLineupCopy"><small>BARRIL PARA EVENTOS</small><h3>Barril de Chopp Rodada {k.liters} L</h3><p>{k.liters} litros · consulte disponibilidade</p><div><a className="productDetailLink" href="#eventos">SAIBA MAIS <Arrow/></a><button type="button" className="cardAction" onClick={()=>openOrder('Barril de Chopp Rodada '+k.liters+' L')}>PEDIR <Arrow/></button></div></div>
           </Reveal>
         ))}
