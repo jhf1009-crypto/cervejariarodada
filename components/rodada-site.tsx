@@ -1,14 +1,14 @@
 'use client';
 
-import {useEffect,useState} from 'react';
+import {useEffect,useRef,useState} from 'react';
 import Image from 'next/image';
 import dynamic from 'next/dynamic';
 
 const EventLeadForm=dynamic(()=>import('./event-lead-form'),{ssr:false});
 
 const img={
- barril:'https://static.wixstatic.com/media/e65861_9902f8972f124cc99b1297a5fc9f6834~mv2.png',
- chopeira:'https://static.wixstatic.com/media/e65861_59be33e4eb2d4667934007c12dac8bb8~mv2.png'
+ barril:'/events/barril-rodada-30l.png',
+ chopeira:'/events/chopeira rodada.png'
 };
 
 // Imagens demonstrativas temporárias: substituir pelos arquivos oficiais quando forem disponibilizados.
@@ -75,20 +75,6 @@ export default function RodadaSite(){
   load();return()=>{active=false};
  },[]);
 
- // Parallax sutil no palco do hero: uma única escuta passiva e um frame por pintura
- // mantêm o efeito perceptível sem transformar scroll em trabalho contínuo.
- useEffect(()=>{
-  let frame=0;
-  const update=()=>{
-   frame=0;
-   const distance=Math.min(18,Math.max(-18,window.scrollY*.045));
-   document.documentElement.style.setProperty('--hero-parallax',distance.toFixed(2)+'px');
-  };
-  const onScroll=()=>{if(!frame)frame=window.requestAnimationFrame(update)};
-  update();
-  window.addEventListener('scroll',onScroll,{passive:true});
-  return()=>{window.removeEventListener('scroll',onScroll);if(frame)window.cancelAnimationFrame(frame);document.documentElement.style.removeProperty('--hero-parallax')};
- },[]);
  const [ageVerified,setAgeVerified]=useState<boolean|null>(null);
  const [cookieChoice,setCookieChoice]=useState<'accepted'|'rejected'|null>(null);
  const [eventGuests,setEventGuests]=useState(50);
@@ -96,6 +82,8 @@ export default function RodadaSite(){
  const [eventProfile,setEventProfile]=useState<'leve'|'moderado'|'alto'>('moderado');
  const [eventBeerShare,setEventBeerShare]=useState(70);
  const [orderOpen,setOrderOpen]=useState(false);
+ const ageDialogRef=useRef<HTMLDivElement>(null);
+ const orderDialogRef=useRef<HTMLElement>(null);
  const [selectedOrders,setSelectedOrders]=useState<string[]>([]);
  const [orderQuantities,setOrderQuantities]=useState<Record<string,number>>({});
  const [orderCity,setOrderCity]=useState('');
@@ -117,13 +105,23 @@ export default function RodadaSite(){
 
 
  useEffect(()=>{
-  if(!orderOpen)return;
+  const dialog=ageVerified===false?ageDialogRef.current:orderOpen?orderDialogRef.current:null;
+  if(!dialog)return;
+  const previousFocus=document.activeElement as HTMLElement|null;
   const previous=document.body.style.overflow;
   document.body.style.overflow='hidden';
-  const onKey=(event:KeyboardEvent)=>{if(event.key==='Escape')setOrderOpen(false)};
+  const focusables=()=>Array.from(dialog.querySelectorAll<HTMLElement>('a[href],button:not(:disabled),input:not(:disabled),select:not(:disabled),textarea:not(:disabled)')).filter(el=>el.getClientRects().length>0);
+  focusables()[0]?.focus();
+  const onKey=(event:KeyboardEvent)=>{
+   if(event.key==='Escape'&&orderOpen)setOrderOpen(false);
+   if(event.key!=='Tab')return;
+   const items=focusables(),first=items[0],last=items[items.length-1];
+   if(event.shiftKey&&document.activeElement===first){event.preventDefault();last?.focus()}
+   else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first?.focus()}
+  };
   window.addEventListener('keydown',onKey);
-  return()=>{document.body.style.overflow=previous;window.removeEventListener('keydown',onKey)};
- },[orderOpen]);
+  return()=>{document.body.style.overflow=previous;window.removeEventListener('keydown',onKey);previousFocus?.focus()};
+ },[orderOpen,ageVerified]);
 
  const openOrder=(product='')=>{
   setSelectedOrders(product?[product]:[]);
@@ -209,8 +207,8 @@ export default function RodadaSite(){
  };
 
 
- return <div className="site">
-  {ageVerified===false&&<div className="ageGate" role="dialog" aria-modal="true" aria-labelledby="age-title">
+ return <div className="site rodadaRefresh">
+  {ageVerified===false&&<div ref={ageDialogRef} className="ageGate" role="dialog" aria-modal="true" aria-labelledby="age-title">
     <div className="ageGateCard"><small>CERVEJARIA RODADA · +18</small><h2 id="age-title">VOCÊ TEM<br/>18 ANOS OU MAIS?</h2><p>Este site apresenta bebidas alcoólicas e é destinado a maiores de 18 anos.</p><div><button type="button" className="primary" onClick={()=>{localStorage.setItem('rodada_age_verified','yes');setAgeVerified(true)}}>SIM, TENHO 18+</button><a href="https://www.google.com/" className="secondary">NÃO</a></div><span>BEBA COM MODERAÇÃO.</span></div>
   </div>}
   {ageVerified!==false&&cookieChoice===null&&<div className="cookieBanner" role="region" aria-label="Preferências de cookies">
@@ -231,39 +229,37 @@ export default function RodadaSite(){
    <section className="hero" id="inicio">
     <div className="heroNoise"/>
     <div className="heroCopy">
-     <h1 className="heroTitleDesktop">A SUA FESTA.<br/>A NOSSA<br/><span>RODADA.</span></h1>
-     <h1 className="heroTitleMobile">A SUA FESTA.<br/><span>A NOSSA RODADA.</span></h1>
+     <p className="heroKicker">NATURALMENTE BAIANA. ORGULHOSAMENTE RODADA.</p>
+     <h1>A SUA FESTA.<br/>A NOSSA<br/><span>RODADA.</span></h1>
      <p className="lead">Chopp Rodada, feito para transformar bons encontros em grandes momentos.</p>
-     <div className="heroPioneer" aria-label="Pioneirismo da Cervejaria Rodada">
-       <strong>Somos a <em>primeira</em> cervejaria da Bahia a criar uma cerveja <em>sem glúten</em>.</strong>
-       <small>Inovação com a identidade da Rodada.</small>
-     </div>
      <div className="actions heroActions"><a href="#cervejas" className="primary">VER CERVEJAS & CHOPP <Arrow/></a><a href="#eventos" className="secondary">Quero chopp para meu evento ↓</a></div>
     </div>
     <div className="heroStage">
-      <div className="orbit"/>
+      <span className="heroStageWord" aria-hidden="true">RODADA</span>
       <Image src={img.barril} alt="Barril de Chopp Rodada" className="heroKeg" width={549} height={605} quality={70} priority sizes="(max-width: 760px) 56vw, 32vw"/>
-      <Image src="/events/image.png" alt="Chopeira Rodada" className="heroTap" width={1254} height={1254} quality={65} priority sizes="(max-width: 760px) 30vw, 34vw"/>
+      <Image src={img.chopeira} alt="Chopeira Rodada" className="heroTap" width={1254} height={1254} quality={65} priority sizes="(max-width: 760px) 30vw, 34vw"/>
 
-      <div className="seal">FEITO COM<br/><b>IDENTIDADE</b></div>
+      <div className="seal">DA BAHIA.<br/><b>DA RODADA.</b></div>
     </div>
-    <div className="heroFoot"><span>BEBA COM MODERAÇÃO.</span></div>
+    <div className="heroFoot"><span>CHOPP · CERVEJAS · EVENTOS</span><a href="#cervejas">CONHEÇA A RODADA ↓</a><span>BEBA COM MODERAÇÃO.</span></div>
    </section>
+
+   <div className="brandRibbon" aria-label="A Rodada para cada encontro"><span>CERVEJAS & CHOPP</span><i aria-hidden="true">✳</i><span>DO SEU JEITO. NA SUA FESTA.</span><i aria-hidden="true">✳</i><span>IDENTIDADE BAIANA</span></div>
 
    <section className="products section" id="chopes" aria-labelledby="cervejas-title">
     <div className="beerLineup" id="cervejas" aria-labelledby="cervejas-title">
       <Reveal className="beerLineupHead">
         <div>
           <p className="eyebrow dark">NOSSA SELEÇÃO</p>
-          <h2 id="cervejas-title">CERVEJAS, CHOPP<br/><em>& BARRIS RODADA.</em></h2>
+          <h2 id="cervejas-title">QUAL VAI SER<br/>A SUA RODADA?</h2>
         </div>
-        <p>Cervejas de 600 ml, Chopp Session IPA de 1,5 L e barris de 30 e 50 litros, com cada categoria identificada.</p>
+        <p>Da cerveja em garrafa ao chopp da festa. Conheça a seleção Rodada e consulte a disponibilidade com nossa equipe.</p>
       </Reveal>
       <div className="beerLineupGrid">
         {choppProducts.filter(item=>item.name.toLowerCase().includes('session ipa')&&item.size==='1,5 L').map(item=>(
           <Reveal key={item.name+item.size} className={'beerLineupCard '+item.tone}>
             <div className="beerLineupTop"><span>CHOPP · PET 1,5 L</span></div>
-            <div className="beerLineupVisual">{item.image&&<Image unoptimized={item.image.startsWith('http')} src={item.image} alt={item.name+' '+item.size} width={item.width} height={item.height} quality={60} loading="lazy" sizes="(max-width: 700px) 88vw, (max-width: 1100px) 46vw, 30vw"/>}</div>
+            <div className="beerLineupVisual">{item.image&&<Image unoptimized={item.image.startsWith('http')} src={item.image.replace(/,/g,'%2C')} alt={item.name+' '+item.size} width={item.width} height={item.height} quality={60} loading="lazy" sizes="(max-width: 700px) 88vw, (max-width: 1100px) 46vw, 30vw"/>}</div>
             <div className="beerLineupCopy"><small>CHOPP · SESSION IPA</small><h3>{item.name}</h3><p>Chopp em garrafa PET de 1,5 L · consulte disponibilidade</p><div><a className="productDetailLink" href="/produtos/chopp-session-ipa-15-l">VER DETALHES <Arrow/></a><button type="button" className="cardAction" onClick={()=>openOrder(item.name+' '+item.size)}>PEDIR <Arrow/></button></div></div>
           </Reveal>
         ))}
@@ -287,6 +283,7 @@ export default function RodadaSite(){
    </section>
 
    <section className="eventSolutions section" id="eventos" aria-labelledby="eventos-title">
+    <div className="eventSectionHead"><div><p className="eyebrow">CHOPP PARA EVENTOS</p><h2 id="eventos-title">VOCÊ REÚNE.<br/>A GENTE RODA.</h2></div><p>Barris, chopeiras e uma conversa direta para planejar o chopp do seu próximo encontro.</p></div>
     <div className="eventQuoteFlow">
       <Reveal className="eventSteps" aria-label="Como pedir orçamento para evento">
         <div><span>01</span><strong>Conte sobre o evento</strong><p>Data, cidade, tipo de ocasião e quantidade estimada de pessoas.</p></div>
@@ -315,7 +312,7 @@ export default function RodadaSite(){
             ['leve','Leve','~180 ml/h'],
             ['moderado','Moderado','~250 ml/h'],
             ['alto','Alto','~330 ml/h']
-          ] as const).map(([profile,label,rate])=><button key={profile} type="button" className={eventProfile===profile?'active':''} onClick={()=>setEventProfile(profile)}><b>{label}</b><small>{rate}</small></button>)}
+          ] as const).map(([profile,label,rate])=><button key={profile} type="button" aria-pressed={eventProfile===profile} className={eventProfile===profile?'active':''} onClick={()=>setEventProfile(profile)}><b>{label}</b><small>{rate}</small></button>)}
         </fieldset>
       </div>
       <div className="eventCalcResult">
@@ -333,13 +330,13 @@ export default function RodadaSite(){
 
 
    <section className="contact section" id="contato">
-    <Reveal><p className="eyebrow dark">FALE COM A RODADA</p><h2>BORA TOMAR<br/>UMA <em>RODADA?</em></h2><p>Fale com a Cervejaria Rodada para consultar produtos, barris, eventos e disponibilidade na sua região.</p></Reveal>
+    <Reveal><p className="eyebrow dark">FALE COM A RODADA</p><h2>O PRÓXIMO<br/>ENCONTRO COMEÇA<br/>COM UMA CONVERSA.</h2><p>Produtos, barris ou um evento inteiro: conte o que você precisa e consulte a disponibilidade na sua região.</p></Reveal>
     <Reveal className="contactBox"><div><small>COMERCIAL</small><strong>{settings?.phone||settings?.whatsapp||"(77) 9814-0440"}</strong></div><button type="button" className="contactOrderButton" onClick={()=>openOrder()}>PEDIR PELO WHATSAPP <Arrow/></button><a href={'mailto:'+(settings?.email||'contato@cervejariarodada.com.br')}>{settings?.email||'contato@cervejariarodada.com.br'} <Arrow/></a></Reveal>
    </section>
   </main>
 
   {orderOpen&&<div className="orderOverlay" role="presentation" onMouseDown={e=>{if(e.target===e.currentTarget)setOrderOpen(false)}}>
-    <aside className="orderPanel" role="dialog" aria-modal="true" aria-labelledby="order-title">
+    <aside ref={orderDialogRef} className="orderPanel" role="dialog" aria-modal="true" aria-labelledby="order-title">
       <div className="orderPanelTop"><div><small>FAÇA SUA ESCOLHA</small><h2 id="order-title">QUAL DAS NOSSAS<br/><em>RODADAS</em> VOCÊ VAI<br/>LEVAR HOJE?</h2></div><button type="button" className="orderClose" onClick={()=>setOrderOpen(false)} aria-label="Fechar painel">×</button></div>
       <p className="orderIntro">Escolha o produto, defina a quantidade e, em seguida, continuamos o atendimento pelo WhatsApp com sua seleção já preenchida. Cervejas podem ser escolhidas em fardos de 6 unidades.</p>
       <div className="orderOptions">
@@ -352,7 +349,7 @@ export default function RodadaSite(){
               const beer=isBeerOrder(product.id);
               return <div className={'orderProductChoice '+(selected?'selected':'')} key={product.id}>
                 <button type="button" className={'orderOption '+(selected?'selected':'')} onClick={()=>toggleOrder(product.id)} aria-pressed={selected}>
-                  {product.image&&<span className="orderThumb"><Image unoptimized={product.image.startsWith('http')} src={product.image} alt="" width={120} height={160} quality={50} loading="lazy" sizes="64px"/></span>}
+                  {product.image&&<span className="orderThumb"><Image unoptimized={product.image.startsWith('http')} src={product.image.replace(/,/g,'%2C')} alt="" width={120} height={160} quality={50} loading="lazy" sizes="64px"/></span>}
                   <span className="orderOptionCopy"><b>{product.name}</b><small>{product.meta}</small></span>
                   <i aria-hidden>{selected?'✓':'+'}</i>
                 </button>

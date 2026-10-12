@@ -25,12 +25,12 @@ export default function EventLeadForm(){
   window.open('https://wa.me/'+WHATSAPP+'?text='+encodeURIComponent(text),'_blank','noopener,noreferrer');
  }
  return <section className="leadFormSection" aria-labelledby="lead-form-title">
-  <div className="leadFormIntro"><p className="eyebrow">ORÇAMENTO COMPLETO</p><h3 id="lead-form-title">CONTE SOBRE<br/>SEU EVENTO.</h3><p>Preencha os dados para organizar o atendimento. Nenhum preço ou condição é presumido pelo site; a equipe confirma tudo diretamente com você.</p></div>
+  <div className="leadFormIntro"><p className="eyebrow">ORÇAMENTO COMPLETO</p><h3 id="lead-form-title">CONTE SOBRE<br/>SEU EVENTO.</h3><p>Conte quando, onde e como vai ser. A equipe Rodada conversa com você para alinhar disponibilidade, estrutura e orçamento.</p></div>
   <form id="event-lead-form" className="leadForm" onSubmit={submit}>
    <input className="hp" name="website" tabIndex={-1} autoComplete="off" aria-hidden="true"/>
-   <label>Nome*<input name="name" required minLength={2} maxLength={120}/></label>
-   <label>WhatsApp*<input name="whatsapp" required inputMode="tel" placeholder="(77) 99999-9999"/></label>
-   <label>E-mail<input name="email" type="email"/></label>
+   <label>Nome*<input name="name" autoComplete="name" required minLength={2} maxLength={120}/></label>
+   <label>WhatsApp*<input name="whatsapp" type="tel" autoComplete="tel" required inputMode="tel" placeholder="(77) 99999-9999"/></label>
+   <label>E-mail<input name="email" type="email" autoComplete="email"/></label>
    <label>Data do evento<input name="event_date" type="date"/></label>
    <label>Cidade<input name="city" maxLength={120}/></label>
    <label>Tipo de evento<select name="event_type" defaultValue=""><option value="">Selecione</option><option>Aniversário</option><option>Casamento</option><option>Confraternização</option><option>Evento empresarial</option><option>Outro</option></select></label>
