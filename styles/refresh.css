@@ -22,15 +22,16 @@
 .rodadaRefresh #inicio h1 span{color:var(--gold)!important;-webkit-text-stroke:0}
 .rodadaRefresh #inicio .lead{font-size:16px!important;line-height:1.7!important;max-width:385px!important;margin:26px 0 0!important;color:#c7d5df!important}
 .rodadaRefresh #inicio .heroActions{display:flex!important;flex-wrap:wrap;gap:16px 24px!important;margin:28px 0 0!important;align-items:center}
-.rodadaRefresh #inicio .heroStage{width:100%!important;height:550px!important;margin:0!important;position:relative!important;animation:none;transform:none!important;overflow:visible!important}
-.rodadaRefresh .heroStageWord{position:absolute;top:46%;left:50%;transform:translate(-50%,-50%) rotate(-90deg);font-family:var(--display);font-size:145px;font-weight:900;letter-spacing:.02em;color:transparent;-webkit-text-stroke:1px #ffffff24;pointer-events:none}
-.rodadaRefresh #inicio .heroKeg{left:0!important;top:16%!important;width:76%!important;height:77%!important;object-fit:contain;animation:none!important;transform:rotate(-7deg)!important;filter:drop-shadow(0 28px 24px #0006)}
-.rodadaRefresh #inicio .heroTap{left:auto!important;right:-2%!important;top:12%!important;width:47%!important;height:76%!important;object-fit:contain;animation:none!important;transform:rotate(7deg)!important;filter:drop-shadow(0 25px 20px #0005);z-index:2}
+.rodadaRefresh #inicio .heroStage{width:100%!important;height:550px!important;min-height:0!important;max-height:none!important;margin:0!important;position:relative!important;animation:none;transform:none!important;overflow:hidden!important;will-change:auto!important}
+.rodadaRefresh .heroStageWord{position:absolute;top:46%;left:50%;transform:translate(-50%,calc(-50% + var(--hero-word-offset,0px))) rotate(-90deg);font-family:var(--display);font-size:145px;font-weight:900;letter-spacing:.02em;color:transparent;-webkit-text-stroke:1px #ffffff24;pointer-events:none}
+.rodadaRefresh #inicio .heroKeg{left:0!important;top:16%!important;width:76%!important;height:77%!important;object-fit:contain;animation:none!important;transform:translate3d(0,var(--hero-keg-offset,0px),0) rotate(-7deg)!important;filter:drop-shadow(0 28px 24px #0006);will-change:auto!important}
+.rodadaRefresh #inicio .heroTap{left:auto!important;right:0!important;top:12%!important;width:47%!important;height:76%!important;object-fit:contain;animation:none!important;transform:translate3d(0,var(--hero-tap-offset,0px),0) rotate(7deg)!important;filter:none!important;box-shadow:none!important;will-change:auto!important;z-index:2}
+.rodadaRefresh #inicio[data-parallax="on"] :is(.heroKeg,.heroTap,.heroStageWord){will-change:transform!important}
 .rodadaRefresh #inicio .heroTap{mix-blend-mode:lighten}
 .rodadaRefresh #inicio .heroStage{background:#031a30!important;isolation:isolate}
 .rodadaRefresh #inicio .seal{top:1%!important;right:4%!important;width:90px!important;height:90px!important;background:var(--gold)!important;color:var(--navy)!important;border:0!important;font-size:10px!important;line-height:1.5;transform:rotate(12deg)!important;z-index:3}
 .rodadaRefresh #inicio .seal b{font-size:19px}
-.rodadaRefresh #inicio .heroFoot{left:5vw;right:5vw;bottom:24px;display:flex!important;align-items:center;justify-content:space-between!important;gap:12px;border-top:1px solid #ffffff24;padding-top:20px;font-size:9px;letter-spacing:.13em}
+.rodadaRefresh #inicio .heroFoot{position:absolute!important;width:auto!important;left:5vw;right:5vw;bottom:24px;margin:0!important;display:flex!important;align-items:center;justify-content:space-between!important;gap:12px;border-top:1px solid #ffffff24;padding-top:20px;font-size:9px;letter-spacing:.13em}
 .rodadaRefresh .brandRibbon{display:flex;align-items:center;justify-content:space-around;gap:24px;padding:23px 5vw;background:var(--gold);color:var(--navy);font-family:var(--display);font-size:clamp(18px,2vw,27px);font-weight:800;letter-spacing:.035em}
 .rodadaRefresh .brandRibbon i{font-style:normal;font-size:28px}
 .rodadaRefresh #chopes{background:var(--cream)!important;color:var(--ink)!important}
@@ -161,7 +162,7 @@
  .rodadaRefresh #inicio .heroTap{right:0!important;top:8%!important;width:43%!important;height:82%!important}
  .rodadaRefresh #inicio .seal{top:0!important;right:4%!important;width:72px!important;height:72px!important;font-size:8px!important}
  .rodadaRefresh #inicio .seal b{font-size:15px}
- .rodadaRefresh .heroStageWord{font-size:100px;transform:translate(-50%,-50%);top:43%}
+ .rodadaRefresh .heroStageWord{font-size:100px;transform:translate(-50%,calc(-50% + var(--hero-word-offset,0px)));top:43%}
  .rodadaRefresh #inicio .heroFoot{left:6vw;right:6vw;bottom:20px;padding-top:16px;font-size:8px;justify-content:space-between}
  .rodadaRefresh #inicio .heroFoot>a{display:none}
  .rodadaRefresh .brandRibbon{justify-content:center;gap:14px;padding:18px 6vw;font-size:18px;flex-wrap:wrap;text-align:center}
@@ -201,3 +202,4 @@
 }
 @media(max-width:420px){.rodadaRefresh #chopes .beerLineupGrid{grid-template-columns:1fr!important}.rodadaRefresh #chopes .beerLineupVisual{height:280px!important}.rodadaRefresh #chopes .beerLineupCopy>div{display:flex!important}.rodadaRefresh #chopes .beerLineupCopy{min-height:0}.rodadaRefresh .brandRibbon{font-size:16px;gap:10px}.rodadaRefresh #inicio .heroStage{height:280px!important}}
 @media(prefers-reduced-motion:reduce){.rodadaRefresh *,.rodadaRefresh *:before,.rodadaRefresh *:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}.rodadaRefresh #chopes .beerLineupCard:hover,.rodadaRefresh .primary:hover{transform:none}}
+@media(prefers-reduced-motion:reduce){.rodadaRefresh #inicio{--hero-keg-offset:0px!important;--hero-tap-offset:0px!important;--hero-word-offset:0px!important}.rodadaRefresh #inicio :is(.heroKeg,.heroTap,.heroStageWord){will-change:auto!important}}

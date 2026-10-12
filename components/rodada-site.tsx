@@ -40,6 +40,58 @@ function Reveal({children,className='',...props}:React.HTMLAttributes<HTMLDivEle
 
 
 export default function RodadaSite(){
+ const heroRef=useRef<HTMLElement>(null);
+ useEffect(()=>{
+  const hero=heroRef.current;
+  if(!hero)return;
+  const reducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)');
+  const mobile=window.matchMedia('(max-width: 760px)');
+  let frame=0;
+  let visible=true;
+  const reset=()=>{
+   hero.style.removeProperty('--hero-keg-offset');
+   hero.style.removeProperty('--hero-tap-offset');
+   hero.style.removeProperty('--hero-word-offset');
+   delete hero.dataset.parallax;
+  };
+  const update=()=>{
+   frame=0;
+   if(reducedMotion.matches){reset();return}
+   if(!visible)return;
+   const distance=Math.max(0,-hero.getBoundingClientRect().top);
+   const offset=Math.min(mobile.matches?12:24,distance*(mobile.matches?.045:.075));
+   hero.style.setProperty('--hero-keg-offset',offset.toFixed(2)+'px');
+   hero.style.setProperty('--hero-tap-offset',(-offset*.7).toFixed(2)+'px');
+   hero.style.setProperty('--hero-word-offset',(offset*.4).toFixed(2)+'px');
+   hero.dataset.parallax='on';
+  };
+  const schedule=()=>{if(visible&&!reducedMotion.matches&&!frame)frame=window.requestAnimationFrame(update)};
+  const onMotionChange=()=>{
+   if(reducedMotion.matches){
+    if(frame)window.cancelAnimationFrame(frame);
+    frame=0;
+    reset();
+   }else schedule();
+  };
+  const observer=new IntersectionObserver(([entry])=>{
+   visible=entry.isIntersecting;
+   if(visible)schedule();
+   else delete hero.dataset.parallax;
+  });
+  observer.observe(hero);
+  window.addEventListener('scroll',schedule,{passive:true});
+  window.addEventListener('resize',schedule,{passive:true});
+  reducedMotion.addEventListener('change',onMotionChange);
+  schedule();
+  return()=>{
+   observer.disconnect();
+   window.removeEventListener('scroll',schedule);
+   window.removeEventListener('resize',schedule);
+   reducedMotion.removeEventListener('change',onMotionChange);
+   if(frame)window.cancelAnimationFrame(frame);
+   reset();
+  };
+ },[]);
  const [menu,setMenu]=useState(false);
  const [choppProducts,setChoppProducts]=useState(initialChoppProducts);
  const [beerProducts,setBeerProducts]=useState(initialBeerProducts);
@@ -226,7 +278,7 @@ export default function RodadaSite(){
   </header>
 
   <main id="conteudo">
-   <section className="hero" id="inicio">
+   <section ref={heroRef} className="hero" id="inicio">
     <div className="heroNoise"/>
     <div className="heroCopy">
      <p className="heroKicker">NATURALMENTE BAIANA. ORGULHOSAMENTE RODADA.</p>
