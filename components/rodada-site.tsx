@@ -15,7 +15,7 @@ const img={
 const initialChoppProducts=[
  {name:'Chopp Lager',size:'1,5 L',meta:'PET 1,5 L',flavor:'LAGER',image:'/products/image.png',tone:'lager',photo:true,width:941,height:1672},
  {name:'Chopp Pilsen',size:'1,5 L',meta:'PET 1,5 L',flavor:'PILSEN',image:'/events/chopp 1,5l pilsen.png',tone:'pilsen',photo:true,width:941,height:1672},
- {name:'Chopp Session IPA',size:'1,5 L',meta:'PET 1,5 L',flavor:'SESSION IPA',image:'/events/chopp 1,5l ipa.png',tone:'ipa',photo:true,width:936,height:1680},
+ {name:'Chopp Session IPA',size:'1,5 L',meta:'PET 1,5 L',flavor:'SESSION IPA',image:'/products/chopp-session-ipa-15-l.webp',tone:'ipa',photo:true,width:1254,height:1254},
  {name:'Chopp Lager',size:'700 ml',meta:'PET 700 ML',flavor:'LAGER',image:'/events/rodada chopp lager 700ml.png',tone:'lager',photo:true,width:1024,height:1536},
  {name:'Chopp Pilsen',size:'700 ml',meta:'PET 700 ML',flavor:'PILSEN',image:'/events/rodada chopp pilsen 700ml.png',tone:'pilsen',photo:true,width:1086,height:1448}
 ];
@@ -311,7 +311,7 @@ export default function RodadaSite(){
         {choppProducts.filter(item=>item.name.toLowerCase().includes('session ipa')&&item.size==='1,5 L').map(item=>(
           <Reveal key={item.name+item.size} className={'beerLineupCard '+item.tone}>
             <div className="beerLineupTop"><span>CHOPP · PET 1,5 L</span></div>
-            <div className="beerLineupVisual">{item.image&&<Image unoptimized={item.image.startsWith('http')} src={item.image.replace(/,/g,'%2C')} alt={item.name+' '+item.size} width={item.width} height={item.height} quality={60} loading="lazy" sizes="(max-width: 700px) 88vw, (max-width: 1100px) 46vw, 30vw"/>}</div>
+            <div className="beerLineupVisual beerLineupVisual--photo">{item.image&&<Image unoptimized={item.image.startsWith('http')} src={item.image.replace(/,/g,'%2C')} alt={item.name+' '+item.size} width={item.width} height={item.height} quality={60} loading="lazy" sizes="(max-width: 700px) 88vw, (max-width: 1100px) 46vw, 30vw"/>}</div>
             <div className="beerLineupCopy"><small>CHOPP · SESSION IPA</small><h3>{item.name}</h3><p>Chopp em garrafa PET de 1,5 L · consulte disponibilidade</p><div><a className="productDetailLink" href="/produtos/chopp-session-ipa-15-l">VER DETALHES <Arrow/></a><button type="button" className="cardAction" onClick={()=>openOrder(item.name+' '+item.size)}>PEDIR <Arrow/></button></div></div>
           </Reveal>
         ))}

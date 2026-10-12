@@ -203,3 +203,6 @@
 @media(max-width:420px){.rodadaRefresh #chopes .beerLineupGrid{grid-template-columns:1fr!important}.rodadaRefresh #chopes .beerLineupVisual{height:280px!important}.rodadaRefresh #chopes .beerLineupCopy>div{display:flex!important}.rodadaRefresh #chopes .beerLineupCopy{min-height:0}.rodadaRefresh .brandRibbon{font-size:16px;gap:10px}.rodadaRefresh #inicio .heroStage{height:280px!important}}
 @media(prefers-reduced-motion:reduce){.rodadaRefresh *,.rodadaRefresh *:before,.rodadaRefresh *:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}.rodadaRefresh #chopes .beerLineupCard:hover,.rodadaRefresh .primary:hover{transform:none}}
 @media(prefers-reduced-motion:reduce){.rodadaRefresh #inicio{--hero-keg-offset:0px!important;--hero-tap-offset:0px!important;--hero-word-offset:0px!important}.rodadaRefresh #inicio :is(.heroKeg,.heroTap,.heroStageWord){will-change:auto!important}}
+
+.rodadaRefresh #chopes .beerLineupVisual.beerLineupVisual--photo{position:relative!important;height:auto!important;aspect-ratio:1/1;padding:0!important}
+.rodadaRefresh #chopes .beerLineupVisual--photo img{display:block;position:absolute!important;inset:0!important;max-width:none!important;max-height:none!important;object-fit:cover!important;mix-blend-mode:normal}
