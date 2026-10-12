@@ -74,6 +74,21 @@ export default function RodadaSite(){
   };
   load();return()=>{active=false};
  },[]);
+
+ // Parallax sutil no palco do hero: uma única escuta passiva e um frame por pintura
+ // mantêm o efeito perceptível sem transformar scroll em trabalho contínuo.
+ useEffect(()=>{
+  let frame=0;
+  const update=()=>{
+   frame=0;
+   const distance=Math.min(18,Math.max(-18,window.scrollY*.045));
+   document.documentElement.style.setProperty('--hero-parallax',distance.toFixed(2)+'px');
+  };
+  const onScroll=()=>{if(!frame)frame=window.requestAnimationFrame(update)};
+  update();
+  window.addEventListener('scroll',onScroll,{passive:true});
+  return()=>{window.removeEventListener('scroll',onScroll);if(frame)window.cancelAnimationFrame(frame);document.documentElement.style.removeProperty('--hero-parallax')};
+ },[]);
  const [ageVerified,setAgeVerified]=useState<boolean|null>(null);
  const [cookieChoice,setCookieChoice]=useState<'accepted'|'rejected'|null>(null);
  const [eventGuests,setEventGuests]=useState(50);
