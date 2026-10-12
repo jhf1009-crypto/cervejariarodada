@@ -22,7 +22,7 @@ const initialChoppProducts=[
 
 const initialBeerProducts=[
  {name:'Cerveja Rodada Lager',meta:'600 ML',style:'LAGER',image:'/events/cerveja rodada lager.png',tone:'beer-lager',width:1650,height:953},
- {name:'Cerveja Rodada Pilsen',meta:'600 ML',style:'PILSEN',image:'/events/cerveja rodada pilsen.png',tone:'beer-pilsen',width:1506,height:1044},
+ {name:'Cerveja Rodada Pilsen',meta:'600 ML',style:'PILSEN',image:'/products/cerveja-pilsen.webp',tone:'beer-pilsen',width:1254,height:1254},
  {name:'Cerveja Rodada Lager',meta:'600 ML',style:'LAGER',badge:'SEM GLÚTEN',image:'/products/cerveja-lager-sem-gluten.webp',tone:'beer-gluten-free',width:1254,height:1254}
 ];
 
@@ -318,7 +318,7 @@ export default function RodadaSite(){
         {beerProducts.map((item,index)=>(
           <Reveal key={item.name+(item.badge||'')} className={'beerLineupCard '+item.tone}>
             <div className="beerLineupTop"><span>CERVEJA · {item.meta}</span></div>
-            <div className={"beerLineupVisual"+(item.badge?" beerLineupVisual--photo":"")} aria-label={'Foto de '+item.name+(item.badge?' '+item.badge:'')}>
+            <div className={"beerLineupVisual"+((item.badge||item.tone==="beer-pilsen")?" beerLineupVisual--photo":"")} aria-label={'Foto de '+item.name+(item.badge?' '+item.badge:'')}>
               {item.image?<Image unoptimized={item.image.startsWith('http')} src={item.image} alt={item.name+(item.badge?' '+item.badge:'')} width={item.width} height={item.height} quality={60} loading="lazy" sizes="(max-width: 700px) 88vw, (max-width: 1100px) 46vw, 30vw"/>:<span>FOTO<br/>EM BREVE</span>}
             </div>
             <div className="beerLineupCopy">

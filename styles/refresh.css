@@ -207,3 +207,5 @@
 .rodadaRefresh #chopes .beerLineupVisual.beerLineupVisual--photo{position:relative!important;height:auto!important;min-height:0!important;aspect-ratio:1/1;padding:0!important}
 .rodadaRefresh #chopes .beerLineupVisual--photo img{display:block;position:absolute!important;inset:0!important;max-width:none!important;max-height:none!important;object-fit:cover!important;mix-blend-mode:normal}
 
+
+.rodadaRefresh #chopes .beerLineupCard:has(.beerLineupVisual--photo){grid-template-rows:auto auto 1fr!important}
