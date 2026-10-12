@@ -1349,6 +1349,11 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
 }
 
 
+/* Contact section layout guard: keep the callout and contact panel fully visible. */
+.contact{align-items:center;min-height:540px;overflow:visible}
+.contactBox{min-width:0}
+.contactBox strong{font-size:clamp(24px,2.2vw,32px);white-space:nowrap}
+
 /* Final mobile performance pass */
 @media (max-width:760px){
   .beerLineup,
