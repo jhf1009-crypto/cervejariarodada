@@ -98,6 +98,13 @@
 .whatsappFloat:hover{transform:translateY(-4px);box-shadow:0 18px 38px rgba(0,0,0,.32)}
 @media(prefers-reduced-motion:reduce){.heroStage{transform:none;transition:none}.beerLineupCard,.whatsappFloat{transition:none}}
 
+/* Keep contact actions inside the card at every viewport width. */
+.contact>div,.contactBox,.contactBox>div,.contactBox>a,.contactBox button{min-width:0}
+.contactBox>div,.contactBox>a,.contactBox button{max-width:100%;overflow:hidden}
+.contactBox strong,.contactBox a{overflow-wrap:anywhere;word-break:break-word}
+.contactBox a span,.contactBox button span{flex:0 0 auto}
+@media(max-width:900px){.contact{gap:36px}.contactBox strong{font-size:clamp(27px,7vw,32px)}}
+
 
 /* Conheça a Rodada — expanded variation showcase */
 .variationGrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
