@@ -3,7 +3,7 @@ import {NextResponse} from 'next/server';
 export const dynamic='force-dynamic';
 // Replace this previously uploaded photo; later admin uploads keep their own URLs.
 const replacedProductImages:Record<string,string>={
- 'products/fc48bf38-7b80-4b0c-b847-eb534a70fa15/235c89b2-518d-493c-97b9-0c5a42b074d8.png':'/products/chopp-session-ipa-15-l.webp'
+ 'products/fc48bf38-7b80-4b0c-b847-eb534a70fa15/235c89b2-518d-493c-97b9-0c5a42b074d8.png':'/products/chopp-session-ipa-15-l-studio.webp'
 };
 export async function GET(){
  const url=process.env.NEXT_PUBLIC_SUPABASE_URL;

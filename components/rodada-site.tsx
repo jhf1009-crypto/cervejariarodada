@@ -15,15 +15,15 @@ const img={
 const initialChoppProducts=[
  {name:'Chopp Lager',size:'1,5 L',meta:'PET 1,5 L',flavor:'LAGER',image:'/products/image.png',tone:'lager',photo:true,width:941,height:1672},
  {name:'Chopp Pilsen',size:'1,5 L',meta:'PET 1,5 L',flavor:'PILSEN',image:'/events/chopp 1,5l pilsen.png',tone:'pilsen',photo:true,width:941,height:1672},
- {name:'Chopp Session IPA',size:'1,5 L',meta:'PET 1,5 L',flavor:'SESSION IPA',image:'/products/chopp-session-ipa-15-l.webp',tone:'ipa',photo:true,width:1254,height:1254},
+ {name:'Chopp Session IPA',size:'1,5 L',meta:'PET 1,5 L',flavor:'SESSION IPA',image:'/products/chopp-session-ipa-15-l-studio.webp',tone:'ipa',photo:true,width:1254,height:1254},
  {name:'Chopp Lager',size:'700 ml',meta:'PET 700 ML',flavor:'LAGER',image:'/events/rodada chopp lager 700ml.png',tone:'lager',photo:true,width:1024,height:1536},
  {name:'Chopp Pilsen',size:'700 ml',meta:'PET 700 ML',flavor:'PILSEN',image:'/events/rodada chopp pilsen 700ml.png',tone:'pilsen',photo:true,width:1086,height:1448}
 ];
 
 const initialBeerProducts=[
- {name:'Cerveja Rodada Lager',meta:'600 ML',style:'LAGER',image:'/products/cerveja-lager.webp',tone:'beer-lager',width:1254,height:1254},
- {name:'Cerveja Rodada Pilsen',meta:'600 ML',style:'PILSEN',image:'/products/cerveja-pilsen.webp',tone:'beer-pilsen',width:1254,height:1254},
- {name:'Cerveja Rodada Lager',meta:'600 ML',style:'LAGER',badge:'SEM GLÚTEN',image:'/products/cerveja-lager-sem-gluten.webp',tone:'beer-gluten-free',width:1254,height:1254}
+ {name:'Cerveja Rodada Lager',meta:'600 ML',style:'LAGER',image:'/products/cerveja-lager-studio.webp',tone:'beer-lager',width:1254,height:1254},
+ {name:'Cerveja Rodada Pilsen',meta:'600 ML',style:'PILSEN',image:'/products/cerveja-pilsen-studio.webp',tone:'beer-pilsen',width:1254,height:1254},
+ {name:'Cerveja Rodada Lager',meta:'600 ML',style:'LAGER',badge:'SEM GLÚTEN',image:'/products/cerveja-lager-sem-gluten-studio.webp',tone:'beer-gluten-free',width:1254,height:1254}
 ];
 
 const buildOrderProducts=(choppProducts:typeof initialChoppProducts,beerProducts:typeof initialBeerProducts,kegs:{liters:number}[])=>[
