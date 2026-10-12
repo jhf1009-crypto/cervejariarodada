@@ -8,6 +8,7 @@ const EventLeadForm=dynamic(()=>import('./event-lead-form'),{ssr:false});
 
 const img={
  barril:'/events/barril-rodada-30l.png',
+ heroBarril:'/events/barril-rodada-realista.webp',
  chopeira:'/events/chopeira rodada.png'
 };
 
@@ -288,7 +289,7 @@ export default function RodadaSite(){
     </div>
     <div className="heroStage">
       <span className="heroStageWord" aria-hidden="true">RODADA</span>
-      <Image src={img.barril} alt="Barril de Chopp Rodada" className="heroKeg" width={549} height={605} quality={70} priority sizes="(max-width: 760px) 56vw, 32vw"/>
+      <Image src={img.heroBarril} alt="Barril de Chopp Rodada" className="heroKeg" width={1200} height={991} quality={70} priority sizes="(max-width: 760px) 56vw, 32vw"/>
       <Image src={img.chopeira} alt="Chopeira Rodada" className="heroTap" width={1254} height={1254} quality={65} priority sizes="(max-width: 760px) 30vw, 34vw"/>
 
       <div className="seal">DA BAHIA.<br/><b>DA RODADA.</b></div>
