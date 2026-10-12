@@ -12,9 +12,9 @@
     "typecheck:all": "pnpm -r typecheck",
     "build:site": "next build",
     "typecheck:site": "tsc --noEmit",
-    "build:admin": "npm --prefix apps/admin run build",
+    "build:admin": "pnpm --dir apps/admin build",
     "typecheck:admin": "npm --prefix apps/admin run typecheck",
-    "verify": "npm run typecheck:site && npm run build:site && npm run typecheck:admin && npm run build:admin"
+    "verify": "pnpm typecheck:site && pnpm build:site && pnpm typecheck:admin && pnpm build:admin"
   },
   "dependencies": {
     "next": "16.3.8",

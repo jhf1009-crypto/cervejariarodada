@@ -1,5 +1,7 @@
 # Pendências
 
+Revisado em 12/10/2026. Ver docs/auditoria-entrega-2026-10-12.md para testes e correções. Hospedagem Vercel e Supabase de produção já funcionam; entrega definitiva ainda depende dos itens comerciais, legais, MFA e backup abaixo.
+
 Nada desta lista deve ser inventado ou publicado sem confirmação.
 
 ## Empresa
@@ -39,11 +41,13 @@ Nada desta lista deve ser inventado ou publicado sem confirmação.
 - [ ] Texto final de cookies/LGPD
 
 ## Infraestrutura
-- [ ] Criar Supabase de desenvolvimento e produção
-- [ ] Criar buckets público/privado e políticas de Storage
+- [x] Supabase de produção configurado e RLS verificado
+- [ ] Separar ambiente Supabase de desenvolvimento, se necessário
+- [x] Criar buckets público/privado e políticas de Storage
 - [ ] Habilitar/documentar backups
-- [ ] Criar projeto Vercel do site e projeto Vercel do admin
+- [x] Criar projeto Vercel do site e projeto Vercel do admin
 - [ ] Configurar www.cervejariarodada.com.br
 - [ ] Configurar admin.cervejariarodada.com.br
 - [ ] Configurar variáveis e segredo de revalidação
-- [ ] Criar primeiro owner e exigir MFA
+- [x] Criar primeiro owner
+- [ ] Responsável ativar MFA e homologar seu acesso

@@ -1,13 +1,14 @@
 import type {Metadata} from 'next';
 import Image from 'next/image';
 import {notFound} from 'next/navigation';
-import {catalog,WHATSAPP} from '@/lib/catalog';
-
-export function generateStaticParams(){return catalog.map(product=>({slug:product.slug}));}
+import {getPublicCatalog} from '@/lib/public-catalog';
+import {SITE_URL} from '@/lib/site-url';
+export const dynamic='force-dynamic';
 
 export async function generateMetadata({params}:{params:Promise<{slug:string}>}):Promise<Metadata>{
  const {slug}=await params;
- const product=catalog.find(item=>item.slug===slug);
+ const {products,whatsapp}=await getPublicCatalog();
+ const product=products.find(item=>item.slug===slug);
  if(!product)return {};
  const title=`${product.name}${product.volume?' '+product.volume:''}`;
  return {
@@ -20,16 +21,17 @@ export async function generateMetadata({params}:{params:Promise<{slug:string}>})
 
 export default async function ProductPage({params}:{params:Promise<{slug:string}>}){
  const {slug}=await params;
- const product=catalog.find(item=>item.slug===slug);
+ const {products,whatsapp}=await getPublicCatalog();
+ const product=products.find(item=>item.slug===slug);
  if(!product)notFound();
  const message=encodeURIComponent(`Olá! Quero saber a disponibilidade e os valores de ${product.name}${product.volume?' '+product.volume:''}.`);
  const jsonLd={
   '@context':'https://schema.org','@type':'Product',name:product.name,
-  description:product.description,category:product.category,image:[product.image],
+  description:product.description,category:product.category,image:[new URL(product.image,SITE_URL).href],
   brand:{'@type':'Brand',name:'Cervejaria Rodada'}
  };
  return <main className="productPage">
-  <script type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify(jsonLd)}}/>
+  <script type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify(jsonLd).replace(/</g,'\\u003c')}}/>
   <a className="productBack" href="/">← VOLTAR PARA A RODADA</a>
   <section className="productHero">
    <div className="productHeroCopy">
@@ -42,10 +44,10 @@ export default async function ProductPage({params}:{params:Promise<{slug:string}
     </div>
     <p className="productDescription">{product.description}</p>
     <div className="productActions">
-     <a className="primary" href={`https://wa.me/${WHATSAPP}?text=${message}`} target="_blank" rel="noreferrer">PEDIR ESTE PRODUTO ↗</a>
+     <a className="primary" href={`https://wa.me/${whatsapp}?text=${message}`} target="_blank" rel="noreferrer">PEDIR ESTE PRODUTO ↗</a>
      <a className="secondary" href="/#chopes">VER OUTROS PRODUTOS</a>
     </div>
-    <p className="productDisclosure">Preço, ABV, IBU e demais informações técnicas não são exibidos enquanto não estiverem oficialmente confirmados pela Cervejaria Rodada.</p>
+    <p className="productDisclosure">Consulte disponibilidade, entrega e condições comerciais com a equipe Rodada.</p>
    </div>
    <div className="productHeroVisual"><span aria-hidden>{product.style||product.packaging}</span><Image src={product.image} alt={`${product.name}${product.volume?' '+product.volume:''}`} width={product.imageWidth} height={product.imageHeight} quality={65} priority sizes="(max-width: 760px) 84vw, 42vw"/></div>
   </section>

@@ -1,26 +1,21 @@
 import {NextRequest,NextResponse} from 'next/server';
 import {createClient} from '@supabase/supabase-js';
-import {z} from 'zod';
+import {Lead} from '@/lib/lead-validation';
 
-const Lead=z.object({
- name:z.string().trim().min(2).max(120),
- whatsapp:z.string().trim().min(10).max(30),
- email:z.union([z.string().trim().email(),z.literal('')]).optional(),
- event_date:z.union([z.string().regex(/^\d{4}-\d{2}-\d{2}$/),z.literal('')]).optional(),
- city:z.string().trim().max(120).optional(),
- event_type:z.string().trim().max(120).optional(),
- guest_count:z.union([z.coerce.number().int().positive().max(10000),z.literal('')]).optional(),
- message:z.string().trim().max(1000).optional(),
- website:z.string().max(0).optional()
-});
 const recent=new Map<string,number>();
 
 export async function POST(req:NextRequest){
+ const origin=req.headers.get('origin');
+ if(origin&&origin!==req.nextUrl.origin)return NextResponse.json({error:'Origem não permitida.'},{status:403});
+ if(Number(req.headers.get('content-length')||0)>8192)return NextResponse.json({error:'Dados muito extensos.'},{status:413});
  const ip=req.headers.get('x-forwarded-for')?.split(',')[0]?.trim()||'unknown';
  const now=Date.now();const last=recent.get(ip)||0;
  if(now-last<15000)return NextResponse.json({error:'Aguarde alguns segundos antes de enviar novamente.'},{status:429});
- let body;try{body=Lead.parse(await req.json())}catch{return NextResponse.json({error:'Confira os campos obrigatórios.'},{status:400})}
+ let body;try{const raw=await req.text();if(raw.length>8192)return NextResponse.json({error:'Dados muito extensos.'},{status:413});body=Lead.parse(JSON.parse(raw))}catch{return NextResponse.json({error:'Confira os campos obrigatórios.'},{status:400})}
  if(body.website)return NextResponse.json({ok:true});
+ for(const [address,time] of recent)if(now-time>60000)recent.delete(address);
+ if(recent.size>=10000)return NextResponse.json({error:'Tente novamente em alguns instantes.'},{status:429});
+ recent.set(ip,now);
  const url=process.env.NEXT_PUBLIC_SUPABASE_URL; const key=process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
  if(!url||!key)return NextResponse.json({error:'O formulário está temporariamente indisponível. Continue pelo WhatsApp.'},{status:503});
  const supabase=createClient(url,key,{auth:{persistSession:false}});

@@ -6,7 +6,7 @@ import '@/styles/refresh.css';
 const displayFont=Barlow_Condensed({subsets:['latin'],weight:['600','700','800','900'],variable:'--font-display',display:'swap'});
 const bodyFont=Manrope({subsets:['latin'],weight:['400','500','600','700','800'],variable:'--font-body',display:'swap'});
 
-const site='https://www.cervejariarodada.com.br';
+import {SITE_URL as site} from '@/lib/site-url';
 
 export const metadata:Metadata={
  metadataBase:new URL(site),

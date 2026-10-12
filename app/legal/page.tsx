@@ -1,3 +1,5 @@
+import type {Metadata} from 'next';
+export const metadata:Metadata={title:'Políticas e informações legais',alternates:{canonical:'/legal'}};
 import Link from 'next/link';
 import {createClient} from '@supabase/supabase-js';
 

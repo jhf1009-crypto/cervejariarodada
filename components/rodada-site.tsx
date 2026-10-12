@@ -2,9 +2,7 @@
 
 import {useEffect,useRef,useState} from 'react';
 import Image from 'next/image';
-import dynamic from 'next/dynamic';
-
-const EventLeadForm=dynamic(()=>import('./event-lead-form'),{ssr:false});
+import EventLeadForm from './event-lead-form';
 
 const img={
  barril:'/events/barril-rodada-30l.png',
@@ -28,8 +26,8 @@ const initialBeerProducts=[
 ];
 
 const buildOrderProducts=(choppProducts:typeof initialChoppProducts,beerProducts:typeof initialBeerProducts,kegs:{liters:number}[])=>[
- ...choppProducts.filter(item=>item.name.toLowerCase().includes('session ipa')&&item.size==='1,5 L').map(item=>({id:item.name+' '+item.size,name:item.name+' '+item.size,meta:'CHOPP · '+item.flavor+' · '+item.size,image:item.image,group:'Cervejas & Chopp'})),
- ...beerProducts.map(item=>({id:item.name+(item.badge?' '+item.badge:''),name:item.name+(item.badge?' · '+item.badge:''),meta:item.style+' · '+item.meta,image:item.image,group:'Cervejas & Chopp'})),
+ ...choppProducts.map(item=>({id:item.name+' '+item.size,name:item.name+' '+item.size,meta:'CHOPP · '+item.flavor+' · '+item.size,image:item.image,group:'Cervejas & Chopp'})),
+ ...beerProducts.map(item=>({id:item.name,name:item.name,meta:item.style+' · '+item.meta,image:item.image,group:'Cervejas & Chopp'})),
  ...kegs.map(k=>({id:'Barril de Chopp Rodada '+k.liters+' L',name:'Barril de Chopp Rodada '+k.liters+' L',meta:'BARRIL '+k.liters+' L',image:img.barril,group:'Barril + Chopeira'})),
  {id:'Chopeira Rodada',name:'Chopeira Rodada',meta:'CHOPEIRA PARA EVENTOS',image:img.chopeira,group:'Barril + Chopeira'}
 ];
@@ -40,7 +38,21 @@ function Arrow(){return <span aria-hidden>↗</span>}
 function Reveal({children,className='',...props}:React.HTMLAttributes<HTMLDivElement>){return <div className={className} {...props}>{children}</div>}
 
 
-export default function RodadaSite(){
+function mapProducts(data:any):{chopps:Array<typeof initialChoppProducts[number]&{slug:string}>;beers:Array<typeof initialBeerProducts[number]&{slug:string}>}{
+    const chopps=data.products.filter((p:any)=>p.category==='chope').map((p:any)=>{
+     const original=initialChoppProducts.find(x=>x.name===p.name&&(x.size==='1,5 L'?1500:parseInt(x.size,10))===p.volume_ml);
+     const size=p.volume_ml===1500?'1,5 L':p.volume_ml+' ml';
+     return {...(original||{tone:'lager',photo:false,width:941,height:1672,image:''}),slug:p.slug,name:p.name,size,meta:p.packaging+' '+size,flavor:p.name.replace(/^Chopp /,'').toUpperCase(),image:p.image_url||original?.image||'',photo:!!(p.image_url||original?.image)};
+    });
+    const beers=data.products.filter((p:any)=>p.category==='cerveja').map((p:any)=>{
+     const original=initialBeerProducts.find(x=>((p.slug||'').includes('sem-gluten')?!!x.badge:!x.badge&&x.name===p.name));
+     const gluten=(p.slug||'').includes('sem-gluten');
+     return {...(original||{tone:'beer-lager',width:1000,height:1000,image:''}),slug:p.slug,name:p.name,meta:p.volume_ml+' ML',style:gluten?'LAGER':p.name.toUpperCase().includes('PILSEN')?'PILSEN':'LAGER',badge:gluten?'SEM GLÚTEN':undefined,image:p.image_url||original?.image||''};
+    });
+
+ return {chopps,beers};
+}
+export default function RodadaSite({initialData}:{initialData:any}){
  const heroRef=useRef<HTMLElement>(null);
  useEffect(()=>{
   const hero=heroRef.current;
@@ -94,40 +106,13 @@ export default function RodadaSite(){
   };
  },[]);
  const [menu,setMenu]=useState(false);
- const [choppProducts,setChoppProducts]=useState(initialChoppProducts);
- const [beerProducts,setBeerProducts]=useState(initialBeerProducts);
- const [kegs,setKegs]=useState([{liters:30},{liters:50}]);
- const [publicContent,setPublicContent]=useState<any>({});
+ const {chopps:choppProducts,beers:beerProducts}=mapProducts(initialData);
+ const kegs:Array<{liters:number}>=initialData.kegs||[];
+ const publicContent=initialData;
  const settings=publicContent.settings?.[0];
  const whatsapp=String(settings?.whatsapp||DEFAULT_WHATSAPP).replace(/\D/g,'')||DEFAULT_WHATSAPP;
  const wa=(message:string)=>'https://wa.me/'+whatsapp+'?text='+encodeURIComponent(message);
  const orderProducts=buildOrderProducts(choppProducts,beerProducts,kegs);
- useEffect(()=>{
-  let active=true;
-  const load=async()=>{
-   try{
-    const response=await fetch('/api/catalog',{cache:'no-store'});
-    if(!response.ok)throw new Error('Catálogo indisponível');
-    const data=await response.json();
-    if(!active||!Array.isArray(data.products))return;
-    const chopps=data.products.filter((p:any)=>p.category==='chope').map((p:any)=>{
-     const original=initialChoppProducts.find(x=>x.name===p.name&&(x.size==='1,5 L'?1500:parseInt(x.size,10))===p.volume_ml);
-     const size=p.volume_ml===1500?'1,5 L':p.volume_ml+' ml';
-     return {...(original||{tone:'lager',photo:false,width:941,height:1672,image:''}),name:p.name,size,meta:p.packaging+' '+size,flavor:p.name.replace(/^Chopp /,'').toUpperCase(),image:p.image_url||original?.image||'',photo:!!(p.image_url||original?.image)};
-    });
-    const beers=data.products.filter((p:any)=>p.category==='cerveja').map((p:any)=>{
-     const original=initialBeerProducts.find(x=>((p.slug||'').includes('sem-gluten')?!!x.badge:!x.badge&&x.name===p.name));
-     const gluten=(p.slug||'').includes('sem-gluten');
-     return {...(original||{tone:'beer-lager',width:1000,height:1000,image:''}),name:p.name,meta:p.volume_ml+' ML',style:gluten?'LAGER':p.name.toUpperCase().includes('PILSEN')?'PILSEN':'LAGER',badge:gluten?'SEM GLÚTEN':undefined,image:p.image_url||original?.image||''};
-    });
-    setChoppProducts(chopps);setBeerProducts(beers);
-    if(Array.isArray(data.kegs))setKegs(data.kegs);
-    setPublicContent(data);
-   }catch(error){console.error('Falha ao carregar catálogo:',error)}
-  };
-  load();return()=>{active=false};
- },[]);
-
  const [ageVerified,setAgeVerified]=useState<boolean|null>(null);
  const [cookieChoice,setCookieChoice]=useState<'accepted'|'rejected'|null>(null);
  const [eventGuests,setEventGuests]=useState(50);
@@ -143,6 +128,7 @@ export default function RodadaSite(){
  const [orderCep,setOrderCep]=useState('');
  const [cepCity,setCepCity]=useState('');
  const [cepStatus,setCepStatus]=useState<'idle'|'loading'|'success'|'error'>('idle');
+ const cepRequest=useRef(0);
 
  useEffect(()=>{
   const age=window.localStorage.getItem('rodada_age_verified');
@@ -197,25 +183,28 @@ export default function RodadaSite(){
  };
  const isBeerOrder=(product:string)=>beerProducts.some(item=>product.startsWith(item.name));
  const selectCity=(city:string)=>{
+  cepRequest.current++;
   setOrderCity(city);
   if(city!=='Outra cidade'){setOrderCep('');setCepCity('');setCepStatus('idle')}
  };
  const lookupCep=async()=>{
+  const request=++cepRequest.current;
   const cep=orderCep.replace(/\D/g,'');
   if(cep.length!==8){setCepCity('');setCepStatus('error');return}
   setCepStatus('loading');
   try{
-   const response=await fetch('https://viacep.com.br/ws/'+cep+'/json/');
+   const response=await fetch('https://viacep.com.br/ws/'+cep+'/json/',{signal:AbortSignal.timeout(8000)});
    const data=await response.json();
+   if(request!==cepRequest.current)return;
    if(!response.ok||data.erro||!data.localidade||!data.uf)throw new Error('CEP inválido');
    setCepCity(data.localidade+' - '+data.uf);
    setCepStatus('success');
   }catch{
-   setCepCity('');
+   if(request!==cepRequest.current)return;
    setCepStatus('error');
   }
  };
- const chosenCity=orderCity==='Outra cidade'?cepCity:orderCity;
+ const chosenCity=orderCity==='Outra cidade'?cepCity.trim():orderCity;
  const canContinueOrder=selectedOrders.length>0&&Boolean(chosenCity);
  const profileRate=eventProfile==='leve'?.18:eventProfile==='alto'?.33:.25;
  const effectiveHours=Math.min(eventHours,4)+Math.max(0,Math.min(eventHours,8)-4)*.55+Math.max(0,eventHours-8)*.25;
@@ -265,8 +254,8 @@ export default function RodadaSite(){
     <div className="ageGateCard"><small>CERVEJARIA RODADA · +18</small><h2 id="age-title">VOCÊ TEM<br/>18 ANOS OU MAIS?</h2><p>Este site apresenta bebidas alcoólicas e é destinado a maiores de 18 anos.</p><div><button type="button" className="primary" onClick={()=>{localStorage.setItem('rodada_age_verified','yes');setAgeVerified(true)}}>SIM, TENHO 18+</button><a href="https://www.google.com/" className="secondary">NÃO</a></div><span>BEBA COM MODERAÇÃO.</span></div>
   </div>}
   {ageVerified!==false&&cookieChoice===null&&<div className="cookieBanner" role="region" aria-label="Preferências de cookies">
-    <div><strong>Privacidade e cookies</strong><p>Usamos apenas cookies essenciais por padrão. Métricas de navegação só serão ativadas após seu aceite.</p></div>
-    <div><button type="button" onClick={()=>{localStorage.setItem('rodada_cookie_choice','rejected');setCookieChoice('rejected')}}>SÓ ESSENCIAIS</button><button type="button" className="primary" onClick={()=>{localStorage.setItem('rodada_cookie_choice','accepted');setCookieChoice('accepted')}}>ACEITAR COOKIES</button></div>
+    <div><strong>Privacidade e cookies</strong><p>Usamos armazenamento essencial para lembrar a confirmação de idade e sua preferência de privacidade. Não usamos métricas de navegação.</p></div>
+    <div><button type="button" onClick={()=>{localStorage.setItem('rodada_cookie_choice','rejected');setCookieChoice('rejected')}}>SÓ ESSENCIAIS</button><button type="button" className="primary" onClick={()=>{localStorage.setItem('rodada_cookie_choice','accepted');setCookieChoice('accepted')}}>ENTENDI</button></div>
   </div>}
   <a className="skipLink" href="#conteudo">Pular para o conteúdo</a>
   <header className="nav">
@@ -309,11 +298,11 @@ export default function RodadaSite(){
         <p>Da cerveja em garrafa ao chopp da festa. Conheça a seleção Rodada e consulte a disponibilidade com nossa equipe.</p>
       </Reveal>
       <div className="beerLineupGrid">
-        {choppProducts.filter(item=>item.name.toLowerCase().includes('session ipa')&&item.size==='1,5 L').map(item=>(
+        {choppProducts.map(item=>(
           <Reveal key={item.name+item.size} className={'beerLineupCard '+item.tone}>
-            <div className="beerLineupTop"><span>CHOPP · PET 1,5 L</span></div>
+            <div className="beerLineupTop"><span>CHOPP · {item.meta}</span></div>
             <div className="beerLineupVisual beerLineupVisual--photo">{item.image&&<Image unoptimized={item.image.startsWith('http')} src={item.image.replace(/,/g,'%2C')} alt={item.name+' '+item.size} width={item.width} height={item.height} quality={60} loading="lazy" sizes="(max-width: 700px) 88vw, (max-width: 1100px) 46vw, 30vw"/>}</div>
-            <div className="beerLineupCopy"><small>CHOPP · SESSION IPA</small><h3>{item.name}</h3><p>Chopp em garrafa PET de 1,5 L · consulte disponibilidade</p><div><a className="productDetailLink" href="/produtos/chopp-session-ipa-15-l">VER DETALHES <Arrow/></a><button type="button" className="cardAction" onClick={()=>openOrder(item.name+' '+item.size)}>PEDIR <Arrow/></button></div></div>
+            <div className="beerLineupCopy"><small>CHOPP · {item.flavor}</small><h3>{item.name}</h3><p>{item.meta} · consulte disponibilidade</p><div><a className="productDetailLink" href={'/produtos/'+item.slug}>VER DETALHES <Arrow/></a><button type="button" className="cardAction" onClick={()=>openOrder(item.name+' '+item.size)}>PEDIR <Arrow/></button></div></div>
           </Reveal>
         ))}
         {beerProducts.map((item,index)=>(
@@ -326,8 +315,8 @@ export default function RodadaSite(){
               <small>CERVEJA · {item.style}</small>
               <h3>{item.name}</h3>
               {item.badge&&<strong className="glutenFreeBadge">{item.badge}</strong>}
-              <p>Garrafa 600 ml · consulte disponibilidade</p>
-              <div><a className="productDetailLink" href={'/produtos/'+(item.badge?'cerveja-rodada-lager-sem-gluten':item.style==='PILSEN'?'cerveja-rodada-pilsen':'cerveja-rodada-lager')}>VER DETALHES <Arrow/></a><button type="button" className="cardAction" onClick={()=>openOrder(item.name+(item.badge?' '+item.badge:''))}>PEDIR <Arrow/></button></div>
+              <p>{item.meta} · consulte disponibilidade</p>
+              <div><a className="productDetailLink" href={'/produtos/'+item.slug}>VER DETALHES <Arrow/></a><button type="button" className="cardAction" onClick={()=>openOrder(item.name)}>PEDIR <Arrow/></button></div>
             </div>
           </Reveal>
         ))}
@@ -343,7 +332,7 @@ export default function RodadaSite(){
         <div><span>02</span><strong>A Rodada orienta a estrutura</strong><p>Barris, chopeiras e suporte conforme a necessidade.</p></div>
         <div><span>03</span><strong>Receba o orçamento</strong><p>Converse diretamente com a equipe e alinhe os detalhes.</p></div>
       </Reveal>
-      <EventLeadForm/>
+      <EventLeadForm whatsappNumber={whatsapp}/>
     </div>
     <Reveal className="eventSolutionsCta">
       <div><small>VAI FAZER UM EVENTO?</small><strong>Peça seu orçamento sem burocracia.</strong></div>
@@ -432,9 +421,10 @@ export default function RodadaSite(){
           {['Brasília - DF','Taguatinga - TO','Bom Jesus - PI','Dianópolis - TO','Outra cidade'].map(city=><button type="button" key={city} className={'orderCityOption '+(orderCity===city?'selected':'')} onClick={()=>selectCity(city)} aria-pressed={orderCity===city}>{city}</button>)}
         </div>
         {orderCity==='Outra cidade'&&<div className="orderCepBox">
-          <label htmlFor="order-cep">Informe seu CEP</label>
+          <label htmlFor="order-manual-city">Cidade e estado</label><input id="order-manual-city" autoComplete="address-level2" maxLength={120} placeholder="Ex.: sua cidade - UF" value={cepCity} onChange={e=>{cepRequest.current++;setCepCity(e.target.value);setCepStatus('idle')}}/><label htmlFor="order-cep">Buscar pelo CEP (opcional)</label>
           <div className="orderCepRow">
             <input id="order-cep" inputMode="numeric" autoComplete="postal-code" placeholder="00000-000" maxLength={9} value={orderCep} onChange={e=>{
+              cepRequest.current++;
               const digits=e.target.value.replace(/\D/g,'').slice(0,8);
               setOrderCep(digits.length>5?digits.slice(0,5)+'-'+digits.slice(5):digits);
               setCepCity('');
@@ -443,10 +433,10 @@ export default function RodadaSite(){
             <button type="button" onClick={lookupCep} disabled={cepStatus==='loading'}>{cepStatus==='loading'?'BUSCANDO...':'BUSCAR CIDADE'}</button>
           </div>
           {cepStatus==='success'&&<p className="cepFeedback success">Cidade encontrada: <strong>{cepCity}</strong></p>}
-          {cepStatus==='error'&&<p className="cepFeedback error">Não encontramos esse CEP. Confira os números e tente novamente.</p>}
+          {cepStatus==='error'&&<p className="cepFeedback error">Não foi possível consultar o CEP. Informe sua cidade e estado acima para continuar.</p>}
         </div>}
       </div>
-      <div className="orderFooter"><div>{selectedOrders.length?<><small>VOCÊ ESCOLHEU</small><strong>{selectedOrders.length} {selectedOrders.length===1?'item':'itens'}{chosenCity?' · '+chosenCity:''}</strong></>:<><small>ESCOLHA SEUS PRODUTOS</small><strong>Você pode selecionar mais de um.</strong></>}</div><button type="button" className="primary orderContinue" disabled={!canContinueOrder} onClick={continueOrder}>{!orderCity?'ESCOLHA SUA CIDADE':orderCity==='Outra cidade'&&!cepCity?'INFORME SEU CEP':'CONTINUAR NO WHATSAPP'} <Arrow/></button></div>
+      <div className="orderFooter"><div>{selectedOrders.length?<><small>VOCÊ ESCOLHEU</small><strong>{selectedOrders.length} {selectedOrders.length===1?'item':'itens'}{chosenCity?' · '+chosenCity:''}</strong></>:<><small>ESCOLHA SEUS PRODUTOS</small><strong>Você pode selecionar mais de um.</strong></>}</div><button type="button" className="primary orderContinue" disabled={!canContinueOrder} onClick={continueOrder}>{!orderCity?'ESCOLHA SUA CIDADE':orderCity==='Outra cidade'&&!cepCity?'INFORME SUA CIDADE':'CONTINUAR NO WHATSAPP'} <Arrow/></button></div>
     </aside>
   </div>}
 
@@ -459,7 +449,7 @@ export default function RodadaSite(){
   <footer className="footer section">
    <div className="footerTop"><div><div className="brand big"><b>RODADA</b></div><p>Naturalmente baiana.<br/>Orgulhosamente Rodada.</p></div><div><b>EXPLORE</b><a href="#cervejas">Cervejas & Chopp</a><a href="#eventos">Eventos</a></div><div><b>CONTATO</b><a href={"mailto:"+(settings?.email||"contato@cervejariarodada.com.br")}>E-mail</a><a href={settings?.social_links?.instagram||"https://www.instagram.com/cervejariarodada/"} target="_blank" rel="noreferrer">Instagram ↗</a><a href="/legal">Políticas e termos</a></div></div>
    <div className="footerWord">A VIDA PEDE RODADA.</div>
-   <div className="footerBottom"><span>© {new Date().getFullYear()} Cervejaria Rodada Ltda.</span><b>BEBA COM MODERAÇÃO.</b><span>Conteúdo destinado a maiores de 18 anos.</span></div>
+   <div className="footerBottom"><span>© {new Date().getFullYear()} Cervejaria Rodada</span><b>BEBA COM MODERAÇÃO.</b><span>Conteúdo destinado a maiores de 18 anos.</span></div>
   </footer>
  </div>
 }

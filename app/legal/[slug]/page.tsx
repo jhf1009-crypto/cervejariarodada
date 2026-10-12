@@ -1,3 +1,4 @@
+import type {Metadata} from 'next';
 import Link from 'next/link';
 import {notFound} from 'next/navigation';
 import {createClient} from '@supabase/supabase-js';
@@ -11,6 +12,12 @@ function db(){
  return createClient(url,key,{auth:{persistSession:false}});
 }
 
+export async function generateMetadata({params}:{params:Promise<{slug:string}>}):Promise<Metadata>{
+ const {slug}=await params;
+ const supabase=db();
+ const result=supabase?await supabase.from('legal_pages').select('title').eq('slug',slug).eq('published',true).maybeSingle():null;
+ return {title:result?.data?.title||'Página não encontrada',alternates:{canonical:'/legal/'+slug}};
+}
 export default async function LegalPage({params}:{params:Promise<{slug:string}>}){
  const {slug}=await params;
  const supabase=db();

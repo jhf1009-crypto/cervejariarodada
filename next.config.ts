@@ -10,6 +10,7 @@ const config:NextConfig={
   qualities:[45,50,55,60,65,70,75],
   minimumCacheTTL:2678400,
   remotePatterns:[
+   {protocol:'https',hostname:'qkxykrgaumgnalpjeocx.supabase.co',pathname:'/storage/v1/object/public/public-media/**'},
    {
     protocol:'https',
     hostname:'static.wixstatic.com',
@@ -20,6 +21,7 @@ const config:NextConfig={
  async headers(){
   const immutable='public, max-age=31536000, immutable';
   return [
+   {source:'/(.*)',headers:[{key:'X-Frame-Options',value:'DENY'},{key:'X-Content-Type-Options',value:'nosniff'},{key:'Referrer-Policy',value:'strict-origin-when-cross-origin'},{key:'Permissions-Policy',value:'camera=(), microphone=(), geolocation=()'}]},
    {source:'/events/:path*',headers:[{key:'Cache-Control',value:immutable}]},
    {source:'/products/:path*',headers:[{key:'Cache-Control',value:immutable}]},
    {source:'/team/:path*',headers:[{key:'Cache-Control',value:immutable}]}

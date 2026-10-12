@@ -1,0 +1,303 @@
+{
+  "base": "http://localhost:3000",
+  "at": "2026-10-12T22:38:37.239Z",
+  "checks": 74,
+  "results": [
+    {
+      "name": "API de catálogo responde",
+      "passed": true
+    },
+    {
+      "name": "Catálogo contém produtos publicados",
+      "passed": true
+    },
+    {
+      "name": "HTTP 200 /",
+      "passed": true
+    },
+    {
+      "name": "Header nosniff /",
+      "passed": true
+    },
+    {
+      "name": "Um H1 /",
+      "passed": true
+    },
+    {
+      "name": "Canonical /",
+      "passed": true
+    },
+    {
+      "name": "Produto presente no HTML chopp-session-ipa-15-l",
+      "passed": true
+    },
+    {
+      "name": "Produto presente no HTML cerveja-rodada-lager",
+      "passed": true
+    },
+    {
+      "name": "Produto presente no HTML cerveja-rodada-pilsen",
+      "passed": true
+    },
+    {
+      "name": "Produto presente no HTML cerveja-rodada-lager-sem-gluten",
+      "passed": true
+    },
+    {
+      "name": "Nenhuma razão social inventada",
+      "passed": true
+    },
+    {
+      "name": "HTTP 200 /produtos",
+      "passed": true
+    },
+    {
+      "name": "Header nosniff /produtos",
+      "passed": true
+    },
+    {
+      "name": "Um H1 /produtos",
+      "passed": true
+    },
+    {
+      "name": "Canonical /produtos",
+      "passed": true
+    },
+    {
+      "name": "HTTP 200 /legal",
+      "passed": true
+    },
+    {
+      "name": "Header nosniff /legal",
+      "passed": true
+    },
+    {
+      "name": "Um H1 /legal",
+      "passed": true
+    },
+    {
+      "name": "Canonical /legal",
+      "passed": true
+    },
+    {
+      "name": "HTTP 200 /sitemap.xml",
+      "passed": true
+    },
+    {
+      "name": "Header nosniff /sitemap.xml",
+      "passed": true
+    },
+    {
+      "name": "Sitemap produto chopp-session-ipa-15-l",
+      "passed": true
+    },
+    {
+      "name": "Sitemap produto cerveja-rodada-lager",
+      "passed": true
+    },
+    {
+      "name": "Sitemap produto cerveja-rodada-pilsen",
+      "passed": true
+    },
+    {
+      "name": "Sitemap produto cerveja-rodada-lager-sem-gluten",
+      "passed": true
+    },
+    {
+      "name": "Sitemap não inclui produto despublicado",
+      "passed": true
+    },
+    {
+      "name": "HTTP 200 /robots.txt",
+      "passed": true
+    },
+    {
+      "name": "Header nosniff /robots.txt",
+      "passed": true
+    },
+    {
+      "name": "HTTP 200 /manifest.webmanifest",
+      "passed": true
+    },
+    {
+      "name": "Header nosniff /manifest.webmanifest",
+      "passed": true
+    },
+    {
+      "name": "HTTP 200 /produtos/chopp-session-ipa-15-l",
+      "passed": true
+    },
+    {
+      "name": "Header nosniff /produtos/chopp-session-ipa-15-l",
+      "passed": true
+    },
+    {
+      "name": "Um H1 /produtos/chopp-session-ipa-15-l",
+      "passed": true
+    },
+    {
+      "name": "Canonical /produtos/chopp-session-ipa-15-l",
+      "passed": true
+    },
+    {
+      "name": "HTTP 200 /produtos/cerveja-rodada-lager",
+      "passed": true
+    },
+    {
+      "name": "Header nosniff /produtos/cerveja-rodada-lager",
+      "passed": true
+    },
+    {
+      "name": "Um H1 /produtos/cerveja-rodada-lager",
+      "passed": true
+    },
+    {
+      "name": "Canonical /produtos/cerveja-rodada-lager",
+      "passed": true
+    },
+    {
+      "name": "HTTP 200 /produtos/cerveja-rodada-pilsen",
+      "passed": true
+    },
+    {
+      "name": "Header nosniff /produtos/cerveja-rodada-pilsen",
+      "passed": true
+    },
+    {
+      "name": "Um H1 /produtos/cerveja-rodada-pilsen",
+      "passed": true
+    },
+    {
+      "name": "Canonical /produtos/cerveja-rodada-pilsen",
+      "passed": true
+    },
+    {
+      "name": "HTTP 200 /produtos/cerveja-rodada-lager-sem-gluten",
+      "passed": true
+    },
+    {
+      "name": "Header nosniff /produtos/cerveja-rodada-lager-sem-gluten",
+      "passed": true
+    },
+    {
+      "name": "Um H1 /produtos/cerveja-rodada-lager-sem-gluten",
+      "passed": true
+    },
+    {
+      "name": "Canonical /produtos/cerveja-rodada-lager-sem-gluten",
+      "passed": true
+    },
+    {
+      "name": "Imagem acessível /_next/image?url=%2Fevents%2FCERVEJARIA_RODADA_logo_branca.png&w=1200&q=75",
+      "passed": true
+    },
+    {
+      "name": "Imagem acessível /_next/image?url=%2Fevents%2Fbarril-rodada-realista.webp&w=1200&q=70",
+      "passed": true
+    },
+    {
+      "name": "Imagem acessível /_next/image?url=%2Fevents%2Fchopeira%20rodada.png&w=1200&q=65",
+      "passed": true
+    },
+    {
+      "name": "Imagem acessível /_next/image?url=%2Fproducts%2Fchopp-session-ipa-15-l-studio.webp&w=1200&q=60",
+      "passed": true
+    },
+    {
+      "name": "Imagem acessível /_next/image?url=%2Fproducts%2Fcerveja-lager-studio.webp&w=1200&q=60",
+      "passed": true
+    },
+    {
+      "name": "Imagem acessível /_next/image?url=%2Fproducts%2Fcerveja-pilsen-studio.webp&w=1200&q=60",
+      "passed": true
+    },
+    {
+      "name": "Imagem acessível /_next/image?url=%2Fproducts%2Fcerveja-lager-sem-gluten-studio.webp&w=1200&q=60",
+      "passed": true
+    },
+    {
+      "name": "Imagem acessível /_next/image?url=%2Fproducts%2Fchopp-session-ipa-15-l-studio.webp&w=1200&q=55",
+      "passed": true
+    },
+    {
+      "name": "Imagem acessível /_next/image?url=%2Fproducts%2Fcerveja-lager-studio.webp&w=1200&q=55",
+      "passed": true
+    },
+    {
+      "name": "Imagem acessível /_next/image?url=%2Fproducts%2Fcerveja-pilsen-studio.webp&w=1200&q=55",
+      "passed": true
+    },
+    {
+      "name": "Imagem acessível /_next/image?url=%2Fproducts%2Fcerveja-lager-sem-gluten-studio.webp&w=1200&q=55",
+      "passed": true
+    },
+    {
+      "name": "Imagem acessível /_next/image?url=%2Fproducts%2Fchopp-session-ipa-15-l-studio.webp&w=1200&q=65",
+      "passed": true
+    },
+    {
+      "name": "Imagem acessível /_next/image?url=%2Fproducts%2Fcerveja-lager-studio.webp&w=1200&q=65",
+      "passed": true
+    },
+    {
+      "name": "Imagem acessível /_next/image?url=%2Fproducts%2Fcerveja-pilsen-studio.webp&w=1200&q=65",
+      "passed": true
+    },
+    {
+      "name": "Imagem acessível /_next/image?url=%2Fproducts%2Fcerveja-lager-sem-gluten-studio.webp&w=1200&q=65",
+      "passed": true
+    },
+    {
+      "name": "404 /produtos/inexistente",
+      "passed": true
+    },
+    {
+      "name": "404 /legal/inexistente",
+      "passed": true
+    },
+    {
+      "name": "404 /produtos/chopp-lager-700-ml",
+      "passed": true
+    },
+    {
+      "name": "Telefone inválido rejeitado",
+      "passed": true
+    },
+    {
+      "name": "Data inexistente rejeitada",
+      "passed": true
+    },
+    {
+      "name": "Email inválido rejeitado",
+      "passed": true
+    },
+    {
+      "name": "Convidados inválidos rejeitados",
+      "passed": true
+    },
+    {
+      "name": "JSON inválido rejeitado",
+      "passed": true
+    },
+    {
+      "name": "Origem externa rejeitada",
+      "passed": true
+    },
+    {
+      "name": "Carga excessiva rejeitada",
+      "passed": true
+    },
+    {
+      "name": "Honeypot aceito sem gravar",
+      "passed": true
+    },
+    {
+      "name": "Lead válido gravado",
+      "passed": true
+    },
+    {
+      "name": "Reenvio rápido bloqueado",
+      "passed": true
+    }
+  ]
+}

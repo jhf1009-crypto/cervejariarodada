@@ -1,10 +1,12 @@
 import type {Metadata} from 'next';
 import Image from 'next/image';
-import {catalog} from '@/lib/catalog';
+import {getPublicCatalog} from '@/lib/public-catalog';
+export const dynamic='force-dynamic';
 
 export const metadata:Metadata={title:'Produtos',description:'Conheça os chopps e cervejas da Cervejaria Rodada.',alternates:{canonical:'/produtos'}};
 
-export default function ProductsPage(){
+export default async function ProductsPage(){
+ const {products:catalog}=await getPublicCatalog();
  return <main className="catalogPage">
   <a className="productBack" href="/">← INÍCIO</a>
   <header><p className="eyebrow">CATÁLOGO RODADA</p><h1>CHOPPS E<br/>CERVEJAS.</h1><p>Veja os formatos já apresentados no site e consulte a disponibilidade atual com a Rodada.</p></header>
