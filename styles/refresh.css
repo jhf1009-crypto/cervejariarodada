@@ -213,3 +213,16 @@
 .rodadaRefresh .leadFormActions .secondary{background:#031a30;color:#fff;border-color:#b5cedf;min-height:44px}
 .rodadaRefresh .orderCepBox>input{width:100%;min-height:44px;padding:12px;margin-bottom:14px;border:1px solid #587084;background:#fff;color:#031a30;font:inherit}
 .rodadaRefresh .orderCepBox>input:focus-visible{outline:3px solid #073b66;outline-offset:2px}
+/* Keep consumption choices readable against the calculator's light surface. */
+@media(max-width:760px){
+ .rodadaRefresh #eventos .eventCalcControls fieldset button{
+  background:#fff;color:#031a30;border:2px solid #587084;min-height:54px;
+ }
+ .rodadaRefresh #eventos .eventCalcControls fieldset button small{color:#455c6b;opacity:1}
+ .rodadaRefresh #eventos .eventCalcControls fieldset button.active{
+  background:#031a30;color:#fff;border-color:#031a30;
+ }
+ .rodadaRefresh #eventos .eventCalcControls fieldset button.active small{color:#fff}
+ .rodadaRefresh #eventos .eventCalcControls fieldset button:focus-visible{outline:3px solid #073b66;outline-offset:3px}
+}
+
