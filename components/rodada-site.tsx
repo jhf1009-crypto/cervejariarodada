@@ -206,7 +206,9 @@ export default function RodadaSite({initialData}:{initialData:any}){
  };
  const chosenCity=orderCity==='Outra cidade'?cepCity.trim():orderCity;
  const canContinueOrder=selectedOrders.length>0&&Boolean(chosenCity);
- const profileRate=eventProfile==='leve'?.18:eventProfile==='alto'?.33:.25;
+ // Planning baseline requested by Rodada: 50 L for 35 drinkers over 4 hours.
+ const moderateRate=50/(35*4);
+ const profileRate=moderateRate*(eventProfile==='leve'?.72:eventProfile==='alto'?1.32:1);
  const effectiveHours=Math.min(eventHours,4)+Math.max(0,Math.min(eventHours,8)-4)*.55+Math.max(0,eventHours-8)*.25;
  const estimatedDrinkers=Math.max(1,Math.round(eventGuests*(eventBeerShare/100)));
  const baseLiters=estimatedDrinkers*profileRate*effectiveHours;
@@ -292,10 +294,9 @@ export default function RodadaSite({initialData}:{initialData:any}){
     <div className="beerLineup" id="cervejas" aria-labelledby="cervejas-title">
       <Reveal className="beerLineupHead">
         <div>
-          <p className="eyebrow dark">NOSSA SELEÇÃO</p>
           <h2 id="cervejas-title">QUAL VAI SER<br/>A SUA RODADA?</h2>
         </div>
-        <p>Da cerveja em garrafa ao chopp da festa. Conheça a seleção Rodada e consulte a disponibilidade com nossa equipe.</p>
+        <p>Da cerveja em garrafa ao chopp da festa. Conheça os produtos da Rodada e consulte a disponibilidade com nossa equipe.</p>
       </Reveal>
       <div className="beerLineupGrid">
         {choppProducts.map(item=>(
@@ -325,7 +326,7 @@ export default function RodadaSite({initialData}:{initialData:any}){
    </section>
 
    <section className="eventSolutions section" id="eventos" aria-labelledby="eventos-title">
-    <div className="eventSectionHead"><div><p className="eyebrow">CHOPP PARA EVENTOS</p><h2 id="eventos-title">VOCÊ REÚNE.<br/>A GENTE RODA.</h2></div><p>Barris, chopeiras e uma conversa direta para planejar o chopp do seu próximo encontro.</p></div>
+    <div className="eventSectionHead"><div><h2 id="eventos-title">VOCÊ REÚNE.<br/>A GENTE RODA.</h2></div><p>Barris, chopeiras e uma conversa direta para planejar o chopp do seu próximo encontro.</p></div>
     <div className="eventQuoteFlow">
       <Reveal className="eventSteps" aria-label="Como pedir orçamento para evento">
         <div><span>01</span><strong>Conte sobre o evento</strong><p>Data, cidade, tipo de ocasião e quantidade estimada de pessoas.</p></div>
@@ -345,15 +346,15 @@ export default function RodadaSite({initialData}:{initialData:any}){
         <p>Faça uma estimativa inicial. O resultado é apenas uma referência de planejamento; a equipe Rodada confirma a quantidade ideal no orçamento.</p>
       </div>
       <div className="eventCalcControls">
-        <label>Convidados <strong>{eventGuests}</strong><input type="range" min="10" max="1000" step="10" value={eventGuests} onChange={e=>setEventGuests(Number(e.target.value))}/></label>
+        <label>Convidados <strong>{eventGuests}</strong><input type="range" min="10" max="1000" step="1" value={eventGuests} onChange={e=>setEventGuests(Number(e.target.value))}/></label>
         <label>Duração do evento <strong>{eventHours} h</strong><input type="range" min="2" max="24" step="1" value={eventHours} onChange={e=>setEventHours(Number(e.target.value))}/></label>
         <label>Convidados que vão beber chopp <strong>{eventBeerShare}% · ~{estimatedDrinkers} pessoas</strong><input type="range" min="10" max="100" step="5" value={eventBeerShare} onChange={e=>setEventBeerShare(Number(e.target.value))}/></label>
         <fieldset>
           <legend>Perfil de consumo</legend>
           {([
-            ['leve','Leve','~180 ml/h'],
-            ['moderado','Moderado','~250 ml/h'],
-            ['alto','Alto','~330 ml/h']
+            ['leve','Leve',`~${Math.round(moderateRate*.72*1000)} ml/h`],
+            ['moderado','Moderado',`~${Math.round(moderateRate*1000)} ml/h`],
+            ['alto','Alto',`~${Math.round(moderateRate*1.32*1000)} ml/h`]
           ] as const).map(([profile,label,rate])=><button key={profile} type="button" aria-pressed={eventProfile===profile} className={eventProfile===profile?'active':''} onClick={()=>setEventProfile(profile)}><b>{label}</b><small>{rate}</small></button>)}
         </fieldset>
       </div>
@@ -453,3 +454,4 @@ export default function RodadaSite({initialData}:{initialData:any}){
   </footer>
  </div>
 }
+
