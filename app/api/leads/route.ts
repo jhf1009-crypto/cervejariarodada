@@ -24,6 +24,7 @@ export async function POST(req:NextRequest){
   city:body.city||null,event_type:body.event_type||null,guest_count:body.guest_count===''?null:body.guest_count||null,
   message:body.message||null,source:'site:eventos',utm:null
  });
+ if(error?.code==='P0001')return NextResponse.json({error:'Limite de envios atingido. Aguarde alguns minutos ou continue pelo WhatsApp.'},{status:429});
  if(error)return NextResponse.json({error:'Não foi possível registrar agora. Continue pelo WhatsApp.'},{status:500});
  recent.set(ip,now);
  if(process.env.RESEND_API_KEY&&process.env.LEADS_NOTIFICATION_EMAIL){

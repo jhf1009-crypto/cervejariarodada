@@ -1,5 +1,7 @@
 # Pendências
 
+Atualização de 15/10/2026: veja docs/entrega-segura-2026-10-15.md. MFA obrigatório implementado no painel, banco e gestão de usuários; responsável ainda precisa configurar o autenticador. Domínio existente identificado, ainda aponta para o site antigo. Textos legais aguardam aprovação; backup não confirmado por falta de sessão no painel Supabase.
+
 Revisado em 12/10/2026. Ver docs/auditoria-entrega-2026-10-12.md para testes e correções. Hospedagem Vercel e Supabase de produção já funcionam; entrega definitiva ainda depende dos itens comerciais, legais, MFA e backup abaixo.
 
 Nada desta lista deve ser inventado ou publicado sem confirmação.
